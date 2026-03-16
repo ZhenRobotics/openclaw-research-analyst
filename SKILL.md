@@ -13,12 +13,48 @@ commands:
   - /stock_rumors - Find early signals, M&A rumors, insider activity (Rumor Scanner)
   - /portfolio - Show portfolio summary
   - /portfolio_add - Add asset to portfolio
-metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["uv"],"env":[]},"install":[{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv (brew)"}]}}
+metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
 # OpenClaw Research Analyst v1.0
 
+**⚠️ Installation Required**: This skill requires Python 3.10+, uv package manager, and optional dependencies. See installation instructions below.
+
+**📦 Source Code**: https://github.com/ZhenRobotics/openclaw-research-analyst
+
 Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
+
+## 📦 Installation & Dependencies
+
+### Required
+- **Python 3.10+** - Core runtime
+- **uv** - Python package manager (`brew install uv` or see https://github.com/astral-sh/uv)
+- **Git** - To clone the repository
+
+### Optional
+- **bird CLI** - Twitter/X integration (`npm install -g @steipete/bird`)
+- **Environment Variables** (for Twitter/X only):
+  - `AUTH_TOKEN` - X.com auth token
+  - `CT0` - X.com CT0 token
+
+### Installation
+```bash
+# Clone from GitHub
+git clone https://github.com/ZhenRobotics/openclaw-research-analyst.git
+cd openclaw-research-analyst
+
+# Install Python dependencies
+uv sync
+
+# Verify installation
+uv run scripts/stock_analyzer.py --help
+```
+
+### Security Note
+- ✅ All source code is available at GitHub (verified)
+- ✅ No credentials required for core functionality
+- ✅ Twitter/X credentials stored in local .env file only
+- ✅ All API calls use public endpoints (Yahoo Finance, CoinGecko, etc.)
 
 ## Core Features
 
