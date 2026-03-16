@@ -1,7 +1,7 @@
 ---
 name: research-analyst
 description: AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection | AI 驱动的股票与加密货币研究工具，提供 8 维度分析、投资组合追踪和趋势检测
-version: 6.3.0
+version: 1.0.0
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (分析股票或加密货币)
@@ -16,8 +16,8 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["uv"],"env":[]},"install":[{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv (brew)"}]}}
 ---
 
-# OpenClaw Research Analyst v6.3
-# OpenClaw 研究分析师 v6.3
+# OpenClaw Research Analyst v1.0
+# OpenClaw 研究分析师 v1.0
 
 **English** | [中文](#中文版本)
 
@@ -25,28 +25,17 @@ Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio mana
 
 ---
 
-## What's New in v6.2
+## Core Features
 
-- 🔮 **Rumor Scanner** — Early signals before mainstream news
-  - M&A rumors and takeover bids
-  - Insider buying/selling activity
-  - Analyst upgrades/downgrades
-  - Twitter/X "hearing that...", "sources say..." detection
-- 🎯 **Impact Scoring** — Rumors ranked by potential market impact
-
-## What's in v6.1
-
-- 🔥 **Hot Scanner** — Find viral stocks & crypto across multiple sources
-- 🐦 **Twitter/X Integration** — Social sentiment via bird CLI
-- 📰 **Multi-Source Aggregation** — CoinGecko, Google News, Yahoo Finance
-- ⏰ **Cron Support** — Daily trend reports
-
-## What's in v6.0
-
-- 🆕 **Watchlist + Alerts** — Price targets, stop losses, signal changes
-- 🆕 **Dividend Analysis** — Yield, payout ratio, growth, safety score
-- 🆕 **Fast Mode** — `--fast` skips slow analyses (insider, news)
-- 🆕 **Improved Performance** — `--no-insider` for faster runs
+- 📊 **8-Dimension Analysis** — Comprehensive stock scoring (earnings, fundamentals, analysts, momentum, sentiment, sector, market, history)
+- 💰 **Dividend Analysis** — Yield, payout ratio, 5-year growth, safety score
+- 📈 **Portfolio Management** — Track holdings, P&L, concentration warnings
+- ⏰ **Watchlist + Alerts** — Price targets, stop losses, signal changes
+- 🔥 **Hot Scanner** — Multi-source viral trend detection (CoinGecko, Google News, Twitter/X)
+- 🔮 **Rumor Detector** — Early signals for M&A, insider trades, analyst actions
+- 🌏 **China Markets** — A-share & Hong Kong data (东方财富, 新浪, 财联社, 腾讯, 同花顺)
+- 🪙 **Crypto Support** — Top 20 cryptos with BTC correlation
+- ⚡ **Fast Mode** — Skip slow analyses for quick checks
 
 ## Quick Commands
 
@@ -187,34 +176,23 @@ BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH,
 
 # 中文版本
 
-[English](#openClaw-research-analyst-v62) | **中文**
+[English](#openclaw-research-analyst-v10) | **中文**
 
 使用 8 维度分析系统分析美股和加密货币，提供投资组合管理、监控列表、警报、股息分析和**病毒式趋势检测**。
 
 ---
 
-## v6.2 新增功能
+## 核心功能
 
-- 🔮 **传闻扫描器** — 在主流新闻之前捕捉早期信号
-  - 并购传闻和收购要约
-  - 内部人交易活动
-  - 分析师升级/降级
-  - Twitter/X "据说..."、"有消息称..." 检测
-- 🎯 **影响力评分** — 根据潜在市场影响力对传闻进行排名
-
-## v6.1 功能
-
-- 🔥 **热点扫描器** — 从多个来源发现热门股票和加密货币
-- 🐦 **Twitter/X 集成** — 通过 bird CLI 获取社交情绪
-- 📰 **多源聚合** — CoinGecko、Google News、Yahoo Finance
-- ⏰ **定时任务支持** — 每日趋势报告
-
-## v6.0 功能
-
-- 🆕 **监控列表 + 警报** — 目标价、止损、信号变化
-- 🆕 **股息分析** — 收益率、派息比率、增长率、安全评分
-- 🆕 **快速模式** — `--fast` 跳过慢速分析（内部交易、新闻）
-- 🆕 **性能改进** — `--no-insider` 更快运行
+- 📊 **8 维度分析** — 综合股票评分（盈利、基本面、分析师、动量、情绪、板块、市场、历史）
+- 💰 **股息分析** — 收益率、派息比率、5 年增长率、安全评分
+- 📈 **投资组合管理** — 追踪持仓、盈亏、集中度警告
+- ⏰ **监控列表 + 警报** — 目标价、止损、信号变化
+- 🔥 **热点扫描器** — 多源病毒式趋势检测（CoinGecko、Google News、Twitter/X）
+- 🔮 **传闻检测器** — M&A、内部交易、分析师行动的早期信号
+- 🌏 **中国市场** — A 股和港股数据（东方财富、新浪、财联社、腾讯、同花顺）
+- 🪙 **加密货币支持** — 前 20 大加密货币，含 BTC 相关性
+- ⚡ **快速模式** — 跳过慢速分析以快速检查
 
 ## 快速命令
 

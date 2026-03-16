@@ -1,24 +1,9 @@
-# 📈 OpenClaw Research Analyst v6.3
+# 📈 OpenClaw Research Analyst v1.0
 
 > AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection.
 
 [![ClawHub Downloads](https://img.shields.io/badge/ClawHub-1500%2B%20downloads-blue)](https://clawhub.ai)
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-green)](https://openclaw.ai)
-
-## What's New in v6.1
-
-- 🔥 **Hot Scanner** — Find viral stocks & crypto across multiple sources
-- 🐦 **Twitter/X Integration** — Social sentiment via bird CLI
-- 📰 **Multi-Source Aggregation** — CoinGecko, Google News, Yahoo Finance
-- ⏰ **Cron Support** — Daily trend reports
-
-## What's New in v6.0
-
-- 🆕 **Watchlist + Alerts** — Price targets, stop losses, signal change notifications
-- 🆕 **Dividend Analysis** — Yield, payout ratio, growth rate, safety score
-- 🆕 **Fast Mode** — Skip slow analyses for quick checks
-- 🆕 **Improved Commands** — Better OpenClaw/Telegram integration
-- 🆕 **Test Suite** — Unit tests for core functionality
 
 ## Features
 
@@ -29,7 +14,10 @@
 | **Portfolio Management** | Track holdings, P&L, concentration warnings |
 | **Watchlist + Alerts** | Price targets, stop losses, signal changes |
 | **Dividend Analysis** | Yield, payout, growth, safety score |
+| **Hot Scanner** | Multi-source viral trend detection (CoinGecko, Google News, Twitter/X) |
+| **Rumor Detector** | Early signal detection for M&A, insider trades, analyst actions |
 | **Risk Detection** | Geopolitical, earnings timing, overbought, risk-off |
+| **China Markets** | A-share & Hong Kong stock data (东方财富, 新浪, 财联社, 腾讯, 同花顺) |
 | **Breaking News** | Crisis keyword scanning (last 24h) |
 
 ## Quick Start

@@ -1,5 +1,5 @@
-# 📈 OpenClaw Research Analyst v6.3
-# 📈 OpenClaw 研究分析师 v6.3
+# 📈 OpenClaw Research Analyst v1.0
+# 📈 OpenClaw 研究分析师 v1.0
 
 **English** | [中文](#中文版本)
 
@@ -11,27 +11,6 @@
 
 ---
 
-## What's New in v6.2
-
-- 🔮 **Rumor Scanner** — Catch early signals before mainstream news
-- 🏢 **M&A Detection** — Merger, acquisition, takeover rumors
-- 👔 **Insider Activity** — Track CEO/Director trading
-- 🎯 **Impact Scoring** — Rank rumors by market impact potential
-
-## What's New in v6.1
-
-- 🔥 **Hot Scanner** — Find viral stocks & crypto across multiple sources
-- 🐦 **Twitter/X Integration** — Social sentiment via bird CLI
-- 📰 **Multi-Source Aggregation** — CoinGecko, Google News, Yahoo Finance
-- ⏰ **Cron Support** — Daily trend reports
-
-## What's New in v6.0
-
-- 🆕 **Watchlist + Alerts** — Price targets, stop losses, signal change notifications
-- 🆕 **Dividend Analysis** — Yield, payout ratio, growth rate, safety score
-- 🆕 **Fast Mode** — Skip slow analyses for quick checks
-- 🆕 **Test Suite** — Unit tests for core functionality
-
 ## Features
 
 | Feature | Description |
@@ -41,10 +20,11 @@
 | **Portfolio Management** | Track holdings, P&L, concentration warnings |
 | **Watchlist + Alerts** | Price targets, stop losses, signal changes |
 | **Dividend Analysis** | Yield, payout, growth, safety score |
+| **Hot Scanner** | Multi-source viral trend detection (CoinGecko, Google News, Twitter/X) |
+| **Rumor Detector** | Early signal detection for M&A, insider trades, analyst actions |
 | **Risk Detection** | Geopolitical, earnings timing, overbought, risk-off |
+| **China Markets** | A-share & Hong Kong stock data (东方财富, 新浪, 财联社, 腾讯, 同花顺) |
 | **Breaking News** | Crisis keyword scanning (last 24h) |
-| **Hot Scanner** | Real-time trending detection across platforms |
-| **Rumor Scanner** | Early signal detection before news breaks |
 
 ## Quick Start
 
@@ -191,27 +171,6 @@ Built for [OpenClaw](https://openclaw.ai) 🦞 | [ClawHub](https://clawhub.ai)
 
 ---
 
-## v6.2 新增功能
-
-- 🔮 **传闻扫描器** — 在主流新闻之前捕捉早期信号
-- 🏢 **并购检测** — 合并、收购、收购要约传闻
-- 👔 **内部交易活动** — 追踪 CEO/董事交易
-- 🎯 **影响力评分** — 根据市场影响潜力对传闻排名
-
-## v6.1 新增功能
-
-- 🔥 **热点扫描器** — 从多个来源发现热门股票和加密货币
-- 🐦 **Twitter/X 集成** — 通过 bird CLI 获取社交情绪
-- 📰 **多源聚合** — CoinGecko、Google News、Yahoo Finance
-- ⏰ **定时任务支持** — 每日趋势报告
-
-## v6.0 新增功能
-
-- 🆕 **监控列表 + 警报** — 目标价、止损、信号变化通知
-- 🆕 **股息分析** — 收益率、派息比率、增长率、安全评分
-- 🆕 **快速模式** — 跳过慢速分析以快速检查
-- 🆕 **测试套件** — 核心功能单元测试
-
 ## 功能特性
 
 | 功能 | 描述 |
@@ -221,10 +180,11 @@ Built for [OpenClaw](https://openclaw.ai) 🦞 | [ClawHub](https://clawhub.ai)
 | **投资组合管理** | 追踪持仓、盈亏、集中度警告 |
 | **监控列表 + 警报** | 目标价、止损、信号变化 |
 | **股息分析** | 收益率、派息、增长、安全评分 |
+| **热点扫描器** | 多源病毒式趋势检测（CoinGecko、Google News、Twitter/X）|
+| **传闻检测器** | M&A、内部交易、分析师行动的早期信号检测 |
 | **风险检测** | 地缘政治、盈利时机、超买、风险规避 |
+| **中国市场** | A 股和港股数据（东方财富、新浪、财联社、腾讯、同花顺）|
 | **突发新闻** | 危机关键词扫描（最近 24 小时）|
-| **热点扫描器** | 跨平台实时趋势检测 |
-| **传闻扫描器** | 新闻爆发前的早期信号检测 |
 
 ## 快速开始
 

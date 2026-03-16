@@ -1,7 +1,7 @@
 ---
 name: research-analyst
 description: AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection
-version: 6.3.0
+version: 1.0.0
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (e.g., /stock AAPL)
@@ -16,32 +16,21 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["uv"],"env":[]},"install":[{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv (brew)"}]}}
 ---
 
-# OpenClaw Research Analyst v6.3
+# OpenClaw Research Analyst v1.0
 
 Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
 
-## What's New in v6.2
+## Core Features
 
-- 🔮 **Rumor Scanner** — Early signals before mainstream news
-  - M&A rumors and takeover bids
-  - Insider buying/selling activity
-  - Analyst upgrades/downgrades
-  - Twitter/X "hearing that...", "sources say..." detection
-- 🎯 **Impact Scoring** — Rumors ranked by potential market impact
-
-## What's in v6.1
-
-- 🔥 **Hot Scanner** — Find viral stocks & crypto across multiple sources
-- 🐦 **Twitter/X Integration** — Social sentiment via bird CLI
-- 📰 **Multi-Source Aggregation** — CoinGecko, Google News, Yahoo Finance
-- ⏰ **Cron Support** — Daily trend reports
-
-## What's in v6.0
-
-- 🆕 **Watchlist + Alerts** — Price targets, stop losses, signal changes
-- 🆕 **Dividend Analysis** — Yield, payout ratio, growth, safety score
-- 🆕 **Fast Mode** — `--fast` skips slow analyses (insider, news)
-- 🆕 **Improved Performance** — `--no-insider` for faster runs
+- 📊 **8-Dimension Analysis** — Comprehensive stock scoring across earnings, fundamentals, analysts, momentum, sentiment, sector, market, and history
+- 💰 **Dividend Analysis** — Yield, payout ratio, 5-year growth, safety score, income rating
+- 📈 **Portfolio Management** — Track holdings, P&L, concentration warnings
+- ⏰ **Watchlist + Alerts** — Price targets, stop losses, signal change notifications
+- 🔥 **Hot Scanner** — Multi-source viral trend detection (CoinGecko, Google News, Twitter/X)
+- 🔮 **Rumor Detector** — Early signals for M&A, insider trades, analyst actions
+- 🌏 **China Markets** — A-share & Hong Kong data (东方财富, 新浪, 财联社, 腾讯, 同花顺)
+- 🪙 **Crypto Support** — Top 20 cryptos with BTC correlation and momentum analysis
+- ⚡ **Fast Mode** — Skip slow analyses for quick checks
 
 ## Quick Commands
 
