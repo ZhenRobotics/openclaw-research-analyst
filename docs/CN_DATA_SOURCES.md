@@ -6,7 +6,7 @@
 
 ### 1. 东方财富 (East Money) ✅
 
-**文件**: `scripts/cn_hotlists.py`
+**文件**: `scripts/cn_market_rankings.py`
 
 **数据源**: https://push2.eastmoney.com/api/qt/clist/get
 
@@ -18,7 +18,7 @@
 
 **使用示例**:
 ```bash
-python3 scripts/cn_hotlists.py
+python3 scripts/cn_market_rankings.py
 ```
 
 **输出格式**: JSON
@@ -39,7 +39,7 @@ python3 scripts/cn_hotlists.py
 
 ### 2. 新浪财经 (Sina Finance) ✅
 
-**文件**: `scripts/cn_watchlist.py`
+**文件**: `scripts/cn_stock_quotes.py`
 
 **数据源**: https://hq.sinajs.cn/list=
 
@@ -51,10 +51,10 @@ python3 scripts/cn_hotlists.py
 **使用示例**:
 ```bash
 # 默认：沪深300, 茅台, 平安, 腾讯
-python3 scripts/cn_watchlist.py
+python3 scripts/cn_stock_quotes.py
 
 # 自定义股票代码
-python3 scripts/cn_watchlist.py 600519 000001 HK.00700
+python3 scripts/cn_stock_quotes.py 600519 000001 HK.00700
 ```
 
 **代码格式**:
@@ -65,7 +65,7 @@ python3 scripts/cn_watchlist.py 600519 000001 HK.00700
 
 ### 3. 财联社 (CLS.cn) ✅ NEW
 
-**文件**: `scripts/cn_cls_news.py`
+**文件**: `scripts/cn_cls_telegraph.py`
 
 **数据源**: https://www.cls.cn/telegraph
 
@@ -76,7 +76,7 @@ python3 scripts/cn_watchlist.py 600519 000001 HK.00700
 
 **使用示例**:
 ```bash
-python3 scripts/cn_cls_news.py
+python3 scripts/cn_cls_telegraph.py
 ```
 
 **特色**:
@@ -108,7 +108,7 @@ python3 scripts/cn_cls_news.py
 
 ### 4. 腾讯财经 (Tencent Finance) ✅ NEW
 
-**文件**: `scripts/cn_tencent_finance.py`
+**文件**: `scripts/cn_tencent_moneyflow.py`
 
 **数据源**: https://stockapp.finance.qq.com
 
@@ -119,7 +119,7 @@ python3 scripts/cn_cls_news.py
 
 **使用示例**:
 ```bash
-python3 scripts/cn_tencent_finance.py
+python3 scripts/cn_tencent_moneyflow.py
 ```
 
 **特色**:
@@ -151,7 +151,7 @@ python3 scripts/cn_tencent_finance.py
 
 ### 5. 同花顺 (10jqka) ✅ NEW
 
-**文件**: `scripts/cn_10jqka.py`
+**文件**: `scripts/cn_ths_diagnosis.py`
 
 **数据源**: https://www.10jqka.com.cn
 
@@ -164,10 +164,10 @@ python3 scripts/cn_tencent_finance.py
 **使用示例**:
 ```bash
 # 市场概览
-python3 scripts/cn_10jqka.py
+python3 scripts/cn_ths_diagnosis.py
 
 # 个股诊断
-python3 scripts/cn_10jqka.py 600519
+python3 scripts/cn_ths_diagnosis.py 600519
 ```
 
 **特色**:
@@ -211,13 +211,13 @@ python3 scripts/cn_10jqka.py 600519
 
 ## 综合简报生成器
 
-### cn_digest.py - 中文市场日报
+### cn_market_report.py - 中文市场日报
 
 **功能**: 整合所有数据源，生成每日中文市场简报
 
 **使用示例**:
 ```bash
-python3 scripts/cn_digest.py
+python3 scripts/cn_market_report.py
 ```
 
 **输出**:
@@ -274,7 +274,7 @@ reports/
 ### 稳定性
 - 网站改版可能导致数据解析失败
 - 建议使用 try-except 容错处理
-- cn_digest.py 已内置容错机制
+- cn_market_report.py 已内置容错机制
 
 ---
 
@@ -283,43 +283,43 @@ reports/
 ### 1. 盘前准备（08:00-09:30）
 ```bash
 # 生成每日简报
-python3 scripts/cn_digest.py
+python3 scripts/cn_market_report.py
 
 # 查看财联社快讯
-python3 scripts/cn_cls_news.py
+python3 scripts/cn_cls_telegraph.py
 ```
 
 ### 2. 盘中监控（09:30-15:00）
 ```bash
 # 监控自选股
-python3 scripts/cn_watchlist.py 600519 000001 600036
+python3 scripts/cn_stock_quotes.py 600519 000001 600036
 
 # 查看资金流向
-python3 scripts/cn_tencent_finance.py
+python3 scripts/cn_tencent_moneyflow.py
 
 # 查看热门股票
-python3 scripts/cn_hotlists.py
+python3 scripts/cn_market_rankings.py
 ```
 
 ### 3. 盘后分析（15:00-18:00）
 ```bash
 # 行业分析
-python3 scripts/cn_10jqka.py
+python3 scripts/cn_ths_diagnosis.py
 
 # 个股诊断
-python3 scripts/cn_10jqka.py 600519
+python3 scripts/cn_ths_diagnosis.py 600519
 
 # 综合简报
-python3 scripts/cn_digest.py
+python3 scripts/cn_market_report.py
 ```
 
 ### 4. 定时任务（Cron）
 ```cron
 # 每天 07:55 生成盘前简报
-55 7 * * 1-5 cd /path/to/project && python3 scripts/cn_digest.py
+55 7 * * 1-5 cd /path/to/project && python3 scripts/cn_market_report.py
 
 # 每天 15:30 生成盘后简报
-30 15 * * 1-5 cd /path/to/project && python3 scripts/cn_digest.py
+30 15 * * 1-5 cd /path/to/project && python3 scripts/cn_market_report.py
 ```
 
 ---

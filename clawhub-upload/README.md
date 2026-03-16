@@ -1,5 +1,5 @@
-# 📈 OpenClaw Research Analyst v6.2
-# 📈 OpenClaw 研究分析师 v6.2
+# 📈 OpenClaw Research Analyst v6.3
+# 📈 OpenClaw 研究分析师 v6.3
 
 **English** | [中文](#中文版本)
 
@@ -50,52 +50,52 @@
 
 ### Analyze Stocks
 ```bash
-uv run scripts/analyze_stock.py AAPL
-uv run scripts/analyze_stock.py AAPL MSFT GOOGL
-uv run scripts/analyze_stock.py AAPL --fast  # Skip slow analyses
+uv run scripts/stock_analyzer.py AAPL
+uv run scripts/stock_analyzer.py AAPL MSFT GOOGL
+uv run scripts/stock_analyzer.py AAPL --fast  # Skip slow analyses
 ```
 
 ### Analyze Crypto
 ```bash
-uv run scripts/analyze_stock.py BTC-USD
-uv run scripts/analyze_stock.py ETH-USD SOL-USD
+uv run scripts/stock_analyzer.py BTC-USD
+uv run scripts/stock_analyzer.py ETH-USD SOL-USD
 ```
 
 ### Dividend Analysis
 ```bash
-uv run scripts/dividends.py JNJ PG KO
+uv run scripts/dividend_analyzer.py JNJ PG KO
 ```
 
 ### Watchlist
 ```bash
-uv run scripts/watchlist.py add AAPL --target 200 --stop 150
-uv run scripts/watchlist.py list
-uv run scripts/watchlist.py check --notify
+uv run scripts/watchlist_manager.py add AAPL --target 200 --stop 150
+uv run scripts/watchlist_manager.py list
+uv run scripts/watchlist_manager.py check --notify
 ```
 
 ### Portfolio
 ```bash
-uv run scripts/portfolio.py create "My Portfolio"
-uv run scripts/portfolio.py add AAPL --quantity 100 --cost 150
-uv run scripts/portfolio.py show
+uv run scripts/portfolio_manager.py create "My Portfolio"
+uv run scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
+uv run scripts/portfolio_manager.py show
 ```
 
 ### 🔥 Hot Scanner
 ```bash
 # Full scan with all sources
-python3 scripts/hot_scanner.py
+python3 scripts/trend_scanner.py
 
 # Fast scan (skip social media)
-python3 scripts/hot_scanner.py --no-social
+python3 scripts/trend_scanner.py --no-social
 
 # JSON output for automation
-python3 scripts/hot_scanner.py --json
+python3 scripts/trend_scanner.py --json
 ```
 
 ### 🔮 Rumor Scanner
 ```bash
 # Find early signals before mainstream news
-python3 scripts/rumor_scanner.py
+python3 scripts/rumor_detector.py
 ```
 
 ## Analysis Dimensions
@@ -181,7 +181,7 @@ Built for [OpenClaw](https://openclaw.ai) 🦞 | [ClawHub](https://clawhub.ai)
 
 # 中文版本
 
-[English](#-openclaw-research-analyst-v62) | **中文**
+[English](#-openclaw-research-analyst-v63) | **中文**
 
 > AI 驱动的股票与加密货币研究工具，提供 8 维度分析、投资组合追踪和趋势检测。
 
@@ -230,52 +230,52 @@ Built for [OpenClaw](https://openclaw.ai) 🦞 | [ClawHub](https://clawhub.ai)
 
 ### 分析股票
 ```bash
-uv run scripts/analyze_stock.py AAPL
-uv run scripts/analyze_stock.py AAPL MSFT GOOGL
-uv run scripts/analyze_stock.py AAPL --fast  # 跳过慢速分析
+uv run scripts/stock_analyzer.py AAPL
+uv run scripts/stock_analyzer.py AAPL MSFT GOOGL
+uv run scripts/stock_analyzer.py AAPL --fast  # 跳过慢速分析
 ```
 
 ### 分析加密货币
 ```bash
-uv run scripts/analyze_stock.py BTC-USD
-uv run scripts/analyze_stock.py ETH-USD SOL-USD
+uv run scripts/stock_analyzer.py BTC-USD
+uv run scripts/stock_analyzer.py ETH-USD SOL-USD
 ```
 
 ### 股息分析
 ```bash
-uv run scripts/dividends.py JNJ PG KO
+uv run scripts/dividend_analyzer.py JNJ PG KO
 ```
 
 ### 监控列表
 ```bash
-uv run scripts/watchlist.py add AAPL --target 200 --stop 150
-uv run scripts/watchlist.py list
-uv run scripts/watchlist.py check --notify
+uv run scripts/watchlist_manager.py add AAPL --target 200 --stop 150
+uv run scripts/watchlist_manager.py list
+uv run scripts/watchlist_manager.py check --notify
 ```
 
 ### 投资组合
 ```bash
-uv run scripts/portfolio.py create "我的投资组合"
-uv run scripts/portfolio.py add AAPL --quantity 100 --cost 150
-uv run scripts/portfolio.py show
+uv run scripts/portfolio_manager.py create "我的投资组合"
+uv run scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
+uv run scripts/portfolio_manager.py show
 ```
 
 ### 🔥 热点扫描器
 ```bash
 # 包含所有来源的完整扫描
-python3 scripts/hot_scanner.py
+python3 scripts/trend_scanner.py
 
 # 快速扫描（跳过社交媒体）
-python3 scripts/hot_scanner.py --no-social
+python3 scripts/trend_scanner.py --no-social
 
 # JSON 输出用于自动化
-python3 scripts/hot_scanner.py --json
+python3 scripts/trend_scanner.py --json
 ```
 
 ### 🔮 传闻扫描器
 ```bash
 # 在主流新闻之前发现早期信号
-python3 scripts/rumor_scanner.py
+python3 scripts/rumor_detector.py
 ```
 
 ## 分析维度

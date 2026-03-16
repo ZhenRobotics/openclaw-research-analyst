@@ -10,10 +10,93 @@
 # ]
 # ///
 """
-Stock analysis using Yahoo Finance data.
+Stock Analyzer - 8-Dimension Stock & Crypto Analysis Engine
+===========================================================
+
+Module: stock_analyzer.py
+Version: 6.2.0
+Author: Justin Liu (ZhenRobotics)
+License: MIT
+
+Description:
+-----------
+Comprehensive stock and cryptocurrency analysis using 8-dimension scoring system.
+Analyzes US stocks and top 20 cryptocurrencies with machine learning-like scoring.
+
+Features:
+--------
+1. 8-Dimension Stock Analysis:
+   - Earnings Surprise (30%)
+   - Fundamentals (20%)
+   - Analyst Sentiment (20%)
+   - Historical Patterns (10%)
+   - Market Context (10%)
+   - Sector Performance (15%)
+   - Momentum (15%)
+   - Sentiment (10%)
+
+2. Crypto Analysis (3 dimensions):
+   - Market Cap & Category
+   - BTC Correlation (30-day)
+   - Momentum (RSI, range)
+
+3. Risk Detection:
+   - Pre-earnings warnings
+   - Overbought conditions
+   - Risk-off mode detection
+   - Geopolitical keywords
+   - Breaking news alerts
+
+Data Sources:
+------------
+- Yahoo Finance: Prices, fundamentals, earnings
+- SEC EDGAR: Insider trading
+- CNN: Fear & Greed Index
+- Google News: Breaking news
 
 Usage:
-    uv run analyze_stock.py TICKER [TICKER2 ...] [--output text|json] [--verbose]
+-----
+    # Single stock analysis
+    uv run stock_analyzer.py AAPL
+
+    # Multiple stocks
+    uv run stock_analyzer.py AAPL MSFT GOOGL
+
+    # Fast mode (skip slow analyses)
+    uv run stock_analyzer.py AAPL --fast
+
+    # Crypto analysis
+    uv run stock_analyzer.py BTC-USD ETH-USD
+
+    # JSON output
+    uv run stock_analyzer.py AAPL --output json
+
+Performance:
+-----------
+- Default mode: 60-120s (full analysis)
+- --no-insider: 50-90s (skip SEC EDGAR)
+- --fast mode: 45-75s (skip insider + news)
+
+Supported Cryptos:
+-----------------
+BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM,
+UNI, LTC, BCH, XLM, ALGO, VET, FIL, NEAR (use -USD suffix)
+
+Examples:
+--------
+    >>> # Analyze Apple with full details
+    >>> uv run stock_analyzer.py AAPL --verbose
+
+    >>> # Compare tech stocks
+    >>> uv run stock_analyzer.py AAPL MSFT GOOGL NVDA
+
+    >>> # Quick crypto check
+    >>> uv run stock_analyzer.py BTC-USD --fast
+
+Disclaimer:
+----------
+NOT FINANCIAL ADVICE. For informational purposes only.
+Consult a licensed financial advisor before making investment decisions.
 """
 
 import argparse

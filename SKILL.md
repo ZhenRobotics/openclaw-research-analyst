@@ -1,7 +1,7 @@
 ---
 name: research-analyst
 description: AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection
-version: 6.2.0
+version: 6.3.0
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (e.g., /stock AAPL)
@@ -16,7 +16,7 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["uv"],"env":[]},"install":[{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv (brew)"}]}}
 ---
 
-# OpenClaw Research Analyst v6.2
+# OpenClaw Research Analyst v6.3
 
 Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
 
@@ -48,25 +48,25 @@ Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio mana
 ### Stock Analysis
 ```bash
 # Basic analysis
-uv run {baseDir}/scripts/analyze_stock.py AAPL
+uv run {baseDir}/scripts/stock_analyzer.py AAPL
 
 # Fast mode (skips insider trading & breaking news)
-uv run {baseDir}/scripts/analyze_stock.py AAPL --fast
+uv run {baseDir}/scripts/stock_analyzer.py AAPL --fast
 
 # Compare multiple
-uv run {baseDir}/scripts/analyze_stock.py AAPL MSFT GOOGL
+uv run {baseDir}/scripts/stock_analyzer.py AAPL MSFT GOOGL
 
 # Crypto
-uv run {baseDir}/scripts/analyze_stock.py BTC-USD ETH-USD
+uv run {baseDir}/scripts/stock_analyzer.py BTC-USD ETH-USD
 ```
 
 ### Dividend Analysis (NEW v6.0)
 ```bash
 # Analyze dividends
-uv run {baseDir}/scripts/dividends.py JNJ
+uv run {baseDir}/scripts/dividend_analyzer.py JNJ
 
 # Compare dividend stocks
-uv run {baseDir}/scripts/dividends.py JNJ PG KO MCD --output json
+uv run {baseDir}/scripts/dividend_analyzer.py JNJ PG KO MCD --output json
 ```
 
 **Dividend Metrics:**
@@ -80,26 +80,26 @@ uv run {baseDir}/scripts/dividends.py JNJ PG KO MCD --output json
 ### Watchlist + Alerts (NEW v6.0)
 ```bash
 # Add to watchlist
-uv run {baseDir}/scripts/watchlist.py add AAPL
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL
 
 # With price target alert
-uv run {baseDir}/scripts/watchlist.py add AAPL --target 200
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL --target 200
 
 # With stop loss alert
-uv run {baseDir}/scripts/watchlist.py add AAPL --stop 150
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL --stop 150
 
 # Alert on signal change (BUY→SELL)
-uv run {baseDir}/scripts/watchlist.py add AAPL --alert-on signal
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL --alert-on signal
 
 # View watchlist
-uv run {baseDir}/scripts/watchlist.py list
+uv run {baseDir}/scripts/watchlist_manager.py list
 
 # Check for triggered alerts
-uv run {baseDir}/scripts/watchlist.py check
-uv run {baseDir}/scripts/watchlist.py check --notify  # Telegram format
+uv run {baseDir}/scripts/watchlist_manager.py check
+uv run {baseDir}/scripts/watchlist_manager.py check --notify  # Telegram format
 
 # Remove from watchlist
-uv run {baseDir}/scripts/watchlist.py remove AAPL
+uv run {baseDir}/scripts/watchlist_manager.py remove AAPL
 ```
 
 **Alert Types:**
@@ -110,29 +110,29 @@ uv run {baseDir}/scripts/watchlist.py remove AAPL
 ### Portfolio Management
 ```bash
 # Create portfolio
-uv run {baseDir}/scripts/portfolio.py create "Tech Portfolio"
+uv run {baseDir}/scripts/portfolio_manager.py create "Tech Portfolio"
 
 # Add assets
-uv run {baseDir}/scripts/portfolio.py add AAPL --quantity 100 --cost 150
-uv run {baseDir}/scripts/portfolio.py add BTC-USD --quantity 0.5 --cost 40000
+uv run {baseDir}/scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
+uv run {baseDir}/scripts/portfolio_manager.py add BTC-USD --quantity 0.5 --cost 40000
 
 # View portfolio
-uv run {baseDir}/scripts/portfolio.py show
+uv run {baseDir}/scripts/portfolio_manager.py show
 
 # Analyze with period returns
-uv run {baseDir}/scripts/analyze_stock.py --portfolio "Tech Portfolio" --period weekly
+uv run {baseDir}/scripts/stock_analyzer.py --portfolio "Tech Portfolio" --period weekly
 ```
 
 ### 🔥 Hot Scanner (NEW v6.1)
 ```bash
 # Full scan - find what's trending NOW
-python3 {baseDir}/scripts/hot_scanner.py
+python3 {baseDir}/scripts/trend_scanner.py
 
 # Fast scan (skip social media)
-python3 {baseDir}/scripts/hot_scanner.py --no-social
+python3 {baseDir}/scripts/trend_scanner.py --no-social
 
 # JSON output for automation
-python3 {baseDir}/scripts/hot_scanner.py --json
+python3 {baseDir}/scripts/trend_scanner.py --json
 ```
 
 **Data Sources:**
@@ -156,7 +156,7 @@ python3 {baseDir}/scripts/hot_scanner.py --json
 ### 🔮 Rumor Scanner (NEW v6.2)
 ```bash
 # Find early signals, M&A rumors, insider activity
-python3 {baseDir}/scripts/rumor_scanner.py
+python3 {baseDir}/scripts/rumor_detector.py
 ```
 
 **What it finds:**
