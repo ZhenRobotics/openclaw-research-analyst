@@ -1,6 +1,6 @@
 # 📈 OpenClaw Research Analyst v6.2
 
-> AI-powered stock & crypto analysis with portfolio management, watchlists, dividend analysis, and **viral trend detection**.
+> AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection.
 
 [![ClawHub Downloads](https://img.shields.io/badge/ClawHub-1500%2B%20downloads-blue)](https://clawhub.ai)
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-green)](https://openclaw.ai)

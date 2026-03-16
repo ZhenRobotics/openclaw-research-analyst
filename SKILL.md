@@ -1,6 +1,6 @@
 ---
 name: research-analyst
-description: Analyze stocks and cryptocurrencies using Yahoo Finance data. Supports portfolio management, watchlists with alerts, dividend analysis, 8-dimension stock scoring, viral trend detection (Hot Scanner), and rumor/early signal detection. Use for stock analysis, portfolio tracking, earnings reactions, crypto monitoring, trending stocks, or finding rumors before they hit mainstream.
+description: AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection
 version: 6.2.0
 homepage: https://finance.yahoo.com
 commands:
