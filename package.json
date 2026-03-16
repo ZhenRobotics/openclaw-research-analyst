@@ -1,5 +1,5 @@
 {
-  "name": "@openclaw/research-analyst",
+  "name": "openclaw-research-analyst",
   "version": "6.2.0",
   "description": "AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection",
   "main": "scripts/analyze_stock.py",
