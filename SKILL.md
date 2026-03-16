@@ -1,6 +1,6 @@
 ---
 name: research-analyst
-description: AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection
+description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), portfolio tracking, and trend detection
 version: 1.0.0
 homepage: https://finance.yahoo.com
 commands:
@@ -11,6 +11,12 @@ commands:
   - /stock_alerts - Check triggered alerts
   - /stock_hot - Find trending stocks & crypto (Hot Scanner)
   - /stock_rumors - Find early signals, M&A rumors, insider activity (Rumor Scanner)
+  - /cn_market - China A-share & Hong Kong market report (中国市场报告)
+  - /cn_rankings - Market rankings from 东方财富 (榜单数据)
+  - /cn_quotes - Stock quotes from 新浪财经 (实时行情)
+  - /cn_news - Financial news from 财联社 (财经快讯)
+  - /cn_moneyflow - Money flow analysis from 腾讯财经 (资金流向)
+  - /cn_diagnosis - Stock diagnosis from 同花顺 (个股诊断)
   - /portfolio - Show portfolio summary
   - /portfolio_add - Add asset to portfolio
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
@@ -22,7 +28,7 @@ metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":
 
 **📦 Source Code**: https://github.com/ZhenRobotics/openclaw-research-analyst
 
-Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
+Analyze **US stocks, China A-shares, Hong Kong stocks**, and **cryptocurrencies** with 8-dimension analysis, **China market multi-source reports** (东方财富/新浪/财联社/腾讯/同花顺), portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
 
 ## 📦 Installation & Dependencies
 
@@ -85,8 +91,7 @@ uv run {baseDir}/scripts/stock_analyzer.py AAPL MSFT GOOGL
 uv run {baseDir}/scripts/stock_analyzer.py BTC-USD ETH-USD
 ```
 
-### Dividend Analysis (NEW v6.0)
-```bash
+### Dividend Analysis```bash
 # Analyze dividends
 uv run {baseDir}/scripts/dividend_analyzer.py JNJ
 
@@ -102,8 +107,7 @@ uv run {baseDir}/scripts/dividend_analyzer.py JNJ PG KO MCD --output json
 - Safety Score (0-100)
 - Income Rating (excellent/good/moderate/poor)
 
-### Watchlist + Alerts (NEW v6.0)
-```bash
+### Watchlist + Alerts```bash
 # Add to watchlist
 uv run {baseDir}/scripts/watchlist_manager.py add AAPL
 
@@ -148,7 +152,42 @@ uv run {baseDir}/scripts/portfolio_manager.py show
 uv run {baseDir}/scripts/stock_analyzer.py --portfolio "Tech Portfolio" --period weekly
 ```
 
-### 🔥 Hot Scanner (NEW v6.1)
+### 🌏 China Market Reports
+```bash
+# Complete China market report (all sources)
+python3 {baseDir}/scripts/cn_market_report.py
+
+# Market rankings from 东方财富
+python3 {baseDir}/scripts/cn_market_rankings.py
+
+# Stock quotes from 新浪财经
+python3 {baseDir}/scripts/cn_stock_quotes.py 600519  # 贵州茅台
+
+# Financial news from 财联社
+python3 {baseDir}/scripts/cn_cls_telegraph.py
+
+# Money flow analysis from 腾讯财经
+python3 {baseDir}/scripts/cn_tencent_moneyflow.py
+
+# Stock diagnosis from 同花顺
+python3 {baseDir}/scripts/cn_ths_diagnosis.py 600519
+```
+
+**China Data Sources (5 Major Platforms):**
+- 📊 **东方财富 (East Money)** — Market rankings, sector analysis, hot stocks
+- 💹 **新浪财经 (Sina Finance)** — Real-time quotes, A-share & Hong Kong
+- 📰 **财联社 (CLS)** — Breaking financial news, market telegraph
+- 💰 **腾讯财经 (Tencent Finance)** — Money flow analysis, capital tracking
+- 🔍 **同花顺 (THS)** — Stock diagnosis, technical analysis
+
+**What You Get:**
+- A-share (沪深) and Hong Kong stock data
+- Market hot lists and sector rotations
+- Real-time capital flow tracking
+- Breaking financial news and announcements
+- Individual stock technical diagnosis
+
+### 🔥 Hot Scanner
 ```bash
 # Full scan - find what's trending NOW
 python3 {baseDir}/scripts/trend_scanner.py
@@ -178,8 +217,7 @@ python3 {baseDir}/scripts/trend_scanner.py --json
 2. Login to x.com in Safari/Chrome
 3. Create `.env` with `AUTH_TOKEN` and `CT0`
 
-### 🔮 Rumor Scanner (NEW v6.2)
-```bash
+### 🔮 Rumor Scanner```bash
 # Find early signals, M&A rumors, insider activity
 python3 {baseDir}/scripts/rumor_detector.py
 ```
