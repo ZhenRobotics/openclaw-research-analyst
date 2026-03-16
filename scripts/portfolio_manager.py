@@ -22,6 +22,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from pathlib import Path
@@ -84,6 +85,29 @@ class PortfolioStore:
     def __init__(self, path: Path | None = None):
         self.path = path or get_storage_path()
         self._data: dict | None = None
+        self._lock_path = self.path.with_suffix(".lock")
+
+    def _acquire_lock(self, timeout: float = 5.0) -> bool:
+        """Acquire a file lock with timeout."""
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            try:
+                # Try to create lock file exclusively
+                with open(self._lock_path, "x") as f:
+                    f.write(str(os.getpid()))
+                return True
+            except FileExistsError:
+                # Lock exists, wait and retry
+                time.sleep(0.1)
+        return False
+
+    def _release_lock(self) -> None:
+        """Release the file lock."""
+        try:
+            if self._lock_path.exists():
+                self._lock_path.unlink()
+        except Exception:
+            pass  # Best effort cleanup
 
     def _load(self) -> dict:
         """Load portfolios from disk."""
@@ -103,23 +127,31 @@ class PortfolioStore:
             return self._data
 
     def _save(self) -> None:
-        """Save portfolios to disk with atomic write."""
+        """Save portfolios to disk with atomic write and file locking."""
         if self._data is None:
             return
 
-        # Ensure directory exists
-        self.path.parent.mkdir(parents=True, exist_ok=True)
+        # Acquire lock before writing
+        if not self._acquire_lock():
+            raise RuntimeError("Could not acquire file lock after timeout")
 
-        # Atomic write: write to temp file, then rename
-        tmp_path = self.path.with_suffix(".tmp")
         try:
-            with open(tmp_path, "w", encoding="utf-8") as f:
-                json.dump(self._data, f, indent=2)
-            tmp_path.replace(self.path)
-        except Exception:
-            if tmp_path.exists():
-                tmp_path.unlink()
-            raise
+            # Ensure directory exists
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Atomic write: write to temp file, then rename
+            tmp_path = self.path.with_suffix(".tmp")
+            try:
+                with open(tmp_path, "w", encoding="utf-8") as f:
+                    json.dump(self._data, f, indent=2)
+                tmp_path.replace(self.path)
+            except Exception:
+                if tmp_path.exists():
+                    tmp_path.unlink()
+                raise
+        finally:
+            # Always release lock
+            self._release_lock()
 
     def _get_portfolio_key(self, name: str) -> str:
         """Convert portfolio name to storage key."""
@@ -247,6 +279,12 @@ class PortfolioStore:
 
         portfolio = data["portfolios"][key]
         ticker = ticker.upper()
+
+        # Validate input parameters
+        if quantity <= 0:
+            raise ValueError(f"Quantity must be positive, got {quantity}")
+        if cost_basis < 0:
+            raise ValueError(f"Cost basis cannot be negative, got {cost_basis}")
 
         # Check if asset already exists
         for asset in portfolio["assets"]:

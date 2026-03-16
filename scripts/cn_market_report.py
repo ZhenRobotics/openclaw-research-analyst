@@ -8,6 +8,9 @@ SKILL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 DEFAULT_TICKERS = ['510300','600519','000001','HK.00700']
 
 def run_json(cmd):
+    # Validate script exists before running
+    if len(cmd) > 1 and not os.path.exists(cmd[1]):
+        raise FileNotFoundError(f"Script not found: {cmd[1]}")
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     p.check_returncode()
     return json.loads(p.stdout)

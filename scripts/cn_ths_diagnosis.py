@@ -5,6 +5,7 @@
 """
 
 import json
+import sys
 import urllib.request
 import urllib.parse
 from datetime import datetime
@@ -53,7 +54,7 @@ def fetch_hot_stocks(count=30):
         return items
 
     except Exception as e:
-        print(f"同花顺热门股票获取失败: {e}", file=__import__('sys').stderr)
+        print(f"同花顺热门股票获取失败: {e}", file=sys.stderr)
         return []
 
 
@@ -92,7 +93,7 @@ def fetch_stock_diagnosis(code):
         }
 
     except Exception as e:
-        print(f"同花顺诊股失败 {code}: {e}", file=__import__('sys').stderr)
+        print(f"同花顺诊股失败 {code}: {e}", file=sys.stderr)
         return None
 
 
@@ -135,7 +136,7 @@ def fetch_stock_reports(code, count=10):
         return items
 
     except Exception as e:
-        print(f"同花顺研报获取失败 {code}: {e}", file=__import__('sys').stderr)
+        print(f"同花顺研报获取失败 {code}: {e}", file=sys.stderr)
         return []
 
 
@@ -174,7 +175,7 @@ def fetch_industry_ranking(count=20):
         return items
 
     except Exception as e:
-        print(f"同花顺行业排行获取失败: {e}", file=__import__('sys').stderr)
+        print(f"同花顺行业排行获取失败: {e}", file=sys.stderr)
         return []
 
 

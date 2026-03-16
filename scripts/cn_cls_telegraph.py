@@ -5,6 +5,7 @@
 """
 
 import json
+import sys
 import urllib.request
 import urllib.parse
 from datetime import datetime
@@ -59,7 +60,7 @@ def fetch_cls_telegraph(count=20):
         return items
 
     except Exception as e:
-        print(f"财联社数据获取失败: {e}", file=__import__('sys').stderr)
+        print(f"财联社数据获取失败: {e}", file=sys.stderr)
         return []
 
 
@@ -96,7 +97,7 @@ def fetch_cls_depth(count=10):
         return items
 
     except Exception as e:
-        print(f"财联社深度数据获取失败: {e}", file=__import__('sys').stderr)
+        print(f"财联社深度数据获取失败: {e}", file=sys.stderr)
         return []
 
 
