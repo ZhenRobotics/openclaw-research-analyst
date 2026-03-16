@@ -5,6 +5,7 @@
 """
 
 import json
+import sys
 import urllib.request
 import urllib.parse
 from datetime import datetime
@@ -63,7 +64,7 @@ def fetch_concept_plates(count=20):
         return items
 
     except Exception as e:
-        print(f"腾讯概念板块获取失败: {e}", file=__import__('sys').stderr)
+        print(f"腾讯概念板块获取失败: {e}", file=sys.stderr)
         return []
 
 
@@ -124,7 +125,7 @@ def fetch_money_flow(market='sh'):
         }
 
     except Exception as e:
-        print(f"腾讯资金流向获取失败: {e}", file=__import__('sys').stderr)
+        print(f"腾讯资金流向获取失败: {e}", file=sys.stderr)
         return {'top_inflow': [], 'top_outflow': []}
 
 
@@ -171,7 +172,7 @@ def fetch_hot_stocks(count=30):
         return items
 
     except Exception as e:
-        print(f"腾讯热门股票获取失败: {e}", file=__import__('sys').stderr)
+        print(f"腾讯热门股票获取失败: {e}", file=sys.stderr)
         return []
 
 
