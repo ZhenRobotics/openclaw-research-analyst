@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 import pandas as pd
 
 # Import modules to test
-from analyze_stock import (
+from stock_analyzer import (
     detect_asset_type,
     calculate_rsi,
     fetch_stock_data,
@@ -34,14 +34,14 @@ from analyze_stock import (
     MarketContext,
     StockData,
 )
-from dividends import analyze_dividends
-from watchlist import (
+from dividend_analyzer import analyze_dividends
+from watchlist_manager import (
     add_to_watchlist,
     remove_from_watchlist,
     list_watchlist,
     WatchlistItem,
 )
-from portfolio import PortfolioStore
+from portfolio_manager import PortfolioStore
 
 
 class TestAssetTypeDetection:

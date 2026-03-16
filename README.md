@@ -1,4 +1,4 @@
-# 📈 OpenClaw Research Analyst v6.2
+# 📈 OpenClaw Research Analyst v6.3
 
 > AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection.
 
@@ -36,46 +36,46 @@
 
 ### Analyze Stocks
 ```bash
-uv run scripts/analyze_stock.py AAPL
-uv run scripts/analyze_stock.py AAPL MSFT GOOGL
-uv run scripts/analyze_stock.py AAPL --fast  # Skip slow analyses
+uv run scripts/stock_analyzer.py AAPL
+uv run scripts/stock_analyzer.py AAPL MSFT GOOGL
+uv run scripts/stock_analyzer.py AAPL --fast  # Skip slow analyses
 ```
 
 ### Analyze Crypto
 ```bash
-uv run scripts/analyze_stock.py BTC-USD
-uv run scripts/analyze_stock.py ETH-USD SOL-USD
+uv run scripts/stock_analyzer.py BTC-USD
+uv run scripts/stock_analyzer.py ETH-USD SOL-USD
 ```
 
 ### Dividend Analysis
 ```bash
-uv run scripts/dividends.py JNJ PG KO
+uv run scripts/dividend_analyzer.py JNJ PG KO
 ```
 
 ### Watchlist
 ```bash
-uv run scripts/watchlist.py add AAPL --target 200 --stop 150
-uv run scripts/watchlist.py list
-uv run scripts/watchlist.py check --notify
+uv run scripts/watchlist_manager.py add AAPL --target 200 --stop 150
+uv run scripts/watchlist_manager.py list
+uv run scripts/watchlist_manager.py check --notify
 ```
 
 ### Portfolio
 ```bash
-uv run scripts/portfolio.py create "My Portfolio"
-uv run scripts/portfolio.py add AAPL --quantity 100 --cost 150
-uv run scripts/portfolio.py show
+uv run scripts/portfolio_manager.py create "My Portfolio"
+uv run scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
+uv run scripts/portfolio_manager.py show
 ```
 
 ### 🔥 Hot Scanner (NEW)
 ```bash
 # Full scan with all sources
-python3 scripts/hot_scanner.py
+python3 scripts/trend_scanner.py
 
 # Fast scan (skip social media)
-python3 scripts/hot_scanner.py --no-social
+python3 scripts/trend_scanner.py --no-social
 
 # JSON output for automation
-python3 scripts/hot_scanner.py --json
+python3 scripts/trend_scanner.py --json
 ```
 
 ## Analysis Dimensions
@@ -206,7 +206,7 @@ See [CN_DATA_SOURCES.md](docs/CN_DATA_SOURCES.md) for Chinese market integration
 ## Testing
 
 ```bash
-uv run pytest scripts/test_stock_analysis.py -v
+uv run pytest scripts/tests.py -v
 ```
 
 ## Limitations

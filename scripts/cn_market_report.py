@@ -17,27 +17,27 @@ def main():
     stamp = datetime.datetime.now().strftime('%F')
 
     # Fetch CN hotlists (东方财富)
-    hot = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_hotlists.py')])
+    hot = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_market_rankings.py')])
 
     # Watchlist quotes (新浪财经)
     tickers = DEFAULT_TICKERS
-    wl = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_watchlist.py'), *tickers])
+    wl = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_stock_quotes.py'), *tickers])
 
     # Fetch CLS news (财联社)
     try:
-        cls = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_cls_news.py')])
+        cls = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_cls_telegraph.py')])
     except:
         cls = {'telegraph': [], 'depth': []}
 
     # Fetch Tencent Finance (腾讯财经)
     try:
-        tencent = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_tencent_finance.py')])
+        tencent = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_tencent_moneyflow.py')])
     except:
         tencent = {'hot_stocks': [], 'concept_plates': [], 'money_flow': {'top_inflow': [], 'top_outflow': []}}
 
     # Fetch 10jqka data (同花顺)
     try:
-        jqka = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_10jqka.py')])
+        jqka = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_ths_diagnosis.py')])
     except:
         jqka = {'hot_stocks': [], 'industry_ranking': []}
 

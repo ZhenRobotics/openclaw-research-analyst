@@ -1,16 +1,16 @@
 {
   "name": "openclaw-research-analyst",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "description": "AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection",
-  "main": "scripts/analyze_stock.py",
+  "main": "scripts/stock_analyzer.py",
   "scripts": {
-    "analyze": "uv run scripts/analyze_stock.py",
-    "hot": "python3 scripts/hot_scanner.py",
-    "rumors": "python3 scripts/rumor_scanner.py",
-    "dividends": "uv run scripts/dividends.py",
-    "watchlist": "uv run scripts/watchlist.py",
-    "portfolio": "uv run scripts/portfolio.py",
-    "test": "uv run pytest scripts/test_stock_analysis.py -v"
+    "analyze": "uv run scripts/stock_analyzer.py",
+    "hot": "python3 scripts/trend_scanner.py",
+    "rumors": "python3 scripts/rumor_detector.py",
+    "dividends": "uv run scripts/dividend_analyzer.py",
+    "watchlist": "uv run scripts/watchlist_manager.py",
+    "portfolio": "uv run scripts/portfolio_manager.py",
+    "test": "uv run pytest scripts/tests.py -v"
   },
   "repository": {
     "type": "git",

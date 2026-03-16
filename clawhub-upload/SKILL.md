@@ -1,7 +1,7 @@
 ---
 name: research-analyst
 description: AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection | AI 驱动的股票与加密货币研究工具，提供 8 维度分析、投资组合追踪和趋势检测
-version: 6.2.0
+version: 6.3.0
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (分析股票或加密货币)
@@ -16,8 +16,8 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["uv"],"env":[]},"install":[{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv (brew)"}]}}
 ---
 
-# OpenClaw Research Analyst v6.2
-# OpenClaw 研究分析师 v6.2
+# OpenClaw Research Analyst v6.3
+# OpenClaw 研究分析师 v6.3
 
 **English** | [中文](#中文版本)
 
@@ -53,25 +53,25 @@ Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio mana
 ### Stock Analysis
 ```bash
 # Basic analysis
-uv run {baseDir}/scripts/analyze_stock.py AAPL
+uv run {baseDir}/scripts/stock_analyzer.py AAPL
 
 # Fast mode (skips insider trading & breaking news)
-uv run {baseDir}/scripts/analyze_stock.py AAPL --fast
+uv run {baseDir}/scripts/stock_analyzer.py AAPL --fast
 
 # Compare multiple
-uv run {baseDir}/scripts/analyze_stock.py AAPL MSFT GOOGL
+uv run {baseDir}/scripts/stock_analyzer.py AAPL MSFT GOOGL
 
 # Crypto
-uv run {baseDir}/scripts/analyze_stock.py BTC-USD ETH-USD
+uv run {baseDir}/scripts/stock_analyzer.py BTC-USD ETH-USD
 ```
 
 ### Dividend Analysis
 ```bash
 # Analyze dividends
-uv run {baseDir}/scripts/dividends.py JNJ
+uv run {baseDir}/scripts/dividend_analyzer.py JNJ
 
 # Compare dividend stocks
-uv run {baseDir}/scripts/dividends.py JNJ PG KO MCD --output json
+uv run {baseDir}/scripts/dividend_analyzer.py JNJ PG KO MCD --output json
 ```
 
 **Dividend Metrics:**
@@ -85,16 +85,16 @@ uv run {baseDir}/scripts/dividends.py JNJ PG KO MCD --output json
 ### Watchlist + Alerts
 ```bash
 # Add to watchlist
-uv run {baseDir}/scripts/watchlist.py add AAPL
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL
 
 # With price target alert
-uv run {baseDir}/scripts/watchlist.py add AAPL --target 200
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL --target 200
 
 # With stop loss alert
-uv run {baseDir}/scripts/watchlist.py add AAPL --stop 150
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL --stop 150
 
 # Check for triggered alerts
-uv run {baseDir}/scripts/watchlist.py check
+uv run {baseDir}/scripts/watchlist_manager.py check
 ```
 
 **Alert Types:**
@@ -105,25 +105,25 @@ uv run {baseDir}/scripts/watchlist.py check
 ### Portfolio Management
 ```bash
 # Create portfolio
-uv run {baseDir}/scripts/portfolio.py create "Tech Portfolio"
+uv run {baseDir}/scripts/portfolio_manager.py create "Tech Portfolio"
 
 # Add assets
-uv run {baseDir}/scripts/portfolio.py add AAPL --quantity 100 --cost 150
+uv run {baseDir}/scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
 
 # View portfolio
-uv run {baseDir}/scripts/portfolio.py show
+uv run {baseDir}/scripts/portfolio_manager.py show
 ```
 
 ### 🔥 Hot Scanner
 ```bash
 # Full scan - find what's trending NOW
-python3 {baseDir}/scripts/hot_scanner.py
+python3 {baseDir}/scripts/trend_scanner.py
 
 # Fast scan (skip social media)
-python3 {baseDir}/scripts/hot_scanner.py --no-social
+python3 {baseDir}/scripts/trend_scanner.py --no-social
 
 # JSON output for automation
-python3 {baseDir}/scripts/hot_scanner.py --json
+python3 {baseDir}/scripts/trend_scanner.py --json
 ```
 
 **Data Sources:**
@@ -136,7 +136,7 @@ python3 {baseDir}/scripts/hot_scanner.py --json
 ### 🔮 Rumor Scanner
 ```bash
 # Find early signals, M&A rumors, insider activity
-python3 {baseDir}/scripts/rumor_scanner.py
+python3 {baseDir}/scripts/rumor_detector.py
 ```
 
 **What it finds:**
@@ -221,25 +221,25 @@ BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH,
 ### 股票分析
 ```bash
 # 基础分析
-uv run {baseDir}/scripts/analyze_stock.py AAPL
+uv run {baseDir}/scripts/stock_analyzer.py AAPL
 
 # 快速模式（跳过内部交易和突发新闻）
-uv run {baseDir}/scripts/analyze_stock.py AAPL --fast
+uv run {baseDir}/scripts/stock_analyzer.py AAPL --fast
 
 # 比较多个股票
-uv run {baseDir}/scripts/analyze_stock.py AAPL MSFT GOOGL
+uv run {baseDir}/scripts/stock_analyzer.py AAPL MSFT GOOGL
 
 # 加密货币
-uv run {baseDir}/scripts/analyze_stock.py BTC-USD ETH-USD
+uv run {baseDir}/scripts/stock_analyzer.py BTC-USD ETH-USD
 ```
 
 ### 股息分析
 ```bash
 # 分析股息
-uv run {baseDir}/scripts/dividends.py JNJ
+uv run {baseDir}/scripts/dividend_analyzer.py JNJ
 
 # 比较股息股票
-uv run {baseDir}/scripts/dividends.py JNJ PG KO MCD --output json
+uv run {baseDir}/scripts/dividend_analyzer.py JNJ PG KO MCD --output json
 ```
 
 **股息指标：**
@@ -253,16 +253,16 @@ uv run {baseDir}/scripts/dividends.py JNJ PG KO MCD --output json
 ### 监控列表 + 警报
 ```bash
 # 添加到监控列表
-uv run {baseDir}/scripts/watchlist.py add AAPL
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL
 
 # 设置目标价警报
-uv run {baseDir}/scripts/watchlist.py add AAPL --target 200
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL --target 200
 
 # 设置止损警报
-uv run {baseDir}/scripts/watchlist.py add AAPL --stop 150
+uv run {baseDir}/scripts/watchlist_manager.py add AAPL --stop 150
 
 # 检查触发的警报
-uv run {baseDir}/scripts/watchlist.py check
+uv run {baseDir}/scripts/watchlist_manager.py check
 ```
 
 **警报类型：**
@@ -273,25 +273,25 @@ uv run {baseDir}/scripts/watchlist.py check
 ### 投资组合管理
 ```bash
 # 创建投资组合
-uv run {baseDir}/scripts/portfolio.py create "科技投资组合"
+uv run {baseDir}/scripts/portfolio_manager.py create "科技投资组合"
 
 # 添加资产
-uv run {baseDir}/scripts/portfolio.py add AAPL --quantity 100 --cost 150
+uv run {baseDir}/scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
 
 # 查看投资组合
-uv run {baseDir}/scripts/portfolio.py show
+uv run {baseDir}/scripts/portfolio_manager.py show
 ```
 
 ### 🔥 热点扫描器
 ```bash
 # 完整扫描 - 发现当前热门
-python3 {baseDir}/scripts/hot_scanner.py
+python3 {baseDir}/scripts/trend_scanner.py
 
 # 快速扫描（跳过社交媒体）
-python3 {baseDir}/scripts/hot_scanner.py --no-social
+python3 {baseDir}/scripts/trend_scanner.py --no-social
 
 # JSON 输出用于自动化
-python3 {baseDir}/scripts/hot_scanner.py --json
+python3 {baseDir}/scripts/trend_scanner.py --json
 ```
 
 **数据来源：**
@@ -304,7 +304,7 @@ python3 {baseDir}/scripts/hot_scanner.py --json
 ### 🔮 传闻扫描器
 ```bash
 # 发现早期信号、并购传闻、内部交易
-python3 {baseDir}/scripts/rumor_scanner.py
+python3 {baseDir}/scripts/rumor_detector.py
 ```
 
 **发现内容：**
