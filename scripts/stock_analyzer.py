@@ -2253,7 +2253,7 @@ def main():
     portfolio_name = None
     if args.portfolio:
         try:
-            from portfolio import PortfolioStore
+            from portfolio_manager import PortfolioStore
             store = PortfolioStore()
             portfolio = store.get_portfolio(args.portfolio)
             if not portfolio:
@@ -2279,7 +2279,7 @@ def main():
                 print(f"Analyzing portfolio: {portfolio_name} ({len(portfolio_assets)} assets)", file=sys.stderr)
 
         except ImportError:
-            print("Error: portfolio.py not found", file=sys.stderr)
+            print("Error: portfolio_manager.py not found", file=sys.stderr)
             sys.exit(1)
         except Exception as e:
             print(f"Error loading portfolio: {e}", file=sys.stderr)

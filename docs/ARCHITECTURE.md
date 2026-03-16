@@ -11,7 +11,7 @@ How Stock Analysis v6.0 works under the hood.
 │                                                                      │
 │  ┌──────────────────────────────────────────────────────────────┐   │
 │  │                    CLI Interface                              │   │
-│  │  analyze_stock.py | dividends.py | watchlist.py | portfolio.py│   │
+│  │  stock_analyzer.py | dividend_analyzer.py | watchlist_manager.py | portfolio_manager.py│   │
 │  └────────────────────────────┬─────────────────────────────────┘   │
 │                               │                                      │
 │  ┌────────────────────────────▼─────────────────────────────────┐   │
@@ -267,11 +267,11 @@ CRISIS_KEYWORDS = {
 ```
 stock-analysis/
 ├── scripts/
-│   ├── analyze_stock.py      # Main analysis engine (2500+ lines)
-│   ├── portfolio.py          # Portfolio management
-│   ├── dividends.py          # Dividend analysis
-│   ├── watchlist.py          # Watchlist + alerts
-│   └── test_stock_analysis.py # Unit tests
+│   ├── stock_analyzer.py      # Main analysis engine (2500+ lines)
+│   ├── portfolio_manager.py   # Portfolio management
+│   ├── dividend_analyzer.py   # Dividend analysis
+│   ├── watchlist_manager.py   # Watchlist + alerts
+│   └── tests.py               # Unit tests
 ├── docs/
 │   ├── CONCEPT.md            # Philosophy & ideas
 │   ├── USAGE.md              # Practical guide
