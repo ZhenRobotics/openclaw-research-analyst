@@ -218,9 +218,9 @@ python3 {baseDir}/scripts/rumor_scanner.py
 
 | Flag | Effect | Speed |
 |------|--------|-------|
-| (default) | Full analysis | 5-10s |
-| `--no-insider` | Skip SEC EDGAR | 3-5s |
-| `--fast` | Skip insider + news | 2-3s |
+| (default) | Full analysis | 60-120s |
+| `--no-insider` | Skip SEC EDGAR | 50-90s |
+| `--fast` | Skip insider + news | 45-75s |
 
 ## Supported Cryptos (Top 20)
 
