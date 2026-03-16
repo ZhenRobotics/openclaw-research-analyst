@@ -173,9 +173,9 @@ Set up a daily cron job for morning reports:
 
 | Flag | Speed | Description |
 |------|-------|-------------|
-| (default) | 5-10s | Full analysis |
-| `--no-insider` | 3-5s | Skip SEC EDGAR |
-| `--fast` | 2-3s | Skip insider + news |
+| (default) | 60-120s | Full analysis with all data sources |
+| `--no-insider` | 50-90s | Skip SEC EDGAR insider trading |
+| `--fast` | 45-75s | Skip insider trading + breaking news |
 
 ## Data Sources
 

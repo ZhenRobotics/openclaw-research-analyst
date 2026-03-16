@@ -325,7 +325,7 @@ class TestDividendAnalysis:
         }
         mock_stock.dividends = pd.Series(
             [1.2, 1.2, 1.2, 1.2] * 5,  # 5 years of quarterly dividends
-            index=pd.date_range(start="2019-01-01", periods=20, freq="Q")
+            index=pd.date_range(start="2019-01-01", periods=20, freq="QE")
         )
         mock_ticker.return_value = mock_stock
         

@@ -21,12 +21,17 @@ import asyncio
 import json
 import sys
 import time
+import warnings
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from typing import Literal
 
 import pandas as pd
 import yfinance as yf
+
+# Suppress yfinance FutureWarnings and 404 errors for crypto data
+warnings.filterwarnings('ignore', category=FutureWarning, module='yfinance')
+warnings.filterwarnings('ignore', message='.*404 Client Error.*')
 
 
 # Top 20 supported cryptocurrencies
