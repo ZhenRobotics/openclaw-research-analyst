@@ -20,7 +20,7 @@ Practical examples for using Stock Analysis v6.0 in real scenarios.
 ### Single Stock
 
 ```bash
-uv run scripts/analyze_stock.py AAPL
+uv run scripts/stock_analyzer.py AAPL
 ```
 
 **Output:**
@@ -53,7 +53,7 @@ DISCLAIMER: NOT FINANCIAL ADVICE.
 For programmatic use:
 
 ```bash
-uv run scripts/analyze_stock.py AAPL --output json | jq '.recommendation, .confidence'
+uv run scripts/stock_analyzer.py AAPL --output json | jq '.recommendation, .confidence'
 ```
 
 ### Verbose Mode
@@ -61,7 +61,7 @@ uv run scripts/analyze_stock.py AAPL --output json | jq '.recommendation, .confi
 See what's happening under the hood:
 
 ```bash
-uv run scripts/analyze_stock.py AAPL --verbose
+uv run scripts/stock_analyzer.py AAPL --verbose
 ```
 
 ---
@@ -71,7 +71,7 @@ uv run scripts/analyze_stock.py AAPL --verbose
 ### Side-by-Side Analysis
 
 ```bash
-uv run scripts/analyze_stock.py AAPL MSFT GOOGL
+uv run scripts/stock_analyzer.py AAPL MSFT GOOGL
 ```
 
 Each stock gets a full analysis. Compare recommendations and confidence levels.
@@ -82,10 +82,10 @@ Compare stocks in the same sector:
 
 ```bash
 # Banks
-uv run scripts/analyze_stock.py JPM BAC WFC GS
+uv run scripts/stock_analyzer.py JPM BAC WFC GS
 
 # Tech
-uv run scripts/analyze_stock.py AAPL MSFT GOOGL AMZN META
+uv run scripts/stock_analyzer.py AAPL MSFT GOOGL AMZN META
 ```
 
 ---
@@ -95,7 +95,7 @@ uv run scripts/analyze_stock.py AAPL MSFT GOOGL AMZN META
 ### Basic Crypto
 
 ```bash
-uv run scripts/analyze_stock.py BTC-USD
+uv run scripts/stock_analyzer.py BTC-USD
 ```
 
 **Crypto-Specific Output:**
@@ -107,7 +107,7 @@ uv run scripts/analyze_stock.py BTC-USD
 ### Compare Cryptos
 
 ```bash
-uv run scripts/analyze_stock.py BTC-USD ETH-USD SOL-USD
+uv run scripts/stock_analyzer.py BTC-USD ETH-USD SOL-USD
 ```
 
 ### Supported Cryptos
@@ -126,7 +126,7 @@ Use `-USD` suffix: `BTC-USD`, `ETH-USD`, etc.
 ### Analyze Dividend Stock
 
 ```bash
-uv run scripts/dividends.py JNJ
+uv run scripts/dividend_analyzer.py JNJ
 ```
 
 **Output:**
@@ -165,7 +165,7 @@ Dividend History:
 ### Compare Dividend Stocks
 
 ```bash
-uv run scripts/dividends.py JNJ PG KO MCD VZ T
+uv run scripts/dividend_analyzer.py JNJ PG KO MCD VZ T
 ```
 
 ### Dividend Aristocrats Screen
@@ -183,23 +183,23 @@ Look for stocks with:
 ### Create Portfolio
 
 ```bash
-uv run scripts/portfolio.py create "Retirement"
+uv run scripts/portfolio_manager.py create "Retirement"
 ```
 
 ### Add Holdings
 
 ```bash
 # Stocks
-uv run scripts/portfolio.py add AAPL --quantity 100 --cost 150.00
+uv run scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150.00
 
 # Crypto
-uv run scripts/portfolio.py add BTC-USD --quantity 0.5 --cost 40000
+uv run scripts/portfolio_manager.py add BTC-USD --quantity 0.5 --cost 40000
 ```
 
 ### View Portfolio
 
 ```bash
-uv run scripts/portfolio.py show
+uv run scripts/portfolio_manager.py show
 ```
 
 **Output:**
@@ -223,10 +223,10 @@ Total P&L:     +$6,000.00 (+17.1%)
 
 ```bash
 # Full analysis of all holdings
-uv run scripts/analyze_stock.py --portfolio "Retirement"
+uv run scripts/stock_analyzer.py --portfolio "Retirement"
 
 # With period returns
-uv run scripts/analyze_stock.py --portfolio "Retirement" --period monthly
+uv run scripts/stock_analyzer.py --portfolio "Retirement" --period monthly
 ```
 
 ### Rebalance Check
@@ -245,25 +245,25 @@ The analysis flags concentration warnings:
 
 ```bash
 # Basic watch
-uv run scripts/watchlist.py add NVDA
+uv run scripts/watchlist_manager.py add NVDA
 
 # With price target
-uv run scripts/watchlist.py add NVDA --target 800
+uv run scripts/watchlist_manager.py add NVDA --target 800
 
 # With stop loss
-uv run scripts/watchlist.py add NVDA --stop 600
+uv run scripts/watchlist_manager.py add NVDA --stop 600
 
 # Alert on signal change
-uv run scripts/watchlist.py add NVDA --alert-on signal
+uv run scripts/watchlist_manager.py add NVDA --alert-on signal
 
 # All options
-uv run scripts/watchlist.py add NVDA --target 800 --stop 600 --alert-on signal
+uv run scripts/watchlist_manager.py add NVDA --target 800 --stop 600 --alert-on signal
 ```
 
 ### View Watchlist
 
 ```bash
-uv run scripts/watchlist.py list
+uv run scripts/watchlist_manager.py list
 ```
 
 **Output:**
@@ -293,10 +293,10 @@ uv run scripts/watchlist.py list
 
 ```bash
 # Check for triggered alerts
-uv run scripts/watchlist.py check
+uv run scripts/watchlist_manager.py check
 
 # Format for notification (Telegram)
-uv run scripts/watchlist.py check --notify
+uv run scripts/watchlist_manager.py check --notify
 ```
 
 **Alert Example:**
@@ -311,7 +311,7 @@ uv run scripts/watchlist.py check --notify
 ### Remove from Watchlist
 
 ```bash
-uv run scripts/watchlist.py remove NVDA
+uv run scripts/watchlist_manager.py remove NVDA
 ```
 
 ---
@@ -324,7 +324,7 @@ Skip slow analyses for quick checks:
 
 ```bash
 # Skip insider trading + breaking news
-uv run scripts/analyze_stock.py AAPL --fast
+uv run scripts/stock_analyzer.py AAPL --fast
 ```
 
 **Speed comparison:**
@@ -339,7 +339,7 @@ uv run scripts/analyze_stock.py AAPL --fast
 Analyze multiple stocks in one command:
 
 ```bash
-uv run scripts/analyze_stock.py AAPL MSFT GOOGL AMZN META
+uv run scripts/stock_analyzer.py AAPL MSFT GOOGL AMZN META
 ```
 
 ### Caching
@@ -407,33 +407,33 @@ CAVEATS:
 
 ```bash
 # Check watchlist alerts
-uv run scripts/watchlist.py check --notify
+uv run scripts/watchlist_manager.py check --notify
 
 # Quick portfolio update
-uv run scripts/analyze_stock.py --portfolio "Main" --fast
+uv run scripts/stock_analyzer.py --portfolio "Main" --fast
 ```
 
 ### Research New Stock
 
 ```bash
 # Full analysis
-uv run scripts/analyze_stock.py XYZ
+uv run scripts/stock_analyzer.py XYZ
 
 # If dividend stock
-uv run scripts/dividends.py XYZ
+uv run scripts/dividend_analyzer.py XYZ
 
 # Add to watchlist for monitoring
-uv run scripts/watchlist.py add XYZ --alert-on signal
+uv run scripts/watchlist_manager.py add XYZ --alert-on signal
 ```
 
 ### Weekly Review
 
 ```bash
 # Full portfolio analysis
-uv run scripts/analyze_stock.py --portfolio "Main" --period weekly
+uv run scripts/stock_analyzer.py --portfolio "Main" --period weekly
 
 # Check dividend holdings
-uv run scripts/dividends.py JNJ PG KO
+uv run scripts/dividend_analyzer.py JNJ PG KO
 ```
 
 ---

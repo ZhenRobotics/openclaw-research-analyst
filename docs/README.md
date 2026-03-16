@@ -47,17 +47,17 @@ Check **[ARCHITECTURE.md](./ARCHITECTURE.md)** for:
 
 ```bash
 # Analyze a stock
-uv run scripts/analyze_stock.py AAPL
+uv run scripts/stock_analyzer.py AAPL
 
 # Fast mode (2-3 seconds)
-uv run scripts/analyze_stock.py AAPL --fast
+uv run scripts/stock_analyzer.py AAPL --fast
 
 # Dividend analysis
-uv run scripts/dividends.py JNJ
+uv run scripts/dividend_analyzer.py JNJ
 
 # Watchlist
-uv run scripts/watchlist.py add AAPL --target 200
-uv run scripts/watchlist.py check
+uv run scripts/watchlist_manager.py add AAPL --target 200
+uv run scripts/watchlist_manager.py check
 ```
 
 ## Key Concepts

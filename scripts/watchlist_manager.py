@@ -244,7 +244,7 @@ def check_alerts(notify_format: bool = False) -> dict:
             try:
                 import subprocess
                 result = subprocess.run(
-                    ["uv", "run", str(Path(__file__).parent / "analyze_stock.py"), item.ticker, "--output", "json"],
+                    ["uv", "run", str(Path(__file__).parent / "stock_analyzer.py"), item.ticker, "--output", "json"],
                     capture_output=True,
                     text=True,
                     timeout=60,
