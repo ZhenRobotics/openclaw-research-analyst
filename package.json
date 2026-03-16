@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/research-analyst",
   "version": "6.2.0",
-  "description": "AI-powered stock & crypto analysis with portfolio management, watchlists, dividend analysis, and viral trend detection",
+  "description": "AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection",
   "main": "scripts/analyze_stock.py",
   "scripts": {
     "analyze": "uv run scripts/analyze_stock.py",
