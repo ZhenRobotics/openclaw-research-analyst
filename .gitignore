@@ -1,0 +1,18 @@
+node_modules/
+out/
+.DS_Store
+*.log
+.env
+.env.local
+dist/
+build/
+
+# Generated audio files
+audio/generated.mp3
+audio/generated-timestamps.json
+public/generated.mp3
+
+# Temporary and unrelated files
+zhenskill-*.txt
+zhenskill-*.md
+优化完成总结.md
