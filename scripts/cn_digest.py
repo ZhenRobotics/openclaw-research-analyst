@@ -16,20 +16,48 @@ def main():
     os.makedirs(REPORT_DIR, exist_ok=True)
     stamp = datetime.datetime.now().strftime('%F')
 
-    # Fetch CN hotlists
+    # Fetch CN hotlists (东方财富)
     hot = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_hotlists.py')])
 
-    # Watchlist quotes
+    # Watchlist quotes (新浪财经)
     tickers = DEFAULT_TICKERS
     wl = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_watchlist.py'), *tickers])
+
+    # Fetch CLS news (财联社)
+    try:
+        cls = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_cls_news.py')])
+    except:
+        cls = {'telegraph': [], 'depth': []}
+
+    # Fetch Tencent Finance (腾讯财经)
+    try:
+        tencent = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_tencent_finance.py')])
+    except:
+        tencent = {'hot_stocks': [], 'concept_plates': [], 'money_flow': {'top_inflow': [], 'top_outflow': []}}
+
+    # Fetch 10jqka data (同花顺)
+    try:
+        jqka = run_json([sys.executable, os.path.join(SKILL_DIR,'scripts','cn_10jqka.py')])
+    except:
+        jqka = {'hot_stocks': [], 'industry_ranking': []}
 
     # Save JSON attachments
     hot_json = os.path.join(REPORT_DIR, f'cn_hot_{stamp}.json')
     wl_json = os.path.join(REPORT_DIR, f'cn_watchlist_{stamp}.json')
+    cls_json = os.path.join(REPORT_DIR, f'cn_cls_{stamp}.json')
+    tencent_json = os.path.join(REPORT_DIR, f'cn_tencent_{stamp}.json')
+    jqka_json = os.path.join(REPORT_DIR, f'cn_10jqka_{stamp}.json')
+
     with open(hot_json, 'w', encoding='utf-8') as f:
         json.dump(hot, f, ensure_ascii=False, indent=2)
     with open(wl_json, 'w', encoding='utf-8') as f:
         json.dump(wl, f, ensure_ascii=False, indent=2)
+    with open(cls_json, 'w', encoding='utf-8') as f:
+        json.dump(cls, f, ensure_ascii=False, indent=2)
+    with open(tencent_json, 'w', encoding='utf-8') as f:
+        json.dump(tencent, f, ensure_ascii=False, indent=2)
+    with open(jqka_json, 'w', encoding='utf-8') as f:
+        json.dump(jqka, f, ensure_ascii=False, indent=2)
 
     # Build Chinese markdown digest
     md_path = os.path.join(REPORT_DIR, f'cn_daily_digest_{stamp}.md')
@@ -68,10 +96,39 @@ def main():
         for it in hot['hong_kong']['top_amount'][:20]:
             lines.append(f"- {it['name']}({it['code']}): 成交额:{it['amount']}  涨幅:{it['pct']}% 现价:{it['price']}")
 
-    # 占位：公告 / 研报 / 资金流 / 板块概念（后续补充）
+    # 财联社快讯 (CLS)
     lines.append('')
-    lines.append('## 公告 / 研报 / 资金流 / 板块概念')
-    lines.append('- 首版占位：将于下一版接入东方财富/新浪接口，输出中文要点与 JSON 附件')
+    lines.append('## 财联社快讯 (实时)')
+    if cls.get('telegraph'):
+        for item in cls['telegraph'][:10]:
+            title = item.get('title') or item.get('brief', '')[:50]
+            codes = ','.join(item.get('related_codes', [])[:3])
+            codes_str = f" [{codes}]" if codes else ""
+            lines.append(f"- {item.get('ctime', '')} {title}{codes_str}")
+    else:
+        lines.append('- 财联社数据获取失败或无数据')
+
+    # 腾讯财经 - 资金流向
+    lines.append('')
+    lines.append('## 资金流向 (腾讯财经)')
+    if tencent.get('money_flow', {}).get('top_inflow'):
+        lines.append('### 主力净流入 Top 5')
+        for item in tencent['money_flow']['top_inflow'][:5]:
+            lines.append(f"- {item.get('name')}({item.get('code')}): 净流入 {item.get('net_inflow', 0):.2f}万 涨幅:{item.get('pct', 0):.2f}%")
+
+    if tencent.get('money_flow', {}).get('top_outflow'):
+        lines.append('### 主力净流出 Top 5')
+        for item in tencent['money_flow']['top_outflow'][:5]:
+            lines.append(f"- {item.get('name')}({item.get('code')}): 净流出 {abs(item.get('net_inflow', 0)):.2f}万 涨幅:{item.get('pct', 0):.2f}%")
+
+    # 同花顺 - 行业排行
+    lines.append('')
+    lines.append('## 行业板块 (同花顺)')
+    if jqka.get('industry_ranking'):
+        for item in jqka['industry_ranking'][:10]:
+            lines.append(f"- {item.get('name')}: {item.get('pct', 0):.2f}%")
+    else:
+        lines.append('- 同花顺数据获取失败或无数据')
 
     with open(md_path, 'w', encoding='utf-8') as f:
         f.write('\n'.join(lines) + '\n')
@@ -79,7 +136,17 @@ def main():
     print(json.dumps({
         'digest_md': md_path,
         'hot_json': hot_json,
-        'watchlist_json': wl_json
+        'watchlist_json': wl_json,
+        'cls_json': cls_json,
+        'tencent_json': tencent_json,
+        'jqka_json': jqka_json,
+        'data_sources': {
+            'eastmoney': '东方财富 (热榜)',
+            'sina': '新浪财经 (行情)',
+            'cls': '财联社 (快讯)',
+            'tencent': '腾讯财经 (资金流)',
+            '10jqka': '同花顺 (行业)'
+        }
     }, ensure_ascii=False))
 
 if __name__ == '__main__':
