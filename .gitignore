@@ -7,6 +7,14 @@ out/
 dist/
 build/
 
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Cache
+cache/
+
 # Generated audio files
 audio/generated.mp3
 audio/generated-timestamps.json
