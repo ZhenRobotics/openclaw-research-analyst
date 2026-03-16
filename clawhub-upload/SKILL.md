@@ -1,6 +1,6 @@
 ---
 name: research-analyst
-description: AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection | AI 驱动的股票与加密货币研究工具，提供 8 维度分析、投资组合追踪和趋势检测
+description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、投资组合追踪和趋势检测
 version: 1.0.0
 homepage: https://finance.yahoo.com
 commands:
@@ -11,6 +11,12 @@ commands:
   - /stock_alerts - Check triggered alerts (检查触发的警报)
   - /stock_hot - Find trending stocks & crypto (发现热门股票和加密货币)
   - /stock_rumors - Find early signals, M&A rumors (发现早期信号、并购传闻)
+  - /cn_market - China A-share & Hong Kong market report (中国市场报告)
+  - /cn_rankings - Market rankings from 东方财富 (榜单数据)
+  - /cn_quotes - Stock quotes from 新浪财经 (实时行情)
+  - /cn_news - Financial news from 财联社 (财经快讯)
+  - /cn_moneyflow - Money flow analysis from 腾讯财经 (资金流向)
+  - /cn_diagnosis - Stock diagnosis from 同花顺 (个股诊断)
   - /portfolio - Show portfolio summary (显示投资组合摘要)
   - /portfolio_add - Add asset to portfolio (添加资产到投资组合)
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
@@ -25,7 +31,7 @@ metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":
 
 **English** | [中文](#中文版本)
 
-Analyze US stocks and cryptocurrencies with 8-dimension analysis, portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
+Analyze **US stocks, China A-shares, Hong Kong stocks**, and **cryptocurrencies** with 8-dimension analysis, **China market multi-source reports** (东方财富/新浪/财联社/腾讯/同花顺), portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
 
 ---
 
@@ -107,6 +113,41 @@ uv run {baseDir}/scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
 uv run {baseDir}/scripts/portfolio_manager.py show
 ```
 
+### 🌏 China Market Reports
+```bash
+# Complete China market report (all sources)
+python3 {baseDir}/scripts/cn_market_report.py
+
+# Market rankings from 东方财富
+python3 {baseDir}/scripts/cn_market_rankings.py
+
+# Stock quotes from 新浪财经
+python3 {baseDir}/scripts/cn_stock_quotes.py 600519  # 贵州茅台
+
+# Financial news from 财联社
+python3 {baseDir}/scripts/cn_cls_telegraph.py
+
+# Money flow analysis from 腾讯财经
+python3 {baseDir}/scripts/cn_tencent_moneyflow.py
+
+# Stock diagnosis from 同花顺
+python3 {baseDir}/scripts/cn_ths_diagnosis.py 600519
+```
+
+**China Data Sources (5 Major Platforms):**
+- 📊 **东方财富 (East Money)** — Market rankings, sector analysis, hot stocks
+- 💹 **新浪财经 (Sina Finance)** — Real-time quotes, A-share & Hong Kong
+- 📰 **财联社 (CLS)** — Breaking financial news, market telegraph
+- 💰 **腾讯财经 (Tencent Finance)** — Money flow analysis, capital tracking
+- 🔍 **同花顺 (THS)** — Stock diagnosis, technical analysis
+
+**What You Get:**
+- A-share (沪深) and Hong Kong stock data
+- Market hot lists and sector rotations
+- Real-time capital flow tracking
+- Breaking financial news and announcements
+- Individual stock technical diagnosis
+
 ### 🔥 Hot Scanner
 ```bash
 # Full scan - find what's trending NOW
@@ -186,7 +227,7 @@ BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH,
 
 [English](#openclaw-research-analyst-v10) | **中文**
 
-使用 8 维度分析系统分析美股和加密货币，提供投资组合管理、监控列表、警报、股息分析和**病毒式趋势检测**。
+使用 8 维度分析系统分析**美股、A 股、港股**和**加密货币**，提供**中国市场多源报告**（东方财富/新浪/财联社/腾讯/同花顺）、投资组合管理、监控列表、警报、股息分析和**病毒式趋势检测**。
 
 ---
 
@@ -299,6 +340,41 @@ uv run {baseDir}/scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
 # 查看投资组合
 uv run {baseDir}/scripts/portfolio_manager.py show
 ```
+
+### 🌏 中国市场报告
+```bash
+# 完整中国市场报告（所有数据源）
+python3 {baseDir}/scripts/cn_market_report.py
+
+# 东方财富榜单数据
+python3 {baseDir}/scripts/cn_market_rankings.py
+
+# 新浪财经实时行情
+python3 {baseDir}/scripts/cn_stock_quotes.py 600519  # 贵州茅台
+
+# 财联社财经快讯
+python3 {baseDir}/scripts/cn_cls_telegraph.py
+
+# 腾讯财经资金流向
+python3 {baseDir}/scripts/cn_tencent_moneyflow.py
+
+# 同花顺个股诊断
+python3 {baseDir}/scripts/cn_ths_diagnosis.py 600519
+```
+
+**中国数据来源（5 大平台）：**
+- 📊 **东方财富** — 市场排行榜、板块分析、热门股票
+- 💹 **新浪财经** — 实时行情、A 股与港股
+- 📰 **财联社** — 突发财经新闻、市场电报
+- 💰 **腾讯财经** — 资金流向分析、资金追踪
+- 🔍 **同花顺** — 个股诊断、技术分析
+
+**获取内容：**
+- A 股（沪深）和港股数据
+- 市场热点榜单和板块轮动
+- 实时资金流向追踪
+- 突发财经新闻和公告
+- 个股技术诊断报告
 
 ### 🔥 热点扫描器
 ```bash
