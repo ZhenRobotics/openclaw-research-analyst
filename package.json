@@ -1,0 +1,49 @@
+{
+  "name": "@openclaw/research-analyst",
+  "version": "6.2.0",
+  "description": "AI-powered stock & crypto analysis with portfolio management, watchlists, dividend analysis, and viral trend detection",
+  "main": "scripts/analyze_stock.py",
+  "scripts": {
+    "analyze": "uv run scripts/analyze_stock.py",
+    "hot": "python3 scripts/hot_scanner.py",
+    "rumors": "python3 scripts/rumor_scanner.py",
+    "dividends": "uv run scripts/dividends.py",
+    "watchlist": "uv run scripts/watchlist.py",
+    "portfolio": "uv run scripts/portfolio.py",
+    "test": "uv run pytest scripts/test_stock_analysis.py -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:ZhenRobotics/openclaw-research-analyst.git"
+  },
+  "keywords": [
+    "stock",
+    "crypto",
+    "analysis",
+    "openclaw",
+    "portfolio",
+    "trading",
+    "finance",
+    "yfinance",
+    "dividend",
+    "watchlist",
+    "hot-scanner",
+    "trend-detection"
+  ],
+  "author": "ZhenRobotics",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZhenRobotics/openclaw-research-analyst/issues"
+  },
+  "homepage": "https://github.com/ZhenRobotics/openclaw-research-analyst#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "python": ">=3.10"
+  },
+  "files": [
+    "scripts/",
+    "README.md",
+    "SKILL.md",
+    ".env.example"
+  ]
+}
