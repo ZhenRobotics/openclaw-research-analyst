@@ -179,12 +179,22 @@ Set up a daily cron job for morning reports:
 
 ## Data Sources
 
+### US & Global Markets
 - [Yahoo Finance](https://finance.yahoo.com) — Prices, fundamentals, movers
 - [CoinGecko](https://coingecko.com) — Crypto trending, market data
 - [CNN Fear & Greed](https://money.cnn.com/data/fear-and-greed/) — Sentiment
 - [SEC EDGAR](https://www.sec.gov/edgar) — Insider trading
 - [Google News RSS](https://news.google.com) — Breaking news
 - [Twitter/X](https://x.com) — Social sentiment (via bird CLI)
+
+### China Markets (A-Share & Hong Kong)
+- [East Money 东方财富](https://www.eastmoney.com) — A-share & HK rankings, volume
+- [Sina Finance 新浪财经](https://finance.sina.com.cn) — Real-time quotes
+- [CLS 财联社](https://www.cls.cn) — Real-time financial news & telegraph
+- [Tencent Finance 腾讯财经](https://stockapp.finance.qq.com) — Money flow, concept plates
+- [10jqka 同花顺](https://www.10jqka.com.cn) — Stock diagnosis, industry analysis, reports
+
+See [CN_DATA_SOURCES.md](docs/CN_DATA_SOURCES.md) for Chinese market integration details.
 
 ## Storage
 
