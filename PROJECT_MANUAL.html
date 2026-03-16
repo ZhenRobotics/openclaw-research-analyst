@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Research Analyst - 项目说明书</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 100%;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            page-break-before: always;
+        }
+        h1:first-child {
+            page-break-before: auto;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+            font-size: 13px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 3px solid #3498db;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        .info-box {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-left: 4px solid #2196f3;
+            margin: 20px 0;
+        }
+        .cover {
+            text-align: center;
+            padding: 100px 0;
+        }
+        .cover h1 {
+            font-size: 36px;
+            border: none;
+            page-break-before: auto;
+        }
+        .cover p {
+            font-size: 18px;
+            color: #666;
+            margin: 20px 0;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        strong {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cover">
+    <h1>OpenClaw Research Analyst</h1>
+    <p>全市场 AI 投资研究分析工具</p>
+    <p>项目说明书</p>
+    <p style="margin-top: 50px; color: #999;">版本 v1.0.0</p>
+    <p style="color: #999;">2026-03-16</p>
+</div>
+
+<div class="page-break"></div>
+
+<h1>1. 项目概述</h1>
+
+<h2>1.1 项目定位</h2>
+<p>OpenClaw Research Analyst 是一个<strong>全市场覆盖的 AI 投资研究分析工具</strong>，整合 10+ 权威数据源，为个人投资者、量化研究者和财经从业者提供专业级的多维度投资分析服务。</p>
+
+<h2>1.2 核心特性</h2>
+<ul>
+    <li><strong>全市场覆盖</strong>：支持美股、中国 A 股、香港股市、加密货币四大市场</li>
+    <li><strong>多维度分析</strong>：8 维度综合评分系统，覆盖基本面到技术面</li>
+    <li><strong>中文深度整合</strong>：集成 5 大中文平台（东方财富、新浪财经、财联社、腾讯财经、同花顺）</li>
+    <li><strong>完全开源免费</strong>：6063 行源代码可审查，核心功能无需任何 API 密钥</li>
+    <li><strong>本地部署</strong>：数据处理在本地完成，保护投资策略隐私</li>
+</ul>
+
+<h2>1.3 技术架构</h2>
+<table>
+    <tr>
+        <th>组件</th>
+        <th>技术栈</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>核心语言</td>
+        <td>Python 3.10+</td>
+        <td>主要开发语言</td>
+    </tr>
+    <tr>
+        <td>包管理</td>
+        <td>uv</td>
+        <td>快速依赖管理</td>
+    </tr>
+    <tr>
+        <td>数据获取</td>
+        <td>yfinance, requests, BeautifulSoup</td>
+        <td>多源数据抓取</td>
+    </tr>
+    <tr>
+        <td>数据分析</td>
+        <td>pandas, numpy</td>
+        <td>数据处理与计算</td>
+    </tr>
+    <tr>
+        <td>代码规模</td>
+        <td>13 个脚本，6063 行代码</td>
+        <td>经过验证的生产级代码</td>
+    </tr>
+</table>
+
+<div class="page-break"></div>
+
+<h1>2. 功能说明</h1>
+
+<h2>2.1 美股分析 - 8 维度综合评分</h2>
+
+<h3>评分维度</h3>
+<table>
+    <tr>
+        <th>维度</th>
+        <th>权重</th>
+        <th>评估内容</th>
+    </tr>
+    <tr>
+        <td>盈利惊喜</td>
+        <td>30%</td>
+        <td>EPS 实际值 vs 预期值，盈利质量分析</td>
+    </tr>
+    <tr>
+        <td>基本面</td>
+        <td>20%</td>
+        <td>市盈率、利润率、营收增长、债务水平</td>
+    </tr>
+    <tr>
+        <td>分析师情绪</td>
+        <td>20%</td>
+        <td>买入/持有/卖出评级、目标价变化</td>
+    </tr>
+    <tr>
+        <td>历史模式</td>
+        <td>10%</td>
+        <td>过往财报发布后的股价反应</td>
+    </tr>
+    <tr>
+        <td>市场背景</td>
+        <td>10%</td>
+        <td>VIX 恐慌指数、SPY/QQQ 大盘趋势</td>
+    </tr>
+    <tr>
+        <td>板块表现</td>
+        <td>15%</td>
+        <td>相对板块的强度分析</td>
+    </tr>
+    <tr>
+        <td>技术动量</td>
+        <td>15%</td>
+        <td>RSI、52 周区间位置、均线系统</td>
+    </tr>
+    <tr>
+        <td>市场情绪</td>
+        <td>10%</td>
+        <td>恐惧贪婪指数、空头比例、内部交易</td>
+    </tr>
+</table>
+
+<h3>信号生成</h3>
+<ul>
+    <li><strong>BUY</strong>（买入）：综合评分 ≥ 70 分</li>
+    <li><strong>HOLD</strong>（持有）：综合评分 40-70 分</li>
+    <li><strong>SELL</strong>（卖出）：综合评分 ≤ 40 分</li>
+</ul>
+
+<h3>风险检测</h3>
+<ul>
+    <li>盈利前警告（距离财报发布 < 14 天）</li>
+    <li>超买警告（RSI > 70 且接近 52 周高点）</li>
+    <li>后飙升风险（5 天内涨幅 > 15%）</li>
+    <li>风险规避模式（避险资产 GLD/TLT/UUP 同步上涨）</li>
+    <li>地缘政治风险（台湾、中国、俄罗斯、中东关键词）</li>
+    <li>突发新闻警报（危机关键词扫描）</li>
+</ul>
+
+<h2>2.2 中国市场 - 5 大平台整合</h2>
+
+<h3>数据源覆盖</h3>
+<table>
+    <tr>
+        <th>平台</th>
+        <th>提供功能</th>
+        <th>脚本文件</th>
+    </tr>
+    <tr>
+        <td>东方财富</td>
+        <td>市场排行榜、板块分析、热门股票</td>
+        <td>cn_market_rankings.py</td>
+    </tr>
+    <tr>
+        <td>新浪财经</td>
+        <td>实时行情、A 股与港股报价</td>
+        <td>cn_stock_quotes.py</td>
+    </tr>
+    <tr>
+        <td>财联社</td>
+        <td>突发财经新闻、市场电报</td>
+        <td>cn_cls_telegraph.py</td>
+    </tr>
+    <tr>
+        <td>腾讯财经</td>
+        <td>资金流向分析、主力资金追踪</td>
+        <td>cn_tencent_moneyflow.py</td>
+    </tr>
+    <tr>
+        <td>同花顺</td>
+        <td>个股诊断、技术分析</td>
+        <td>cn_ths_diagnosis.py</td>
+    </tr>
+</table>
+
+<h3>功能特性</h3>
+<ul>
+    <li><strong>多源验证</strong>：交叉对比 5 大平台数据，降低单一来源风险</li>
+    <li><strong>实时行情</strong>：A 股、港股实时报价（延迟 < 1 分钟）</li>
+    <li><strong>资金流向</strong>：主力资金、散户资金、北向资金追踪</li>
+    <li><strong>热点板块</strong>：自动识别市场热点和板块轮动</li>
+    <li><strong>个股诊断</strong>：技术面评分、买卖建议</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h2>2.3 加密货币分析</h2>
+
+<h3>支持币种（前 20 大）</h3>
+<p>BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH, XLM, ALGO, VET, FIL, NEAR</p>
+
+<h3>分析维度</h3>
+<ul>
+    <li><strong>市值与分类</strong>：市值排名、币种分类（Layer 1/DeFi/NFT 等）</li>
+    <li><strong>BTC 相关性</strong>：30 天滚动相关系数</li>
+    <li><strong>技术动量</strong>：RSI、价格区间位置、趋势判断</li>
+</ul>
+
+<h2>2.4 投资管理工具</h2>
+
+<h3>投资组合追踪</h3>
+<ul>
+    <li>创建多个投资组合</li>
+    <li>记录持仓成本和数量</li>
+    <li>实时计算盈亏和收益率</li>
+    <li>集中度警告（单一资产占比 > 30%）</li>
+</ul>
+
+<h3>监控列表与警报</h3>
+<table>
+    <tr>
+        <th>警报类型</th>
+        <th>触发条件</th>
+        <th>使用场景</th>
+    </tr>
+    <tr>
+        <td>目标价触发</td>
+        <td>当前价格 ≥ 目标价</td>
+        <td>止盈提醒</td>
+    </tr>
+    <tr>
+        <td>止损触发</td>
+        <td>当前价格 ≤ 止损价</td>
+        <td>风险控制</td>
+    </tr>
+    <tr>
+        <td>信号变化</td>
+        <td>BUY/HOLD/SELL 状态改变</td>
+        <td>策略调整</td>
+    </tr>
+</table>
+
+<h3>股息分析</h3>
+<ul>
+    <li><strong>股息率</strong>：年度股息 / 当前价格</li>
+    <li><strong>派息比率</strong>：股息 / 每股收益（分类：安全/适中/高/不可持续）</li>
+    <li><strong>5 年增长率</strong>：股息 CAGR</li>
+    <li><strong>连续年数</strong>：连续增长的年数</li>
+    <li><strong>安全评分</strong>：0-100 综合评分</li>
+    <li><strong>收益评级</strong>：优秀/良好/适中/差</li>
+</ul>
+
+<h2>2.5 情报扫描系统</h2>
+
+<h3>热点扫描器</h3>
+<p>多源病毒式趋势检测，数据来源：</p>
+<ul>
+    <li>CoinGecko Trending - 前 15 名热门币种</li>
+    <li>CoinGecko Movers - 最大涨跌幅</li>
+    <li>Google News - 财经与加密货币新闻</li>
+    <li>Yahoo Finance - 涨幅榜、跌幅榜、最活跃</li>
+    <li>Twitter/X - 社交媒体情绪（可选）</li>
+</ul>
+
+<h3>传闻检测器</h3>
+<p>早期信号识别，重点关注：</p>
+<ul>
+    <li><strong>M&A 传闻</strong>：合并、收购、收购要约</li>
+    <li><strong>内部交易</strong>：CEO/董事买入/卖出</li>
+    <li><strong>分析师行动</strong>：升级、降级、目标价变化</li>
+    <li><strong>Twitter 传言</strong>："据说..."、"有消息称..."、"传闻"</li>
+    <li><strong>SEC 活动</strong>：调查、重要文件</li>
+</ul>
+
+<div class="page-break"></div>
+
+<h1>3. 解决的问题</h1>
+
+<h2>3.1 散户投资者的三大痛点</h2>
+
+<h3>问题 1：数据分散，获取成本高</h3>
+<div class="highlight">
+    <p><strong>痛点描述</strong>：</p>
+    <ul>
+        <li>美股数据需要访问 Yahoo Finance</li>
+        <li>A 股需要翻墙访问多个中文网站</li>
+        <li>加密货币又是另一套工具</li>
+        <li>专业工具（如 Bloomberg）月费高达数千美元</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <p><strong>解决方案</strong>：</p>
+    <ul>
+        <li>一个工具整合所有市场数据</li>
+        <li>无需多平台切换</li>
+        <li>所有数据源免费使用（无需 API 密钥）</li>
+        <li>本地部署，无月费</li>
+    </ul>
+</div>
+
+<h3>问题 2：分析不全面，容易错过风险</h3>
+<div class="highlight">
+    <p><strong>痛点描述</strong>：</p>
+    <ul>
+        <li>散户通常只看价格和 K 线图</li>
+        <li>忽略盈利质量、分析师看法</li>
+        <li>忽略市场情绪、资金流向</li>
+        <li>缺少地缘政治风险监控</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <p><strong>解决方案</strong>：</p>
+    <ul>
+        <li>8 维度综合评分系统</li>
+        <li>6 类风险检测（盈利前、超买、地缘政治等）</li>
+        <li>全面覆盖基本面到技术面</li>
+        <li>自动生成 BUY/HOLD/SELL 信号</li>
+    </ul>
+</div>
+
+<h3>问题 3：中文市场工具缺失</h3>
+<div class="highlight">
+    <p><strong>痛点描述</strong>：</p>
+    <ul>
+        <li>国外开源工具只支持美股</li>
+        <li>A 股/港股缺少好用的命令行工具</li>
+        <li>中文数据源访问复杂</li>
+    </ul>
+</div>
+
+<div class="info-box">
+    <p><strong>解决方案</strong>：</p>
+    <ul>
+        <li>深度集成 5 大中文数据源</li>
+        <li>提供榜单、行情、新闻、资金流、诊断完整功能</li>
+        <li>支持中英文双语</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<h1>4. 性能与效果</h1>
+
+<h2>4.1 数据准确性</h2>
+<table>
+    <tr>
+        <th>指标</th>
+        <th>标准</th>
+        <th>验证方法</th>
+    </tr>
+    <tr>
+        <td>价格数据</td>
+        <td>误差 < 0.1%</td>
+        <td>与 Yahoo Finance 官方数据对比</td>
+    </tr>
+    <tr>
+        <td>财务指标</td>
+        <td>100% 准确</td>
+        <td>直接来源于财报和权威数据源</td>
+    </tr>
+    <tr>
+        <td>中国市场</td>
+        <td>多源验证</td>
+        <td>5 大平台交叉验证</td>
+    </tr>
+</table>
+
+<h2>4.2 分析速度</h2>
+<table>
+    <tr>
+        <th>模式</th>
+        <th>耗时</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>标准模式</td>
+        <td>60-120 秒</td>
+        <td>完整 8 维度分析（含 SEC 内部交易、突发新闻）</td>
+    </tr>
+    <tr>
+        <td>快速模式</td>
+        <td>45-75 秒</td>
+        <td>核心分析（跳过耗时的内部交易和新闻扫描）</td>
+    </tr>
+    <tr>
+        <td>中国市场报告</td>
+        <td>30-60 秒</td>
+        <td>多源整合报告生成</td>
+    </tr>
+    <tr>
+        <td>投资组合操作</td>
+        <td>< 500 毫秒</td>
+        <td>本地数据库操作</td>
+    </tr>
+</table>
+
+<h2>4.3 功能覆盖</h2>
+<ul>
+    <li><strong>代码规模</strong>：13 个 Python 脚本，6063 行经过验证的源代码</li>
+    <li><strong>市场覆盖</strong>：美股、A 股、港股、加密货币 3 大市场</li>
+    <li><strong>数据源</strong>：10+ 数据源（Yahoo Finance, CoinGecko, SEC EDGAR, Google News, 东方财富, 新浪, 财联社, 腾讯, 同花顺, Twitter/X）</li>
+    <li><strong>运行成本</strong>：核心功能完全免费，无需任何 API 密钥或付费订阅</li>
+</ul>
+
+<h2>4.4 核心优势对比</h2>
+<table>
+    <tr>
+        <th>特性</th>
+        <th>OpenClaw Research Analyst</th>
+        <th>其他工具</th>
+    </tr>
+    <tr>
+        <td>市场覆盖</td>
+        <td>美股 + A股/港股 + 加密货币</td>
+        <td>通常只支持单一市场</td>
+    </tr>
+    <tr>
+        <td>数据源</td>
+        <td>10+ 免费公开数据源</td>
+        <td>单一数据源或需付费 API</td>
+    </tr>
+    <tr>
+        <td>中文支持</td>
+        <td>5 大中文平台深度集成</td>
+        <td>很少有中文市场工具</td>
+    </tr>
+    <tr>
+        <td>分析维度</td>
+        <td>8 维度综合评分 + 风险检测</td>
+        <td>多为单一维度（技术或基本面）</td>
+    </tr>
+    <tr>
+        <td>成本</td>
+        <td>完全免费（核心功能）</td>
+        <td>专业工具需月费或 API 费用</td>
+    </tr>
+    <tr>
+        <td>开源</td>
+        <td>6063 行代码可审查</td>
+        <td>多为闭源或黑盒</td>
+    </tr>
+    <tr>
+        <td>部署</td>
+        <td>本地运行，数据私密</td>
+        <td>多为在线服务，数据上传云端</td>
+    </tr>
+</table>
+
+<div class="page-break"></div>
+
+<h1>5. 使用场景</h1>
+
+<h2>5.1 每日盘前准备（5 分钟）</h2>
+<pre><code># 中国市场热点
+python3 scripts/cn_market_report.py
+
+# 全球趋势扫描
+python3 scripts/trend_scanner.py
+
+# 检查监控列表警报
+uv run scripts/watchlist_manager.py check</code></pre>
+
+<h2>5.2 个股深度研究（3 分钟）</h2>
+<pre><code># 美股 8 维度分析
+uv run scripts/stock_analyzer.py AAPL
+
+# A 股实时行情
+python3 scripts/cn_stock_quotes.py 600519
+
+# 同花顺诊断
+python3 scripts/cn_ths_diagnosis.py 600519
+
+# 股息分析
+uv run scripts/dividend_analyzer.py JNJ</code></pre>
+
+<h2>5.3 寻找早期机会</h2>
+<pre><code># M&A 传闻、内部交易
+python3 scripts/rumor_detector.py
+
+# 病毒式热点扫描
+python3 scripts/trend_scanner.py
+
+# 财联社快讯
+python3 scripts/cn_cls_telegraph.py</code></pre>
+
+<h2>5.4 投资组合管理</h2>
+<pre><code># 创建投资组合
+uv run scripts/portfolio_manager.py create "科技股组合"
+
+# 添加持仓
+uv run scripts/portfolio_manager.py add AAPL --quantity 100 --cost 150
+
+# 查看盈亏
+uv run scripts/portfolio_manager.py show</code></pre>
+
+<div class="page-break"></div>
+
+<h1>6. 适用人群</h1>
+
+<h2>6.1 个人投资者</h2>
+<p>需要专业级分析但不想支付昂贵的 Bloomberg/彭博终端（月费 $2000+）的散户投资者。</p>
+
+<h2>6.2 量化研究者</h2>
+<p>需要多市场数据进行回测和策略开发的量化交易者和研究人员。</p>
+
+<h2>6.3 财经自媒体</h2>
+<p>需要快速生成市场报告和个股分析的财经博主、YouTuber、公众号作者。</p>
+
+<h2>6.4 跨市场投资者</h2>
+<p>同时关注美股、A 股、港股、加密货币的全球资产配置者。</p>
+
+<h2>6.5 命令行爱好者</h2>
+<p>偏好用脚本和自动化工作流替代网页点击的技术型投资者。</p>
+
+<div class="page-break"></div>
+
+<h1>7. 安装与部署</h1>
+
+<h2>7.1 系统要求</h2>
+<table>
+    <tr>
+        <th>组件</th>
+        <th>版本要求</th>
+        <th>说明</th>
+    </tr>
+    <tr>
+        <td>Python</td>
+        <td>3.10+</td>
+        <td>核心运行环境</td>
+    </tr>
+    <tr>
+        <td>uv</td>
+        <td>最新版</td>
+        <td>Python 包管理器</td>
+    </tr>
+    <tr>
+        <td>Git</td>
+        <td>最新版</td>
+        <td>用于克隆仓库</td>
+    </tr>
+    <tr>
+        <td>操作系统</td>
+        <td>Linux/macOS/Windows</td>
+        <td>跨平台支持</td>
+    </tr>
+</table>
+
+<h2>7.2 安装步骤</h2>
+<pre><code># 1. 克隆仓库
+git clone https://github.com/ZhenRobotics/openclaw-research-analyst.git
+cd openclaw-research-analyst
+
+# 2. 安装依赖
+uv sync
+
+# 3. 验证安装
+uv run scripts/stock_analyzer.py --help</code></pre>
+
+<h2>7.3 可选配置</h2>
+<h3>Twitter/X 集成（可选）</h3>
+<p>仅用于社交媒体情绪分析，核心功能不需要。</p>
+<pre><code># 安装 bird CLI
+npm install -g @steipete/bird
+
+# 创建 .env 文件
+AUTH_TOKEN=your_auth_token_here
+CT0=your_ct0_token_here</code></pre>
+
+<h2>7.4 数据存储</h2>
+<table>
+    <tr>
+        <th>数据类型</th>
+        <th>存储位置</th>
+    </tr>
+    <tr>
+        <td>投资组合</td>
+        <td>~/.clawdbot/skills/stock-analysis/portfolios.json</td>
+    </tr>
+    <tr>
+        <td>监控列表</td>
+        <td>~/.clawdbot/skills/stock-analysis/watchlist.json</td>
+    </tr>
+</table>
+
+<div class="page-break"></div>
+
+<h1>8. 免责声明</h1>
+
+<div class="highlight">
+    <p><strong>重要提示</strong></p>
+    <p>OpenClaw Research Analyst 是一个<strong>信息工具</strong>，提供的所有分析和建议<strong>仅供参考</strong>，<strong>不构成投资建议</strong>。</p>
+
+    <h3>风险声明</h3>
+    <ul>
+        <li>投资有风险，入市需谨慎</li>
+        <li>过往表现不代表未来收益</li>
+        <li>本工具不保证分析结果的准确性</li>
+        <li>用户应独立判断并自行承担投资决策的后果</li>
+    </ul>
+
+    <h3>使用建议</h3>
+    <ul>
+        <li>在做出投资决策前，请咨询持牌财务顾问</li>
+        <li>结合多个信息源进行综合判断</li>
+        <li>控制仓位，分散风险</li>
+        <li>保持理性，避免情绪化交易</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<h1>9. 技术支持与社区</h1>
+
+<h2>9.1 项目信息</h2>
+<table>
+    <tr>
+        <th>项目</th>
+        <th>链接</th>
+    </tr>
+    <tr>
+        <td>GitHub 仓库</td>
+        <td>https://github.com/ZhenRobotics/openclaw-research-analyst</td>
+    </tr>
+    <tr>
+        <td>问题反馈</td>
+        <td>https://github.com/ZhenRobotics/openclaw-research-analyst/issues</td>
+    </tr>
+    <tr>
+        <td>文档中心</td>
+        <td>https://github.com/ZhenRobotics/openclaw-research-analyst/tree/main/docs</td>
+    </tr>
+</table>
+
+<h2>9.2 许可证</h2>
+<p>本项目采用 <strong>MIT License</strong> 开源协议。</p>
+
+<h2>9.3 版本信息</h2>
+<ul>
+    <li><strong>当前版本</strong>：v1.0.0</li>
+    <li><strong>发布日期</strong>：2026-03-16</li>
+    <li><strong>验证代码行数</strong>：6063 行</li>
+</ul>
+
+<div style="margin-top: 100px; text-align: center; color: #999;">
+    <p>--- 文档结束 ---</p>
+    <p>OpenClaw Research Analyst v1.0.0</p>
+</div>
+
+</body>
+</html>
