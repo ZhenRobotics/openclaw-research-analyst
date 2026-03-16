@@ -42,8 +42,11 @@
   },
   "files": [
     "scripts/",
+    "docs/",
     "README.md",
     "SKILL.md",
-    ".env.example"
+    "INSTALL.md",
+    ".env.example",
+    "pyproject.toml"
   ]
 }

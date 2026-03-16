@@ -13,11 +13,15 @@ commands:
   - /stock_rumors - Find early signals, M&A rumors (发现早期信号、并购传闻)
   - /portfolio - Show portfolio summary (显示投资组合摘要)
   - /portfolio_add - Add asset to portfolio (添加资产到投资组合)
-metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["uv"],"env":[]},"install":[{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv (brew)"}]}}
+metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
 # OpenClaw Research Analyst v1.0
 # OpenClaw 研究分析师 v1.0
+
+**⚠️ Installation Required**: This skill requires Python 3.10+, uv package manager, and optional dependencies. See installation instructions below.
+
+**📦 Source Code**: https://github.com/ZhenRobotics/openclaw-research-analyst
 
 **English** | [中文](#中文版本)
 
@@ -176,11 +180,47 @@ BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH,
 
 # 中文版本
 
+**⚠️ 需要安装**: 本技能需要 Python 3.10+、uv 包管理器和可选依赖。详见下方安装说明。
+
+**📦 源代码**: https://github.com/ZhenRobotics/openclaw-research-analyst
+
 [English](#openclaw-research-analyst-v10) | **中文**
 
 使用 8 维度分析系统分析美股和加密货币，提供投资组合管理、监控列表、警报、股息分析和**病毒式趋势检测**。
 
 ---
+
+## 📦 安装与依赖
+
+### 必需
+- **Python 3.10+** - 核心运行环境
+- **uv** - Python 包管理器 (`brew install uv` 或访问 https://github.com/astral-sh/uv)
+- **Git** - 用于克隆仓库
+
+### 可选
+- **bird CLI** - Twitter/X 集成 (`npm install -g @steipete/bird`)
+- **环境变量** (仅 Twitter/X 功能需要):
+  - `AUTH_TOKEN` - X.com 认证令牌
+  - `CT0` - X.com CT0 令牌
+
+### 安装步骤
+```bash
+# 从 GitHub 克隆
+git clone https://github.com/ZhenRobotics/openclaw-research-analyst.git
+cd openclaw-research-analyst
+
+# 安装 Python 依赖
+uv sync
+
+# 验证安装
+uv run scripts/stock_analyzer.py --help
+```
+
+### 安全说明
+- ✅ 所有源代码可在 GitHub 查看（已验证）
+- ✅ 核心功能无需凭证
+- ✅ Twitter/X 凭证仅存储在本地 .env 文件
+- ✅ 所有 API 调用使用公开端点（Yahoo Finance、CoinGecko 等）
 
 ## 核心功能
 
