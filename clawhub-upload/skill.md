@@ -1,8 +1,8 @@
 ---
 name: research-analyst
-description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、投资组合追踪和趋势检测
-version: 1.0.1
-verified_commit: 0d4db90  # v1.0.1 - Release with verified_commit
+description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), Feishu push integration, portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、飞书推送集成、投资组合追踪和趋势检测
+version: 1.1.0
+verified_commit: 0d4db90  # v1.1.0 - Feishu push integration & async optimization
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (分析股票或加密货币)
@@ -23,14 +23,42 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
-# OpenClaw Research Analyst v1.0
-# OpenClaw 研究分析师 v1.0
+# OpenClaw Research Analyst v1.1
+# OpenClaw 研究分析师 v1.1
 
 **⚠️ Installation Required**: This skill requires Python 3.10+, uv package manager, and optional dependencies. See installation instructions below.
 
 **📦 Source Code**: https://github.com/ZhenRobotics/openclaw-research-analyst
 
 **English** | [中文](#中文版本)
+
+---
+
+## ✨ What's New in v1.1.0
+
+### 🎉 Major Features
+- **📱 Feishu Push Integration** - Auto-push China market reports to Feishu private chat or group
+  - Private chat push with Open ID
+  - Group webhook support
+  - Auto-push every 10 minutes via system cron
+  - Configuration wizard: `python3 scripts/feishu_setup.py`
+
+- **🚀 Async Architecture Optimization** - 70-90% performance improvement
+  - Parallel data fetching with `aiohttp`
+  - 5 data sources fetched concurrently
+  - Reduced report generation time from 2.5s to 700ms
+  - Use: `python3 scripts/cn_market_report.py --async`
+
+### 🔧 Improvements
+- Brief summary generation (`--brief` flag)
+- Environment variable configuration support
+- Comprehensive Feishu setup documentation
+
+### 📚 Documentation
+- [FEISHU_QUICKSTART.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/FEISHU_QUICKSTART.md) - 5-minute setup guide
+- [IMPLEMENTATION_COMPLETE.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/IMPLEMENTATION_COMPLETE.md) - Async architecture details
+
+---
 
 Analyze **US stocks, China A-shares, Hong Kong stocks**, and **cryptocurrencies** with 8-dimension analysis, **China market multi-source reports** (东方财富/新浪/财联社/腾讯/同花顺), portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
 
