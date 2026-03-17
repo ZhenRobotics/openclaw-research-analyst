@@ -31,3 +31,4 @@ reports/
 # Scheduled task lock files
 .claude/scheduled_tasks.lock
 clawhub-release/
+*.backup
