@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import os, json, datetime, subprocess, sys
 
-WS = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
-REPORT_DIR = os.path.join(WS, 'reports')
 SKILL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+REPORT_DIR = os.path.join(SKILL_DIR, 'reports')
+WS = SKILL_DIR
 
 DEFAULT_TICKERS = ['510300','600519','000001','HK.00700']
 
