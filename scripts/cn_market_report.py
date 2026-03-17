@@ -12,6 +12,8 @@ def run_json(cmd):
     if len(cmd) > 1 and not os.path.exists(cmd[1]):
         raise FileNotFoundError(f"Script not found: {cmd[1]}")
     p = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+    if p.returncode != 0:
+        print(f"Error running {cmd}: stderr={p.stderr}", file=sys.stderr)
     p.check_returncode()
     return json.loads(p.stdout)
 
