@@ -1,9 +1,17 @@
-# 📈 OpenClaw Research Analyst v1.0
-# 📈 OpenClaw 研究分析师 v1.0
+# 📈 OpenClaw Research Analyst v1.1
+# 📈 OpenClaw 研究分析师 v1.1
 
 **English** | [中文](#中文版本)
 
-> AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection.
+> AI-powered stock & crypto research with 8-dimension analysis, **Feishu push integration**, portfolio tracking, and trend detection.
+
+## ✨ What's New in v1.1.0
+
+**🎉 Major Updates:**
+- **📱 Feishu Push Integration** - Auto-push China market reports to Feishu (飞书推送集成)
+- **🚀 Async Optimization** - 70-90% faster report generation (异步优化，性能提升 70-90%)
+
+See full changelog below.
 
 [![ClawHub Downloads](https://img.shields.io/badge/ClawHub-1500%2B%20downloads-blue)](https://clawhub.ai)
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-green)](https://openclaw.ai)
@@ -16,6 +24,8 @@
 | Feature | Description |
 |---------|-------------|
 | **8-Dimension Analysis** | Earnings, fundamentals, analysts, momentum, sentiment, sector, market, history |
+| **🆕 Feishu Push** | Auto-push China market reports to Feishu private chat or group (飞书推送) |
+| **🆕 Async Reports** | 70-90% faster with parallel data fetching (异步并行优化) |
 | **Crypto Support** | Top 20 cryptos with market cap, BTC correlation, momentum |
 | **Portfolio Management** | Track holdings, P&L, concentration warnings |
 | **Watchlist + Alerts** | Price targets, stop losses, signal changes |

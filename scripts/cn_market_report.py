@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 import os, json, datetime, subprocess, sys
+import argparse
 
 SKILL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 REPORT_DIR = os.path.join(SKILL_DIR, 'reports')
 WS = SKILL_DIR
 
 DEFAULT_TICKERS = ['510300','600519','000001','HK.00700']
+
+# Load environment configuration
+from dotenv import load_dotenv
+load_dotenv(os.path.join(SKILL_DIR, '.env.cn_market'), override=False)
 
 def run_json(cmd):
     # Validate script exists before running
@@ -17,7 +22,36 @@ def run_json(cmd):
     p.check_returncode()
     return json.loads(p.stdout)
 
-def main():
+def main_async():
+    """Async version using parallel data fetching (v1.1.0)"""
+    async_demo_script = os.path.join(SKILL_DIR, 'scripts', 'async_cn_market_demo.py')
+
+    if not os.path.exists(async_demo_script):
+        print(f"Warning: Async demo script not found, falling back to sync mode", file=sys.stderr)
+        return main_sync()
+
+    # Run async demo script
+    result = subprocess.run([sys.executable, async_demo_script],
+                          capture_output=True, text=True, timeout=120)
+
+    if result.returncode != 0:
+        print(f"Error running async script: {result.stderr}", file=sys.stderr)
+        print("Falling back to sync mode", file=sys.stderr)
+        return main_sync()
+
+    # Parse and return result
+    try:
+        output_lines = result.stdout.strip().split('\n')
+        # Last line should be JSON output
+        json_output = json.loads(output_lines[-1])
+        print(json.dumps(json_output, ensure_ascii=False))
+    except (json.JSONDecodeError, IndexError) as e:
+        print(f"Error parsing async output: {e}", file=sys.stderr)
+        print("Falling back to sync mode", file=sys.stderr)
+        return main_sync()
+
+def main_sync():
+    """Original synchronous version (v1.0.1)"""
     os.makedirs(REPORT_DIR, exist_ok=True)
     stamp = datetime.datetime.now().strftime('%F')
 
@@ -153,6 +187,111 @@ def main():
             '10jqka': '同花顺 (行业)'
         }
     }, ensure_ascii=False))
+
+def _generate_brief_summary(report_path):
+    """生成精简简报"""
+    import re
+    from datetime import datetime
+
+    if not os.path.exists(report_path):
+        return None
+
+    with open(report_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    try:
+        # 提取A股数据
+        a_gainers = re.findall(r'### 涨幅榜（Top 20）\n((?:- .*?\n){20})', content)
+        if not a_gainers:
+            return None
+
+        a_top3_gain = re.findall(r'- (.*?)\(.*?\): ([-\d.]+)%', a_gainers[0])[:3]
+
+        a_volumes = re.findall(r'### 成交额榜（Top 20）\n((?:- .*?\n){20})', content)
+        a_vol_data = re.findall(r'- (.*?)\(.*?\): 成交额:([\d.]+).*?涨幅:([-\d.]+)%', a_volumes[0]) if a_volumes else []
+        a_top3_vol = a_vol_data[:3] if a_vol_data else []
+        a_losers = sorted([x for x in a_vol_data if float(x[2]) < 0], key=lambda x: float(x[2]))[:3] if a_vol_data else []
+
+        # 提取港股数据
+        hk_section = re.findall(r'## 港股榜单.*?### 涨幅榜（Top 20）\n((?:- .*?\n){20})', content, re.DOTALL)
+        hk_data = re.findall(r'- (.*?)\(.*?\): ([-\d.]+)%.*?成交额:([\d.]+)', hk_section[0]) if hk_section else []
+        hk_top3_gain = hk_data[:3] if hk_data else []
+        hk_top3_vol = sorted(hk_data, key=lambda x: float(x[2]), reverse=True)[:3] if hk_data else []
+
+        # 格式化输出
+        time_str = datetime.now().strftime("%H:%M")
+        brief = f"📊 {time_str} 市场快报\n\n【A股】"
+
+        if a_top3_gain:
+            brief += f"涨:{a_top3_gain[0][0][:5]}+{a_top3_gain[0][1]}% "
+        if a_losers:
+            brief += f"跌:{a_losers[0][0][:5]}{a_losers[0][2]}% "
+        if a_top3_vol:
+            brief += f"额:{a_top3_vol[0][0][:5]}{float(a_top3_vol[0][1])/1e8:.0f}亿"
+
+        brief += "\n【港股】"
+        if hk_top3_gain:
+            brief += f"涨:{hk_top3_gain[0][0][:7]}+{hk_top3_gain[0][1]}% "
+        if hk_top3_vol:
+            brief += f"额:{hk_top3_vol[0][0][:5]}{float(hk_top3_vol[0][2])/1e8:.0f}亿"
+
+        return brief
+    except Exception as e:
+        print(f"⚠️ Brief summary generation failed: {e}", file=sys.stderr)
+        return None
+
+
+def main():
+    """Entry point - selects async or sync mode based on configuration"""
+    parser = argparse.ArgumentParser(description='Generate China market daily report')
+    parser.add_argument('--async', dest='use_async', action='store_true',
+                       help='Use async mode for parallel data fetching (v1.1.0)')
+    parser.add_argument('--sync', dest='use_async', action='store_false',
+                       help='Use sync mode (legacy v1.0.1)')
+    parser.add_argument('--push', action='store_true',
+                       help='Push brief summary to Feishu after generation')
+    parser.add_argument('--brief', action='store_true',
+                       help='Output brief summary (≤120 chars)')
+    parser.set_defaults(use_async=None)
+
+    args = parser.parse_args()
+
+    # Determine mode: CLI arg > environment variable > default (false)
+    if args.use_async is not None:
+        use_async = args.use_async
+    else:
+        use_async = os.getenv('CN_MARKET_USE_ASYNC', 'false').lower() in ('true', '1', 'yes')
+
+    if use_async:
+        print("🚀 Using async mode (v1.1.0)", file=sys.stderr)
+        main_async()
+    else:
+        print("⏱️  Using sync mode (v1.0.1)", file=sys.stderr)
+        main_sync()
+
+    # Handle push and brief options
+    if args.push or args.brief:
+        from datetime import datetime
+        report_file = os.path.join(SKILL_DIR, "reports",
+                                   f"cn_daily_digest_{'async' if use_async else 'sync'}_{datetime.now().strftime('%Y-%m-%d')}.md")
+
+        brief = _generate_brief_summary(report_file)
+
+        if brief:
+            if args.brief:
+                print(f"\n{brief}")
+
+            if args.push:
+                try:
+                    sys.path.insert(0, os.path.join(SKILL_DIR, 'scripts'))
+                    from feishu_push import FeishuPusher
+
+                    pusher = FeishuPusher()
+                    pusher.push(brief)
+                except ImportError:
+                    print("⚠️ feishu_push module not found, skipping push", file=sys.stderr)
+                except Exception as e:
+                    print(f"⚠️ Feishu push failed: {e}", file=sys.stderr)
 
 if __name__ == '__main__':
     main()
