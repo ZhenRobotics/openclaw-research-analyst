@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import json, urllib.request, urllib.parse
+import json, urllib.request, urllib.parse, time, sys
 
 BASE = 'https://push2.eastmoney.com/api/qt/clist/get'
 HEADERS = {
@@ -10,7 +10,20 @@ HEADERS = {
 # Common fields: f12=代码 f14=名称 f2=最新价 f3=涨跌幅% f6=成交额
 FIELDS = 'f12,f14,f2,f3,f6'
 
-def fetch_list(fs, fid='f3', pn=1, pz=20):
+def fetch_list(fs, fid='f3', pn=1, pz=20, max_retries=3):
+    """
+    Fetch list with retry mechanism
+    
+    Args:
+        fs: Market filter string
+        fid: Sort field
+        pn: Page number
+        pz: Page size
+        max_retries: Maximum retry attempts
+    
+    Returns:
+        List of stocks or empty list on failure
+    """
     params = {
         'pn': pn,
         'pz': pz,
@@ -23,20 +36,39 @@ def fetch_list(fs, fid='f3', pn=1, pz=20):
         'fields': FIELDS
     }
     url = BASE + '?' + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(req, timeout=10) as r:
-        data = json.loads(r.read().decode('utf-8', 'ignore'))
-    items = (data.get('data') or {}).get('diff') or []
-    out = []
-    for it in items:
-        out.append({
-            'code': it.get('f12'),
-            'name': it.get('f14'),
-            'price': it.get('f2'),
-            'pct': it.get('f3'),
-            'amount': it.get('f6'),
-        })
-    return out
+    
+    for attempt in range(max_retries):
+        try:
+            req = urllib.request.Request(url, headers=HEADERS)
+            # Increased timeout from 10 to 30 seconds
+            with urllib.request.urlopen(req, timeout=30) as r:
+                data = json.loads(r.read().decode('utf-8', 'ignore'))
+            
+            items = (data.get('data') or {}).get('diff') or []
+            out = []
+            for it in items:
+                out.append({
+                    'code': it.get('f12'),
+                    'name': it.get('f14'),
+                    'price': it.get('f2'),
+                    'pct': it.get('f3'),
+                    'amount': it.get('f6'),
+                })
+            return out
+            
+        except urllib.error.URLError as e:
+            if attempt == max_retries - 1:
+                print(f"Error fetching {fid} list after {max_retries} attempts: {e}", file=sys.stderr)
+                return []
+            
+            wait_time = 2 ** attempt  # Exponential backoff: 1s, 2s, 4s
+            print(f"Retry {attempt + 1}/{max_retries} after {wait_time}s...", file=sys.stderr)
+            time.sleep(wait_time)
+        except Exception as e:
+            print(f"Unexpected error: {e}", file=sys.stderr)
+            return []
+    
+    return []
 
 
 def main():
@@ -50,19 +82,22 @@ def main():
     try:
         hk_top_gainers = fetch_list(hk_fs, fid='f3', pz=20)
         hk_top_amount = fetch_list(hk_fs, fid='f6', pz=20)
-    except Exception:
-        hk_top_gainers, hk_top_amount = [], []
+    except:
+        hk_top_gainers = []
+        hk_top_amount = []
 
-    print(json.dumps({
+    result = {
         'a_share': {
             'top_gainers': a_top_gainers,
-            'top_amount': a_top_amount,
+            'top_amount': a_top_amount
         },
         'hong_kong': {
             'top_gainers': hk_top_gainers,
-            'top_amount': hk_top_amount,
+            'top_amount': hk_top_amount
         }
-    }, ensure_ascii=False))
+    }
+
+    print(json.dumps(result, ensure_ascii=False))
 
 if __name__ == '__main__':
     main()
