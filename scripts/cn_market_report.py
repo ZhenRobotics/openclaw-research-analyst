@@ -262,12 +262,24 @@ def main():
     else:
         use_async = os.getenv('CN_MARKET_USE_ASYNC', 'false').lower() in ('true', '1', 'yes')
 
-    if use_async:
-        print("🚀 Using async mode (v1.1.0)", file=sys.stderr)
-        main_async()
-    else:
-        print("⏱️  Using sync mode (v1.0.1)", file=sys.stderr)
-        main_sync()
+    # Suppress JSON output if only brief mode
+    if args.brief and not args.push:
+        # Redirect stdout temporarily for report generation
+        import io
+        old_stdout = sys.stdout
+        sys.stdout = io.StringIO()
+
+    try:
+        if use_async:
+            print("🚀 Using async mode (v1.1.0)", file=sys.stderr)
+            main_async()
+        else:
+            print("⏱️  Using sync mode (v1.0.1)", file=sys.stderr)
+            main_sync()
+    finally:
+        if args.brief and not args.push:
+            # Restore stdout
+            sys.stdout = old_stdout
 
     # Handle push and brief options
     if args.push or args.brief:
@@ -278,8 +290,19 @@ def main():
         brief = _generate_brief_summary(report_file)
 
         if brief:
+            # Save brief to file
             if args.brief:
-                print(f"\n{brief}")
+                brief_filename = f"cn_market_brief_{datetime.now().strftime('%Y-%m-%d_%H%M')}.txt"
+                brief_path = os.path.join(SKILL_DIR, "reports", brief_filename)
+
+                with open(brief_path, 'w', encoding='utf-8') as f:
+                    f.write(brief)
+                    f.write(f"\n\n生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                    f.write(f"报告来源: {os.path.basename(report_file)}\n")
+
+                # Print brief (stdout only, no JSON)
+                print(f"\n{brief}", file=sys.stdout)
+                print(f"\n✅ 精简简报已保存: {brief_path}", file=sys.stderr)
 
             if args.push:
                 try:
