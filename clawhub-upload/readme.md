@@ -1,15 +1,28 @@
-# 📈 OpenClaw Research Analyst v1.1
-# 📈 OpenClaw 研究分析师 v1.1
+# 📈 OpenClaw Research Analyst v1.2
+# 📈 OpenClaw 研究分析师 v1.2
 
 **English** | [中文](#中文版本)
 
-> AI-powered stock & crypto research with 8-dimension analysis, **Feishu push integration**, portfolio tracking, and trend detection.
+> AI-powered stock & crypto research with 8-dimension analysis, **one-click brief**, **smart scheduling**, **Feishu push**, portfolio tracking, and trend detection.
 
-## ✨ What's New in v1.1.0
+## ✨ What's New in v1.2.0
 
-**🎉 Major Updates:**
-- **📱 Feishu Push Integration** - Auto-push China market reports to Feishu (飞书推送集成)
-- **🚀 Async Optimization** - 70-90% faster report generation (异步优化，性能提升 70-90%)
+**🎉 New Features:**
+- **📊 One-Click Brief** - Ultra-fast market summary (≤140 chars, ~2 seconds)
+- **⏰ Smart Scheduling** - Intelligent trading-hours cron jobs
+  - Intraday: Every 10 min (Mon-Fri 09:30-15:00)
+  - EOD report: Once at 15:05
+  - Auto-skip weekends
+
+**📚 Docs:** [SMART_SCHEDULING.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/SMART_SCHEDULING.md)
+
+---
+
+## 🔙 Previous Updates
+
+**v1.1.0:**
+- **📱 Feishu Push Integration** - Auto-push to Feishu (飞书推送集成)
+- **🚀 Async Optimization** - 70-90% faster (异步优化，性能提升 70-90%)
 
 See full changelog below.
 

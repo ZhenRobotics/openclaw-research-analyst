@@ -1,8 +1,8 @@
 ---
 name: research-analyst
-description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), Feishu push integration, portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、飞书推送集成、投资组合追踪和趋势检测
-version: 1.1.0
-verified_commit: d33201c  # v1.1.0 - Feishu push integration & async optimization
+description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), Feishu push, one-click brief, smart scheduling, portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、飞书推送、一键简报、智能定时、投资组合追踪和趋势检测
+version: 1.2.0
+verified_commit: d33201c  # v1.2.0 - One-click brief & smart scheduling
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (分析股票或加密货币)
@@ -13,6 +13,7 @@ commands:
   - /stock_hot - Find trending stocks & crypto (发现热门股票和加密货币)
   - /stock_rumors - Find early signals, M&A rumors (发现早期信号、并购传闻)
   - /cn_market - China A-share & Hong Kong market report (中国市场报告)
+  - /cn_brief - One-click brief market summary (一键精简市场简报)
   - /cn_rankings - Market rankings from 东方财富 (榜单数据)
   - /cn_quotes - Stock quotes from 新浪财经 (实时行情)
   - /cn_news - Financial news from 财联社 (财经快讯)
@@ -23,8 +24,8 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
-# OpenClaw Research Analyst v1.1
-# OpenClaw 研究分析师 v1.1
+# OpenClaw Research Analyst v1.2
+# OpenClaw 研究分析师 v1.2
 
 **⚠️ Installation Required**: This skill requires Python 3.10+, uv package manager, and optional dependencies. See installation instructions below.
 
@@ -34,7 +35,35 @@ metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":
 
 ---
 
-## ✨ What's New in v1.1.0
+## ✨ What's New in v1.2.0
+
+### 🎉 New Features
+- **📊 One-Click Brief** - Ultra-fast market summary generation
+  - Command: `python3 scripts/cn_market_brief.py`
+  - Output: ≤140 chars, top 3 gainers/losers/volume leaders
+  - Auto-save to `reports/cn_market_brief_YYYY-MM-DD_HHMM.txt`
+  - JSON output support for automation
+  - Optional Feishu push: `--push` flag
+
+- **⏰ Smart Scheduling** - Intelligent cron jobs for trading hours
+  - Intraday push: Every 10 minutes (Mon-Fri 09:30-15:00)
+  - End-of-day report: Once after market close (15:05)
+  - Auto-skip weekends and non-trading hours
+  - One-command installation: `./scripts/cn_market_schedule.sh install`
+  - Comprehensive logging and status monitoring
+
+### 🔧 Improvements
+- Enhanced `--brief` flag: Now saves to independent file with clean output
+- Improved error handling for network timeouts
+- Better documentation with SMART_SCHEDULING.md guide
+
+### 📚 Documentation
+- [SMART_SCHEDULING.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/SMART_SCHEDULING.md) - Complete scheduling guide
+- [OPTIMIZATION_COMPLETE.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/OPTIMIZATION_COMPLETE.md) - Implementation report
+
+---
+
+## 🔙 Previous Updates (v1.1.0)
 
 ### 🎉 Major Features
 - **📱 Feishu Push Integration** - Auto-push China market reports to Feishu private chat or group
@@ -50,6 +79,11 @@ metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":
   - Use: `python3 scripts/cn_market_report.py --async`
 
 ### 🔧 Improvements
+- **📊 One-Click Brief** - Instant market summary with `cn_market_brief.py`
+- **⏰ Smart Scheduling** - Intelligent cron jobs for trading hours
+  - Intraday push: Every 10 minutes (Mon-Fri 09:30-15:00)
+  - End-of-day report: Once after market close (15:05)
+  - Auto-skip weekends and non-trading hours
 - Brief summary generation (`--brief` flag)
 - Environment variable configuration support
 - Comprehensive Feishu setup documentation
@@ -176,6 +210,34 @@ python3 {baseDir}/scripts/cn_ths_diagnosis.py 600519
 - Real-time capital flow tracking
 - Breaking financial news and announcements
 - Individual stock technical diagnosis
+
+### 📱 One-Click Brief (一键精简简报)
+```bash
+# Generate brief summary (≤120 chars)
+python3 {baseDir}/scripts/cn_market_brief.py
+
+# Generate and push to Feishu
+python3 {baseDir}/scripts/cn_market_brief.py --push
+
+# JSON output format
+python3 {baseDir}/scripts/cn_market_brief.py --json
+```
+
+**Output Example:**
+```
+📊 14:33 市场快报
+
+【A股】涨:中复神鹰+20.0% 跌:亨通光电-8.49% 额:兆易创新118亿
+【港股】涨:毅高国际控股+98.0% 额:耀才证券金84亿
+
+📄 已保存: reports/cn_market_brief_2026-03-18_1433.txt
+```
+
+**Features:**
+- ⚡ Ultra-fast generation (~1 second)
+- 📊 Top 3 gainers/losers and volume leaders
+- 💾 Auto-save to reports folder
+- 📱 Optional Feishu push integration
 
 ### 🔥 Hot Scanner
 ```bash
