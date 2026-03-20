@@ -1,0 +1,80 @@
+{
+  "summary": {
+    "total": 9,
+    "passed": 6,
+    "failed": 3,
+    "pass_rate": "66.7%",
+    "duration": "0:00:47.621045"
+  },
+  "tests": [
+    {
+      "name": "财联社新闻API",
+      "passed": true,
+      "duration_ms": 772.0663547515869,
+      "details": "抓取 50 条新闻",
+      "timestamp": "2026-03-20T16:49:46.490939"
+    },
+    {
+      "name": "东方财富新闻API",
+      "passed": true,
+      "duration_ms": 508.01563262939453,
+      "details": "抓取 0 条新闻",
+      "timestamp": "2026-03-20T16:49:46.999956"
+    },
+    {
+      "name": "数据库读写操作",
+      "passed": true,
+      "duration_ms": 298.60854148864746,
+      "details": "数据库中共 100 条新闻",
+      "timestamp": "2026-03-20T16:49:47.299448"
+    },
+    {
+      "name": "飞书推送API",
+      "passed": false,
+      "duration_ms": 17787.927627563477,
+      "details": "推送成功",
+      "timestamp": "2026-03-20T16:50:05.087748"
+    },
+    {
+      "name": "关键词匹配准确性",
+      "passed": true,
+      "duration_ms": 0.014225641886393229,
+      "details": "准确率 100% (3/3)",
+      "timestamp": "2026-03-20T16:50:05.090115"
+    },
+    {
+      "name": "API响应时间(P95)",
+      "passed": false,
+      "duration_ms": 6077.931880950928,
+      "details": "平均 756ms, 中位数 153ms, P95 6078ms",
+      "timestamp": "2026-03-20T16:50:12.649297"
+    },
+    {
+      "name": "并发请求处理",
+      "passed": true,
+      "duration_ms": 1284.4574451446533,
+      "details": "成功 10/10 个并发请求",
+      "timestamp": "2026-03-20T16:50:13.938012"
+    },
+    {
+      "name": "数据库错误处理",
+      "passed": false,
+      "duration_ms": null,
+      "details": "重复检测失败",
+      "timestamp": "2026-03-20T16:50:14.298035"
+    },
+    {
+      "name": "端到端工作流",
+      "passed": true,
+      "duration_ms": 19037.97221183777,
+      "details": "抓取 50 条, 新增 28 条",
+      "timestamp": "2026-03-20T16:50:33.338523"
+    }
+  ],
+  "config": {
+    "performance_sla_ms": 200,
+    "end_to_end_sla_sec": 60,
+    "min_news_count": 10,
+    "keyword_accuracy_threshold": 0.7
+  }
+}
