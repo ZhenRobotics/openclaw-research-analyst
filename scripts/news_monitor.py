@@ -14,6 +14,11 @@ from pathlib import Path
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
+# Load environment configuration
+from dotenv import load_dotenv
+SKILL_DIR = Path(__file__).parent.parent
+load_dotenv(os.path.join(SKILL_DIR, '.env.feishu'), override=False)
+
 from news_database import NewsDatabase
 from news_collector import NewsCollector
 from feishu_push import FeishuPusher
