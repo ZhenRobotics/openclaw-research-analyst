@@ -1,8 +1,8 @@
 ---
 name: research-analyst
-description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), Feishu push, one-click brief, smart scheduling, portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、飞书推送、一键简报、智能定时、投资组合追踪和趋势检测
-version: 1.2.1
-verified_commit: 910b35d  # v1.2.1 - Feishu push optimizations (detailed status, retry, logging)
+description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), real-time news monitoring with AI, Feishu push, one-click brief, smart scheduling, portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、AI实时新闻监控、飞书推送、一键简报、智能定时、投资组合追踪和趋势检测
+version: 1.3.0
+verified_commit: e90cc7f  # v1.3.0 - AI News Monitoring System (real-time, keyword-based, API testing)
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (分析股票或加密货币)
@@ -24,8 +24,8 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
-# OpenClaw Research Analyst v1.2.1
-# OpenClaw 研究分析师 v1.2.1
+# OpenClaw Research Analyst v1.3.0
+# OpenClaw 研究分析师 v1.3.0
 
 **⚠️ Installation Required**: This skill requires Python 3.10+, uv package manager, and optional dependencies. See installation instructions below.
 
@@ -35,7 +35,81 @@ metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":
 
 ---
 
-## ✨ What's New in v1.2.1
+## ✨ What's New in v1.3.0
+
+### 🎉 Major Update: AI News Monitoring System
+
+#### Real-time Financial News Monitoring
+- **Automatic News Collection**
+  - Multi-source: 财联社 (CLS) + 东方财富 (Eastmoney)
+  - Configurable interval: 60-300 seconds
+  - Smart deduplication
+  - SQLite database storage
+
+- **Intelligent Classification**
+  - Keyword-based sentiment analysis (BULLISH/BEARISH/NEUTRAL)
+  - Importance scoring (1-5 scale)
+  - **100% accuracy** on test cases
+  - Confidence tracking
+
+- **Event-Driven Push**
+  - Automatic Feishu push for major news (importance ≥4)
+  - Customizable threshold
+  - Push history logging
+  - Retry mechanism
+
+#### Fast Monitoring Mode
+- **60-second interval** (vs 300s default)
+- **30-40 seconds end-to-end latency**
+- Incremental fetching (latest 20 items only)
+- Time-based filtering
+
+#### Interactive Labeling & AI Training
+- **CLI Labeling Tool** - Manual annotation interface
+- **BERT Training Pipeline** - Fine-tune chinese-roberta-wwm-ext
+- **Auto-labeling** - Keyword-based pre-labeling
+- **4-Stage Workflow** - collect → label → train → monitor
+
+#### Comprehensive API Testing
+- **9-Point Test Suite**
+  - Functional testing (APIs, database, push)
+  - Performance testing (P95 < 200ms target)
+  - Reliability testing (error handling)
+  - End-to-end workflow testing
+
+- **Test Results**
+  - 66.7% overall pass rate
+  - 100% keyword matching accuracy
+  - 10/10 concurrent requests success
+  - 19s end-to-end latency
+
+#### New Commands
+```bash
+# Quick start (keyword mode, no AI required)
+./scripts/quick_start_ai.sh monitor-keyword
+
+# AI workflow (4 stages)
+./scripts/quick_start_ai.sh collect
+./scripts/quick_start_ai.sh label
+./scripts/quick_start_ai.sh train
+./scripts/quick_start_ai.sh monitor
+
+# Fast mode (60s interval)
+python3 scripts/news_monitor_fast.py --no-ai --interval 60 --threshold 4
+
+# API testing
+python3 tests/api_test_suite.py
+```
+
+#### New Documentation
+- **AI_NEWS_SYSTEM_GUIDE.md** - Complete workflow guide
+- **API_TESTING_GUIDE.md** - Testing methodology
+- **API_TEST_RESULTS_ANALYSIS.md** - Performance analysis
+- **REALTIME_WEBSOCKET_DESIGN.md** - Architecture design
+
+---
+
+## 🔙 Previous Updates (v1.2.1)
 
 ### 🔧 Feishu Push Optimizations
 - **Detailed Return Values** - Push methods now return comprehensive status

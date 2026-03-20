@@ -1,19 +1,40 @@
-# 📈 OpenClaw Research Analyst v1.2.1
-# 📈 OpenClaw 研究分析师 v1.2.1
+# 📈 OpenClaw Research Analyst v1.3.0
+# 📈 OpenClaw 研究分析师 v1.3.0
 
 **English** | [中文](#中文版本)
 
-> AI-powered stock & crypto research with 8-dimension analysis, **one-click brief**, **smart scheduling**, **Feishu push**, portfolio tracking, and trend detection.
+> AI-powered stock & crypto research with 8-dimension analysis, **AI news monitoring**, **one-click brief**, **smart scheduling**, **Feishu push**, portfolio tracking, and trend detection.
 
-## ✨ What's New in v1.2.1
+## ✨ What's New in v1.3.0
 
-**🔧 Feishu Push Optimizations:**
-- **Detailed Status** - Get message ID, timestamp, error details from push methods
-- **Auto-Retry** - Network requests retry up to 2 times (1s/2s backoff)
-- **Push Logging** - Track history in `logs/feishu_push_history.log`
-- **Clear Errors** - Distinguish config vs network issues
+**🎉 Major Update: AI News Monitoring System**
 
-**📚 Docs:** [FEISHU_PUSH_v1.2.1_GUIDE.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/FEISHU_PUSH_v1.2.1_GUIDE.md)
+#### Real-time Financial News (实时财经新闻)
+- **Auto-Collection** - 财联社 + 东方财富 (60-300s interval)
+- **AI Classification** - BULLISH/BEARISH/NEUTRAL (100% test accuracy)
+- **Smart Push** - Auto-push major news (importance ≥4) to Feishu
+- **Fast Mode** - 30-40s end-to-end latency (60s interval)
+
+#### Quick Start (快速开始)
+```bash
+# Keyword mode (no AI required, recommended)
+./scripts/quick_start_ai.sh monitor-keyword
+
+# Fast mode (60s interval)
+python3 scripts/news_monitor_fast.py --no-ai --interval 60 --threshold 4
+```
+
+#### API Testing Suite (API 测试套件)
+- **9-Point Tests** - Functional, performance, reliability, end-to-end
+- **Test Results** - 66.7% pass rate, 100% keyword accuracy
+- **Automated Reports** - JSON format with detailed metrics
+
+#### New Docs (新文档)
+- **AI_NEWS_SYSTEM_GUIDE.md** - Complete workflow (4 stages)
+- **API_TESTING_GUIDE.md** - Testing methodology
+- **API_TEST_RESULTS_ANALYSIS.md** - Performance analysis
+
+**📚 Full Release Notes:** [RELEASE_NOTES_v1.3.0.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/RELEASE_NOTES_v1.3.0.md)
 
 ---
 
