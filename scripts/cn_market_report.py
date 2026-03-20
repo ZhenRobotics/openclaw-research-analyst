@@ -11,6 +11,7 @@ DEFAULT_TICKERS = ['510300','600519','000001','HK.00700']
 # Load environment configuration
 from dotenv import load_dotenv
 load_dotenv(os.path.join(SKILL_DIR, '.env.cn_market'), override=False)
+load_dotenv(os.path.join(SKILL_DIR, '.env.feishu'), override=False)
 
 def run_json(cmd):
     # Validate script exists before running
