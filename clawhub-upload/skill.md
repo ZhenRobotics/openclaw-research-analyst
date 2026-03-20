@@ -403,6 +403,53 @@ BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH,
 
 (Use `-USD` suffix: `BTC-USD`, `ETH-USD`)
 
+## ⏰ Automated Push Configuration
+
+### Cron Job Setup
+
+Automate real-time market updates and news monitoring with scheduled tasks:
+
+#### 1. Major News Real-time Monitoring
+
+**Frequency**: Every 5 minutes
+**Command**: `python3 scripts/news_monitor_fast.py --no-ai --interval 300 --threshold 4`
+**Push Target**: Feishu private chat
+**Trigger**: Importance ≥ 4
+
+```json
+{
+  "schedule": {"kind": "every", "everyMs": 300000},
+  "delivery": {"mode": "none"}
+}
+```
+
+#### 2. A-Share Market Hourly Updates
+
+**Frequency**: Every hour (on the hour)
+**Command**: `python3 scripts/cn_market_brief.py --push`
+**Push Target**: Feishu private chat
+**Content**: ≤140 char brief
+
+```json
+{
+  "schedule": {"kind": "cron", "expr": "0 * * * *"},
+  "delivery": {"mode": "none"}
+}
+```
+
+### Configuration Notes
+
+- ✅ **delivery.mode = "none"** — Scripts handle Feishu push directly
+- ✅ **Ensure `.env.feishu` is configured** with FEISHU_APP_ID, FEISHU_APP_SECRET, FEISHU_USER_OPEN_ID
+- ✅ **Feishu bot must be added** to target user/group
+
+### Manual Testing
+
+```bash
+python3 scripts/news_monitor_fast.py --no-ai --interval 60 --threshold 4
+python3 scripts/cn_market_brief.py --push
+```
+
 ## Disclaimer
 
 ⚠️ **NOT FINANCIAL ADVICE.** For informational purposes only. Consult a licensed financial advisor before making investment decisions.
@@ -630,6 +677,53 @@ python3 {baseDir}/scripts/rumor_detector.py
 BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH, XLM, ALGO, VET, FIL, NEAR
 
 （使用 `-USD` 后缀：`BTC-USD`、`ETH-USD`）
+
+## ⏰ 自动化推送配置
+
+### 定时任务设置
+
+通过定时任务实现实时市场更新和新闻监控：
+
+#### 1. 重大新闻实时监控
+
+**频率**：每 5 分钟
+**命令**：`python3 scripts/news_monitor_fast.py --no-ai --interval 300 --threshold 4`
+**推送目标**：飞书私聊
+**触发条件**：重要性 ≥ 4
+
+```json
+{
+  "schedule": {"kind": "every", "everyMs": 300000},
+  "delivery": {"mode": "none"}
+}
+```
+
+#### 2. A 股市场每小时更新
+
+**频率**：每小时整点
+**命令**：`python3 scripts/cn_market_brief.py --push`
+**推送目标**：飞书私聊
+**内容**：≤140 字市场简报
+
+```json
+{
+  "schedule": {"kind": "cron", "expr": "0 * * * *"},
+  "delivery": {"mode": "none"}
+}
+```
+
+### 配置说明
+
+- ✅ **delivery.mode = "none"** — 脚本自行处理飞书推送
+- ✅ **确保 `.env.feishu` 已配置**，包含 FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_USER_OPEN_ID
+- ✅ **飞书机器人已添加**到目标用户/群组
+
+### 手动测试
+
+```bash
+python3 scripts/news_monitor_fast.py --no-ai --interval 60 --threshold 4
+python3 scripts/cn_market_brief.py --push
+```
 
 ## 免责声明
 
