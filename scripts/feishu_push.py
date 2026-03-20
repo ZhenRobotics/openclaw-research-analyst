@@ -20,6 +20,15 @@ import time
 from pathlib import Path
 from datetime import datetime
 
+# Load Feishu configuration from .env.feishu
+try:
+    from dotenv import load_dotenv
+    env_file = Path(__file__).parent.parent / '.env.feishu'
+    if env_file.exists():
+        load_dotenv(env_file)
+except ImportError:
+    pass  # dotenv not installed, will use existing env vars
+
 class FeishuPusher:
     """飞书推送客户端"""
 
