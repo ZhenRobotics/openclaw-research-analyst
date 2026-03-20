@@ -209,6 +209,18 @@ cd openclaw-research-analyst
 
 ---
 
+## 📞 Support & Contact
+
+### Official Maintenance Partner | 官方维护合作伙伴
+
+For technical support, feature requests, or collaboration inquiries:
+
+技术支持、功能需求或合作咨询，请联系：
+
+**闲鱼ID: 专注人工智能的黄纪恩学长**
+
+---
+
 Built for [OpenClaw](https://openclaw.ai) 🦞 | [ClawHub](https://clawhub.ai)
 
 ---
