@@ -63,10 +63,18 @@ def generate_brief(push=False, json_output=False):
         lines = stdout.split('\n')
         brief_lines = []
         file_path = None
+        push_success = False
+        push_error = None
 
+        # Parse stderr for status
         for line in stderr.split('\n'):
             if '✅ 精简简报已保存:' in line:
                 file_path = line.split('✅ 精简简报已保存:')[1].strip()
+            elif '✅ 飞书推送成功' in line:
+                push_success = True
+            elif '❌ 飞书推送失败' in line:
+                push_success = False
+                push_error = line
 
         # Brief is in stdout
         brief_content = stdout
@@ -95,7 +103,8 @@ def generate_brief(push=False, json_output=False):
             'brief': brief_content,
             'file_path': file_path,
             'timestamp': datetime.now().isoformat(),
-            'pushed': push
+            'pushed': push_success if push else False,
+            'push_error': push_error if push and not push_success else None
         }
 
         if json_output:
@@ -107,7 +116,12 @@ def generate_brief(push=False, json_output=False):
             if file_path:
                 print(f"\n📄 已保存: {file_path}", file=sys.stderr)
             if push:
-                print("📱 已推送到飞书", file=sys.stderr)
+                if push_success:
+                    print("✅ 已推送到飞书", file=sys.stderr)
+                else:
+                    print("❌ 飞书推送失败", file=sys.stderr)
+                    if push_error:
+                        print(f"   {push_error}", file=sys.stderr)
 
         return result_data
 

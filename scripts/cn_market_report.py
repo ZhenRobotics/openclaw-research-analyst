@@ -310,11 +310,24 @@ def main():
                     from feishu_push import FeishuPusher
 
                     pusher = FeishuPusher()
-                    pusher.push(brief)
+                    result = pusher.push(brief)
+
+                    # Check result and provide clear feedback
+                    if result['success']:
+                        if result['message_ids']:
+                            print(f"✅ 飞书推送成功 (消息ID: {', '.join(result['message_ids'])})", file=sys.stderr)
+                        else:
+                            print("✅ 飞书推送成功", file=sys.stderr)
+                    else:
+                        # Show detailed error for each failed method
+                        print("❌ 飞书推送失败:", file=sys.stderr)
+                        for r in result.get('results', []):
+                            if not r['success']:
+                                print(f"  - {r['method']}: {r.get('error', 'Unknown error')}", file=sys.stderr)
                 except ImportError:
                     print("⚠️ feishu_push module not found, skipping push", file=sys.stderr)
                 except Exception as e:
-                    print(f"⚠️ Feishu push failed: {e}", file=sys.stderr)
+                    print(f"⚠️ Feishu push error: {e}", file=sys.stderr)
 
 if __name__ == '__main__':
     main()
