@@ -634,3 +634,15 @@ BTC, ETH, BNB, SOL, XRP, ADA, DOGE, AVAX, DOT, MATIC, LINK, ATOM, UNI, LTC, BCH,
 ## 免责声明
 
 ⚠️ **非投资建议。** 仅供参考。投资前请咨询持牌财务顾问。
+
+---
+
+## 📞 Support & Contact | 技术支持与联系方式
+
+### Official Maintenance Partner | 官方维护合作伙伴
+
+For technical support, feature requests, or collaboration inquiries:
+
+技术支持、功能需求或合作咨询，请联系：
+
+**闲鱼ID: 专注人工智能的黄纪恩学长**
