@@ -1,8 +1,8 @@
 ---
 name: research-analyst
 description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), Feishu push, one-click brief, smart scheduling, portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、飞书推送、一键简报、智能定时、投资组合追踪和趋势检测
-version: 1.2.0
-verified_commit: caf48dc  # v1.2.0 - One-click brief & smart scheduling
+version: 1.2.1
+verified_commit: 910b35d  # v1.2.1 - Feishu push optimizations (detailed status, retry, logging)
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (分析股票或加密货币)
@@ -24,8 +24,8 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
-# OpenClaw Research Analyst v1.2
-# OpenClaw 研究分析师 v1.2
+# OpenClaw Research Analyst v1.2.1
+# OpenClaw 研究分析师 v1.2.1
 
 **⚠️ Installation Required**: This skill requires Python 3.10+, uv package manager, and optional dependencies. See installation instructions below.
 
@@ -35,7 +35,32 @@ metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":
 
 ---
 
-## ✨ What's New in v1.2.0
+## ✨ What's New in v1.2.1
+
+### 🔧 Feishu Push Optimizations
+- **Detailed Return Values** - Push methods now return comprehensive status
+  - Message ID, timestamp, method, error details
+  - Example: `result['message_ids']`, `result['success']`, `result['error']`
+
+- **Auto-Retry Mechanism** - Network requests retry up to 2 times
+  - Exponential backoff: 1s, 2s
+  - Handles Timeout and ConnectionError
+
+- **Push History Logging** - Track all push attempts
+  - Log file: `logs/feishu_push_history.log`
+  - JSON format with message preview, status, timestamp
+
+- **Clear Error Messages** - Distinguish configuration vs network errors
+  - "User Open ID not configured"
+  - "Timeout: Connection timeout after 10 seconds"
+
+### 📚 Documentation
+- **FEISHU_PUSH_v1.2.1_GUIDE.md** - Complete guide with examples
+- **OPTIMIZATION_v1.2.1.md** - Implementation details
+
+---
+
+## 🔙 Previous Updates (v1.2.0)
 
 ### 🎉 New Features
 - **📊 One-Click Brief** - Ultra-fast market summary generation

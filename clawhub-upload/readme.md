@@ -1,11 +1,25 @@
-# 📈 OpenClaw Research Analyst v1.2
-# 📈 OpenClaw 研究分析师 v1.2
+# 📈 OpenClaw Research Analyst v1.2.1
+# 📈 OpenClaw 研究分析师 v1.2.1
 
 **English** | [中文](#中文版本)
 
 > AI-powered stock & crypto research with 8-dimension analysis, **one-click brief**, **smart scheduling**, **Feishu push**, portfolio tracking, and trend detection.
 
-## ✨ What's New in v1.2.0
+## ✨ What's New in v1.2.1
+
+**🔧 Feishu Push Optimizations:**
+- **Detailed Status** - Get message ID, timestamp, error details from push methods
+- **Auto-Retry** - Network requests retry up to 2 times (1s/2s backoff)
+- **Push Logging** - Track history in `logs/feishu_push_history.log`
+- **Clear Errors** - Distinguish config vs network issues
+
+**📚 Docs:** [FEISHU_PUSH_v1.2.1_GUIDE.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/FEISHU_PUSH_v1.2.1_GUIDE.md)
+
+---
+
+## 🔙 Previous Updates
+
+**v1.2.0:**
 
 **🎉 New Features:**
 - **📊 One-Click Brief** - Ultra-fast market summary (≤140 chars, ~2 seconds)
@@ -18,13 +32,9 @@
 
 ---
 
-## 🔙 Previous Updates
-
 **v1.1.0:**
 - **📱 Feishu Push Integration** - Auto-push to Feishu (飞书推送集成)
 - **🚀 Async Optimization** - 70-90% faster (异步优化，性能提升 70-90%)
-
-See full changelog below.
 
 [![ClawHub Downloads](https://img.shields.io/badge/ClawHub-1500%2B%20downloads-blue)](https://clawhub.ai)
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-green)](https://openclaw.ai)
