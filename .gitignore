@@ -4,6 +4,10 @@ out/
 *.log
 .env
 .env.local
+.env.feishu
+.env.cn_market
+# Allow example files
+!.env.feishu.example
 dist/
 build/
 
