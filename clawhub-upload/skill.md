@@ -21,7 +21,7 @@ commands:
   - /cn_diagnosis - Stock diagnosis from 同花顺 (个股诊断)
   - /portfolio - Show portfolio summary (显示投资组合摘要)
   - /portfolio_add - Add asset to portfolio (添加资产到投资组合)
-metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
+metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
 # OpenClaw Research Analyst v1.3.0
@@ -194,6 +194,72 @@ python3 tests/api_test_suite.py
 ---
 
 Analyze **US stocks, China A-shares, Hong Kong stocks**, and **cryptocurrencies** with 8-dimension analysis, **China market multi-source reports** (东方财富/新浪/财联社/腾讯/同花顺), portfolio management, watchlists, alerts, dividend analysis, and **viral trend detection**.
+
+---
+
+## 🔐 Security & Credentials
+
+### ✅ Core Features: No Credentials Required
+
+**Good News**: All core stock analysis features work **without any API keys or credentials**:
+
+- ✅ Stock & crypto analysis (Yahoo Finance public API)
+- ✅ Dividend analysis
+- ✅ Portfolio management (local storage)
+- ✅ Watchlist & alerts
+- ✅ China market reports (public endpoints)
+- ✅ Hot scanner (Google News + CoinGecko)
+
+### 🔓 Optional Features (Require Credentials)
+
+#### 1. Twitter/X Rumor Scanner (Optional)
+
+**Required ENV variables** (only if you use `/stock_rumors`):
+- `AUTH_TOKEN` - X.com authentication token (browser cookie)
+- `CT0` - X.com CT0 token (CSRF token)
+
+**Security Note**:
+- ⚠️ These are **browser session cookies**, not OAuth tokens
+- ⚠️ Only provide if you trust this skill and understand the risks
+- ⚠️ Expires when you log out of X.com
+- ℹ️ Used only by `scripts/rumor_detector.py` via `bird` CLI
+- ℹ️ Skill gracefully degrades without these - uses Google News only
+
+**How to get** (see [Installation](#installation) for details):
+1. Install bird CLI: `npm install -g @steipete/bird`
+2. Get tokens from browser DevTools → Application → Cookies → x.com
+3. Create `.env` file in project root
+
+#### 2. Feishu Push Notifications (Optional)
+
+**Required ENV variables** (only if you use `--push` flag):
+- `FEISHU_APP_ID` - Feishu bot application ID
+- `FEISHU_APP_SECRET` - Feishu bot secret key
+- `FEISHU_USER_OPEN_ID` - Your Feishu user Open ID
+
+**Security Note**:
+- ✅ Uses official Feishu Open Platform OAuth 2.0
+- ✅ Bot can only send messages to authorized users
+- ℹ️ Used only for push notifications (China market reports, news alerts)
+- ℹ️ All features work without this - reports save to local files
+
+**How to get** (see [Feishu Setup](#feishu-push-setup) for details):
+1. Create bot at https://open.feishu.cn/app
+2. Run setup wizard: `python3 scripts/feishu_setup.py`
+3. Credentials saved to `.env.feishu` (git-ignored)
+
+### 🛡️ Security Best Practices
+
+1. **Never commit credentials** - All `.env*` files are git-ignored
+2. **Use separate environments** - Create different `.env` files for dev/prod
+3. **Rotate credentials** - Change Feishu app secrets periodically
+4. **File permissions** - Ensure `.env` files are `chmod 600` (user-only)
+5. **Audit the code** - Full source code: https://github.com/ZhenRobotics/openclaw-research-analyst
+
+**Trust But Verify**:
+- Review `scripts/rumor_detector.py` to see how Twitter tokens are used
+- Review `scripts/feishu_push.py` to see how Feishu credentials are used
+- All credentials stay local - never sent to third parties (except Twitter/Feishu APIs)
 
 ---
 
@@ -494,11 +560,71 @@ uv sync
 uv run scripts/stock_analyzer.py --help
 ```
 
-### 安全说明
-- ✅ 所有源代码可在 GitHub 查看（已验证）
-- ✅ 核心功能无需凭证
-- ✅ Twitter/X 凭证仅存储在本地 .env 文件
-- ✅ 所有 API 调用使用公开端点（Yahoo Finance、CoinGecko 等）
+## 🔐 安全与凭证说明
+
+### ✅ 核心功能：无需任何凭证
+
+**好消息**：所有核心股票分析功能**无需任何 API 密钥或凭证**即可使用：
+
+- ✅ 股票和加密货币分析（Yahoo Finance 公开 API）
+- ✅ 股息分析
+- ✅ 投资组合管理（本地存储）
+- ✅ 监控列表和警报
+- ✅ 中国市场报告（公开端点）
+- ✅ 热点扫描器（Google News + CoinGecko）
+
+### 🔓 可选功能（需要凭证）
+
+#### 1. Twitter/X 传闻扫描器（可选）
+
+**所需环境变量**（仅在使用 `/stock_rumors` 时）：
+- `AUTH_TOKEN` - X.com 认证令牌（浏览器 cookie）
+- `CT0` - X.com CT0 令牌（CSRF 令牌）
+
+**安全提示**：
+- ⚠️ 这些是**浏览器会话 cookie**，不是 OAuth 令牌
+- ⚠️ 仅在您信任此技能并了解风险时提供
+- ⚠️ 从 X.com 注销时会失效
+- ℹ️ 仅被 `scripts/rumor_detector.py` 通过 `bird` CLI 使用
+- ℹ️ 没有这些凭证时技能会优雅降级 - 仅使用 Google News
+
+**获取方法**（详见[安装说明](#安装)）：
+1. 安装 bird CLI：`npm install -g @steipete/bird`
+2. 从浏览器 DevTools → Application → Cookies → x.com 获取令牌
+3. 在项目根目录创建 `.env` 文件
+
+#### 2. 飞书推送通知（可选）
+
+**所需环境变量**（仅在使用 `--push` 标志时）：
+- `FEISHU_APP_ID` - 飞书机器人应用 ID
+- `FEISHU_APP_SECRET` - 飞书机器人密钥
+- `FEISHU_USER_OPEN_ID` - 您的飞书用户 Open ID
+
+**安全提示**：
+- ✅ 使用官方飞书开放平台 OAuth 2.0
+- ✅ 机器人只能向授权用户发送消息
+- ℹ️ 仅用于推送通知（中国市场报告、新闻警报）
+- ℹ️ 所有功能在没有此配置时仍可工作 - 报告保存到本地文件
+
+**获取方法**（详见[飞书推送设置](#飞书推送设置)）：
+1. 在 https://open.feishu.cn/app 创建机器人
+2. 运行设置向导：`python3 scripts/feishu_setup.py`
+3. 凭证保存到 `.env.feishu`（已被 git 忽略）
+
+### 🛡️ 安全最佳实践
+
+1. **永不提交凭证** - 所有 `.env*` 文件都被 git 忽略
+2. **使用独立环境** - 为开发/生产创建不同的 `.env` 文件
+3. **定期轮换凭证** - 定期更改飞书应用密钥
+4. **文件权限** - 确保 `.env` 文件权限为 `chmod 600`（仅用户可读）
+5. **审计代码** - 完整源代码：https://github.com/ZhenRobotics/openclaw-research-analyst
+
+**信任但验证**：
+- 查看 `scripts/rumor_detector.py` 了解 Twitter 令牌如何使用
+- 查看 `scripts/feishu_push.py` 了解飞书凭证如何使用
+- 所有凭证保留在本地 - 绝不发送给第三方（除 Twitter/飞书 API）
+
+---
 
 ## 核心功能
 
