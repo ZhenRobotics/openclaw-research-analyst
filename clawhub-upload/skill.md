@@ -2,7 +2,7 @@
 name: research-analyst
 description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), real-time news monitoring with AI, Feishu push, one-click brief, smart scheduling, portfolio tracking, and trend detection | AI 驱动的美股/A股/港股/加密货币研究工具，提供 8 维度分析、中国市场多源报告（东方财富/新浪/财联社/腾讯/同花顺）、AI实时新闻监控、飞书推送、一键简报、智能定时、投资组合追踪和趋势检测
 version: 1.3.0
-verified_commit: e90cc7f  # v1.3.0 - AI News Monitoring System (real-time, keyword-based, API testing)
+verified_commit: 134ad57  # v1.3.0 - Security fix: Credentials removed from git history
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (分析股票或加密货币)
