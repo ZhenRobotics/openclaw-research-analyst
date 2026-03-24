@@ -135,19 +135,38 @@ python3 scripts/news_monitor_fast.py --no-ai --interval 60 --threshold 4
 
 ### Stock Analysis
 
+**Supported Markets**: US stocks, Chinese A-shares, Hong Kong stocks, US-listed Chinese stocks (ADR), Crypto
+
 ```bash
-# Basic analysis
+# US stocks
 python3 scripts/stock_analyzer.py AAPL
+
+# Chinese A-shares (Shenzhen/Shanghai)
+python3 scripts/stock_analyzer.py 002168.SZ    # Shenzhen (e.g., *ST Huicheng)
+python3 scripts/stock_analyzer.py 600519.SS    # Shanghai (e.g., Kweichow Moutai)
+
+# Hong Kong stocks
+python3 scripts/stock_analyzer.py 0700.HK      # Tencent Holdings
+
+# US-listed Chinese stocks (ADR)
+python3 scripts/stock_analyzer.py CMCM         # Cheetah Mobile
+
+# Crypto
+python3 scripts/stock_analyzer.py BTC-USD ETH-USD
 
 # Fast mode (skips insider trading & breaking news)
 python3 scripts/stock_analyzer.py AAPL --fast
 
 # Compare multiple
 python3 scripts/stock_analyzer.py AAPL MSFT GOOGL
-
-# Crypto
-python3 scripts/stock_analyzer.py BTC-USD ETH-USD
 ```
+
+**Stock Code Formats**:
+- **US**: `AAPL`, `MSFT`, `GOOGL`
+- **A-share (Shenzhen)**: `002168.SZ`, `000001.SZ`
+- **A-share (Shanghai)**: `600519.SS`, `601318.SS`
+- **Hong Kong**: `0700.HK`, `0941.HK`
+- **Crypto**: `BTC-USD`, `ETH-USD`
 
 ### Dividend Analysis
 
@@ -210,6 +229,17 @@ python3 scripts/rumor_detector.py
 
 ### China Market Features
 
+**Individual Stock Analysis** (8-dimension comprehensive scoring):
+```bash
+# A-share analysis with ST detection, debt ratio, earnings analysis
+python3 scripts/stock_analyzer.py 002168.SZ    # *ST Huicheng (with risk warnings)
+python3 scripts/stock_analyzer.py 600519.SS    # Kweichow Moutai
+
+# Hong Kong stocks
+python3 scripts/stock_analyzer.py 0700.HK      # Tencent Holdings
+```
+
+**Market Overview Reports** (5 data sources: Eastmoney, Sina, CLS, Tencent, THS):
 ```bash
 # Full market report (async mode, 5 parallel sources)
 python3 scripts/cn_market_report.py --async
@@ -222,10 +252,10 @@ python3 scripts/cn_market_brief.py --push
 
 # Individual data sources
 python3 scripts/cn_market_rankings.py    # 东方财富榜单
-python3 scripts/cn_market_quotes.py      # 新浪行情
-python3 scripts/cn_market_news.py        # 财联社快讯
-python3 scripts/cn_market_moneyflow.py   # 腾讯资金流
-python3 scripts/cn_market_diagnosis.py AAPL  # 同花顺诊断
+python3 scripts/cn_stock_quotes.py       # 新浪行情
+python3 scripts/cn_cls_telegraph.py      # 财联社快讯
+python3 scripts/cn_tencent_moneyflow.py  # 腾讯资金流
+python3 scripts/cn_ths_diagnosis.py      # 同花顺诊断
 ```
 
 ### Real-time News Monitoring
@@ -423,19 +453,38 @@ python3 scripts/news_monitor_fast.py --no-ai --interval 60 --threshold 4
 
 ### 股票分析
 
+**支持市场**：美股、A股、港股、中概股（ADR）、加密货币
+
 ```bash
-# 基础分析
+# 美股
 python3 scripts/stock_analyzer.py AAPL
+
+# A股（深交所/上交所）
+python3 scripts/stock_analyzer.py 002168.SZ    # 深市（如：*ST惠程）
+python3 scripts/stock_analyzer.py 600519.SS    # 沪市（如：贵州茅台）
+
+# 港股
+python3 scripts/stock_analyzer.py 0700.HK      # 腾讯控股
+
+# 中概股（美国上市）
+python3 scripts/stock_analyzer.py CMCM         # 猎豹移动
+
+# 加密货币
+python3 scripts/stock_analyzer.py BTC-USD ETH-USD
 
 # 快速模式（跳过内部交易和突发新闻）
 python3 scripts/stock_analyzer.py AAPL --fast
 
 # 比较多个
 python3 scripts/stock_analyzer.py AAPL MSFT GOOGL
-
-# 加密货币
-python3 scripts/stock_analyzer.py BTC-USD ETH-USD
 ```
+
+**股票代码格式**：
+- **美股**：`AAPL`、`MSFT`、`GOOGL`
+- **A股（深市）**：`002168.SZ`、`000001.SZ`
+- **A股（沪市）**：`600519.SS`、`601318.SS`
+- **港股**：`0700.HK`、`0941.HK`
+- **加密货币**：`BTC-USD`、`ETH-USD`
 
 ### 股息分析
 
@@ -498,6 +547,17 @@ python3 scripts/rumor_detector.py
 
 ### 中国市场功能
 
+**个股分析**（8 维度综合评分）：
+```bash
+# A股分析，含ST检测、负债率、盈利分析
+python3 scripts/stock_analyzer.py 002168.SZ    # *ST惠程（含风险警告）
+python3 scripts/stock_analyzer.py 600519.SS    # 贵州茅台
+
+# 港股
+python3 scripts/stock_analyzer.py 0700.HK      # 腾讯控股
+```
+
+**市场概览报告**（5个数据源：东方财富、新浪、财联社、腾讯、同花顺）：
 ```bash
 # 完整市场报告（异步模式，5 个并行源）
 python3 scripts/cn_market_report.py --async
@@ -510,10 +570,10 @@ python3 scripts/cn_market_brief.py --push
 
 # 单个数据源
 python3 scripts/cn_market_rankings.py    # 东方财富榜单
-python3 scripts/cn_market_quotes.py      # 新浪行情
-python3 scripts/cn_market_news.py        # 财联社快讯
-python3 scripts/cn_market_moneyflow.py   # 腾讯资金流
-python3 scripts/cn_market_diagnosis.py AAPL  # 同花顺诊断
+python3 scripts/cn_stock_quotes.py       # 新浪行情
+python3 scripts/cn_cls_telegraph.py      # 财联社快讯
+python3 scripts/cn_tencent_moneyflow.py  # 腾讯资金流
+python3 scripts/cn_ths_diagnosis.py      # 同花顺诊断
 ```
 
 ### 实时新闻监控
