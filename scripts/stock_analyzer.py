@@ -112,6 +112,17 @@ from typing import Literal
 import pandas as pd
 import yfinance as yf
 
+# Import Chinese stock data fallback
+import os
+import sys
+# Add scripts directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from cn_stock_quotes import fetch_quotes, to_sina_code
+    CHINA_FALLBACK_AVAILABLE = True
+except ImportError:
+    CHINA_FALLBACK_AVAILABLE = False
+
 # Suppress yfinance FutureWarnings and 404 errors for crypto data
 warnings.filterwarnings('ignore', category=FutureWarning, module='yfinance')
 warnings.filterwarnings('ignore', message='.*404 Client Error.*')
@@ -315,6 +326,139 @@ class Signal:
     components: dict
 
 
+def is_chinese_stock(ticker: str) -> bool:
+    """Check if ticker is a Chinese A-share or Hong Kong stock."""
+    ticker_upper = ticker.upper()
+    return (
+        ticker_upper.endswith('.SZ') or  # Shenzhen
+        ticker_upper.endswith('.SS') or  # Shanghai
+        ticker_upper.endswith('.HK') or  # Hong Kong
+        (ticker_upper.startswith('HK.')) or  # Hong Kong alternative format
+        (ticker_upper.isdigit() and len(ticker_upper) == 6)  # Plain 6-digit code
+    )
+
+
+def convert_sina_to_yahoo_format(sina_quotes: list, ticker: str) -> dict:
+    """
+    Convert Sina Finance data to Yahoo Finance info format.
+
+    Args:
+        sina_quotes: List of quotes from fetch_quotes()
+        ticker: Original ticker symbol
+
+    Returns:
+        dict: Yahoo Finance compatible info dict
+    """
+    if not sina_quotes:
+        return {}
+
+    quote = sina_quotes[0]  # Take first quote
+
+    price = quote.get('price', 0)
+    pct_change = quote.get('pct', 0)
+    name = quote.get('name', ticker)
+
+    # Create minimal Yahoo Finance compatible dict
+    info = {
+        'symbol': ticker,
+        'shortName': name,
+        'longName': name,
+        'regularMarketPrice': price,
+        'regularMarketChange': price * (pct_change / 100) if pct_change else 0,
+        'regularMarketChangePercent': pct_change,
+        'currency': 'CNY',
+        'exchange': 'SHE' if ticker.endswith('.SZ') else ('SHH' if ticker.endswith('.SS') else 'HKG'),
+        'quoteType': 'EQUITY',
+        'marketCap': None,  # Not available from Sina
+        'fiftyTwoWeekHigh': None,
+        'fiftyTwoWeekLow': None,
+        'averageVolume': None,
+        'trailingPE': None,
+        'forwardPE': None,
+        'dividendYield': None,
+        'beta': None,
+        'sharesOutstanding': None,
+        'bookValue': None,
+        'priceToBook': None,
+        'trailingEps': None,
+        'forwardEps': None,
+        'profitMargins': None,
+        'enterpriseValue': None,
+        'totalDebt': None,
+        'totalRevenue': None,
+        'revenueGrowth': None,
+        'earningsGrowth': None,
+        'currentPrice': price,
+        # Add data source indicator
+        '_dataSource': 'sina_finance_cn',
+        '_dataSourceNote': 'Limited data - using Chinese market fallback',
+    }
+
+    return info
+
+
+def fetch_china_stock_data(ticker: str, verbose: bool = False) -> StockData | None:
+    """
+    Fetch Chinese stock data using Sina Finance fallback.
+
+    Args:
+        ticker: Stock ticker (e.g., '002168.SZ', '600519.SS', '0700.HK')
+        verbose: Print debug info
+
+    Returns:
+        StockData object with limited data from Chinese sources, or None on failure
+    """
+    if not CHINA_FALLBACK_AVAILABLE:
+        if verbose:
+            print("⚠️  Chinese data source not available (cn_stock_quotes.py not found)", file=sys.stderr)
+        return None
+
+    try:
+        # Convert ticker format: '002168.SZ' -> '002168'
+        code = ticker.replace('.SZ', '').replace('.SS', '').replace('.HK', '').replace('HK.', '')
+
+        if verbose:
+            print(f"📊 Attempting Chinese market data fallback for {ticker}...", file=sys.stderr)
+
+        # Convert to Sina code format (sh/sz prefix)
+        sina_code = to_sina_code(code)
+
+        if verbose:
+            print(f"   Converting {code} → {sina_code}", file=sys.stderr)
+
+        # Fetch data from Sina Finance
+        quotes = fetch_quotes([sina_code])
+
+        if not quotes:
+            if verbose:
+                print(f"❌ No data from Sina Finance for {sina_code}", file=sys.stderr)
+            return None
+
+        # Convert to Yahoo Finance format
+        info = convert_sina_to_yahoo_format(quotes, ticker)
+
+        if verbose:
+            price = info.get('regularMarketPrice', 'N/A')
+            name = info.get('shortName', 'Unknown')
+            print(f"✅ Got Chinese market data: {name} @ {price} CNY", file=sys.stderr)
+
+        # Return StockData with limited info
+        # Note: earnings_history, analyst_info, price_history will be None
+        return StockData(
+            ticker=ticker,
+            info=info,
+            earnings_history=None,  # Not available from Sina
+            analyst_info=None,      # Not available from Sina
+            price_history=None,     # Not available from Sina
+            asset_type="stock",
+        )
+
+    except Exception as e:
+        if verbose:
+            print(f"❌ Error fetching Chinese data for {ticker}: {e}", file=sys.stderr)
+        return None
+
+
 def fetch_stock_data(ticker: str, verbose: bool = False) -> StockData | None:
     """Fetch stock data from Yahoo Finance with retry logic."""
     max_retries = 3
@@ -326,8 +470,24 @@ def fetch_stock_data(ticker: str, verbose: bool = False) -> StockData | None:
             stock = yf.Ticker(ticker)
             info = stock.info
 
-            # Validate ticker
+            # Validate ticker - try Chinese fallback if Yahoo Finance has no data
             if not info or "regularMarketPrice" not in info:
+                # Check if this is a Chinese stock and fallback is available
+                if is_chinese_stock(ticker) and CHINA_FALLBACK_AVAILABLE:
+                    if verbose:
+                        print(f"⚠️  Yahoo Finance returned no data for {ticker}", file=sys.stderr)
+                        print(f"🔄 Trying Chinese market data source...", file=sys.stderr)
+
+                    china_data = fetch_china_stock_data(ticker, verbose=verbose)
+                    if china_data is not None:
+                        if verbose:
+                            print(f"✅ Successfully fetched Chinese market data", file=sys.stderr)
+                        return china_data
+                    else:
+                        if verbose:
+                            print(f"❌ Chinese market data also unavailable", file=sys.stderr)
+
+                # No fallback available or fallback also failed
                 return None
 
             # Fetch earnings history
@@ -369,7 +529,22 @@ def fetch_stock_data(ticker: str, verbose: bool = False) -> StockData | None:
             else:
                 if verbose:
                     print(f"Failed to fetch {ticker} after {max_retries} attempts", file=sys.stderr)
+
+                # Last attempt: try Chinese fallback if applicable
+                if is_chinese_stock(ticker) and CHINA_FALLBACK_AVAILABLE:
+                    if verbose:
+                        print(f"🔄 Final attempt: trying Chinese market data source...", file=sys.stderr)
+                    china_data = fetch_china_stock_data(ticker, verbose=verbose)
+                    if china_data is not None:
+                        return china_data
+
                 return None
+
+    # All retries exhausted, try Chinese fallback as last resort
+    if is_chinese_stock(ticker) and CHINA_FALLBACK_AVAILABLE:
+        if verbose:
+            print(f"🔄 All Yahoo Finance attempts failed, trying Chinese fallback...", file=sys.stderr)
+        return fetch_china_stock_data(ticker, verbose=verbose)
 
     return None
 

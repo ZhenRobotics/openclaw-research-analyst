@@ -168,6 +168,11 @@ python3 scripts/stock_analyzer.py AAPL MSFT GOOGL
 - **Hong Kong**: `0700.HK`, `0941.HK`
 - **Crypto**: `BTC-USD`, `ETH-USD`
 
+**🔄 Smart Data Fallback for Chinese Stocks** (v6.3.0+):
+- Automatically uses Sina Finance when Yahoo Finance has no data
+- Works transparently - no configuration needed
+- Use `--verbose` flag to see which data source is used
+
 ### Dividend Analysis
 
 ```bash
@@ -485,6 +490,11 @@ python3 scripts/stock_analyzer.py AAPL MSFT GOOGL
 - **A股（沪市）**：`600519.SS`、`601318.SS`
 - **港股**：`0700.HK`、`0941.HK`
 - **加密货币**：`BTC-USD`、`ETH-USD`
+
+**🔄 中国股票智能数据回退** (v6.3.0+)：
+- Yahoo Finance 无数据时自动使用新浪财经
+- 透明切换 - 无需配置
+- 使用 `--verbose` 参数查看数据源
 
 ### 股息分析
 
