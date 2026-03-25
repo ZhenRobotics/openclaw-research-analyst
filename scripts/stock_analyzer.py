@@ -2043,6 +2043,7 @@ def synthesize_signal(
     breaking_news: list[str] | None = None,  # NEW v4.0.0
     geopolitical_risk_warning: str | None = None,  # NEW v4.0.0
     geopolitical_risk_penalty: float = 0.0,  # NEW v4.0.0
+    data_source: str | None = None,  # NEW v6.3.1: Track fallback data source
 ) -> Signal:
     """Synthesize all components into a final signal."""
 
@@ -2085,6 +2086,10 @@ def synthesize_signal(
 
     # Require at least 2 components
     if len(components) < 2:
+        insufficient_caveats = ["Limited data available"]
+        if data_source == 'sina_finance_cn':
+            insufficient_caveats.insert(0, "📊 数据源：新浪财经备选 - 仅价格数据可用")
+            insufficient_caveats.insert(1, "⚠️ Data source: Sina Finance fallback - Price data only")
         return Signal(
             ticker=ticker,
             company_name=company_name,
@@ -2092,7 +2097,7 @@ def synthesize_signal(
             confidence=0.0,
             final_score=0.0,
             supporting_points=["Insufficient data for analysis"],
-            caveats=["Limited data available"],
+            caveats=insufficient_caveats,
             timestamp=datetime.now().isoformat(),
             components={},
         )
@@ -2112,7 +2117,23 @@ def synthesize_signal(
     else:
         recommendation = "HOLD"
 
-    confidence = abs(final_score)
+    # NEW v6.3.1: Adaptive confidence calculation based on data availability
+    # Calculate base confidence from score
+    base_confidence = abs(final_score)
+
+    # Calculate data availability ratio (how many of the 8 possible dimensions we have)
+    # Full set: earnings, fundamentals, analysts, historical, market, sector, momentum, sentiment
+    max_dimensions = 8
+    available_dimensions = len(components)
+    data_availability_ratio = available_dimensions / max_dimensions
+
+    # Apply square root penalty (less severe than linear)
+    # Examples: 8/8 = 100%, 6/8 = 87%, 4/8 = 71%, 2/8 = 50%
+    import math
+    availability_multiplier = math.sqrt(data_availability_ratio)
+
+    # Final confidence = base confidence × availability multiplier
+    confidence = base_confidence * availability_multiplier
 
     # Apply earnings timing adjustments and overrides
     if earnings_timing:
@@ -2175,6 +2196,18 @@ def synthesize_signal(
 
     # Generate caveats
     caveats = []
+
+    # NEW v6.3.1: Data source fallback warning (highest priority)
+    if data_source == 'sina_finance_cn':
+        caveats.append("📊 数据源：新浪财经备选 (价格数据) - 部分维度数据缺失")
+        caveats.append("⚠️ Data source: Sina Finance fallback (price data) - Limited dimensions")
+
+    # NEW v6.3.1: Data availability warning
+    max_dimensions = 8
+    available_dimensions = len(components)
+    if available_dimensions < 6:  # Less than 75% data available
+        missing_count = max_dimensions - available_dimensions
+        caveats.append(f"⚠️ 置信度已调整：{available_dimensions}/{max_dimensions} 个分析维度可用 (缺失 {missing_count} 个)")
 
     # Add earnings timing caveats first (most important)
     if earnings_timing and earnings_timing.caveats:
@@ -2610,6 +2643,7 @@ def main():
             breaking_news=breaking_news,  # NEW v4.0.0
             geopolitical_risk_warning=geopolitical_risk_warning,  # NEW v4.0.0
             geopolitical_risk_penalty=geopolitical_risk_penalty,  # NEW v4.0.0
+            data_source=data.info.get('_dataSource'),  # NEW v6.3.1
         )
 
         results.append(signal)
