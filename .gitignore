@@ -36,3 +36,4 @@ reports/
 .claude/scheduled_tasks.lock
 clawhub-release/
 *.backup
+.env.backup.*

@@ -1,4 +1,4 @@
-# Installation Guide - OpenClaw Research Analyst v1.0.0
+# Installation Guide - OpenClaw Research Analyst v1.3.0
 
 **⚠️ Security Notice**: This package contains **13 Python scripts** with **6063 lines of verified source code**. All code is open source and available at: https://github.com/ZhenRobotics/openclaw-research-analyst
 
@@ -256,5 +256,5 @@ MIT License - See LICENSE file for details.
 ---
 
 **Generated**: 2026-03-16
-**Version**: 1.0.0
+**Version**: 1.3.0
 **Verified Lines of Code**: 6063

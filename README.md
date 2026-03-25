@@ -1,4 +1,4 @@
-# 📈 OpenClaw Research Analyst v1.0
+# 📈 OpenClaw Research Analyst v1.3.0
 
 > AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection.
 

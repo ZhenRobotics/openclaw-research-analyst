@@ -1,7 +1,7 @@
 ---
 name: research-analyst
 description: AI-powered US/China/HK stock & crypto research with 8-dimension analysis, China market reports (东方财富/新浪/财联社/腾讯/同花顺), portfolio tracking, and trend detection
-version: 1.0.0
+version: 1.3.0
 homepage: https://finance.yahoo.com
 commands:
   - /stock - Analyze a stock or crypto (e.g., /stock AAPL)
