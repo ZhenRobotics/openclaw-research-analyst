@@ -45,8 +45,11 @@
     "docs/",
     "README.md",
     "SKILL.md",
+    "SECURITY.md",
     "INSTALL.md",
+    "LICENSE",
     ".env.example",
+    ".env.feishu.example",
     "pyproject.toml"
   ]
 }
