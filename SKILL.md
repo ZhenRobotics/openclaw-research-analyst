@@ -22,9 +22,11 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv"],"env":["AUTH_TOKEN","CT0"]},"install":[{"id":"python3-check","kind":"shell","command":"python3 --version","bins":["python3"],"label":"Verify Python 3.10+ installed"},{"id":"uv-brew","kind":"brew","formula":"uv","bins":["uv"],"label":"Install uv package manager"},{"id":"bird-npm","kind":"shell","command":"npm install -g @steipete/bird","bins":["bird"],"label":"Install bird CLI (optional, for Twitter/X)"}]}}
 ---
 
-# OpenClaw Research Analyst v1.0
+# OpenClaw Research Analyst v1.3.0
 
 **⚠️ Installation Required**: This skill requires Python 3.10+, uv package manager, and optional dependencies. See installation instructions below.
+
+**🔒 SECURITY NOTICE**: Core features require NO API keys (uses public data). Optional Twitter/Feishu integration requires credentials - **Review [SECURITY.md](https://github.com/ZhenRobotics/openclaw-research-analyst/blob/main/SECURITY.md) before supplying any credentials.**
 
 **📦 Source Code**: https://github.com/ZhenRobotics/openclaw-research-analyst
 
