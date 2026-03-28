@@ -95,17 +95,41 @@ cd openclaw-research-analyst
 # 3. Verify integrity (REQUIRED for security)
 git verify-tag v1.3.3
 
-# 4. Install dependencies
+# 4. Review dependencies (see "Review PyPI Dependencies" in Security section)
+#    Decision point: Do you trust yfinance, requests, beautifulsoup4 from PyPI?
+
+# 5. Install dependencies (downloads packages from PyPI)
 uv sync
 
-# 5. Test
+# 6. Test
 python3 scripts/stock_analyzer.py --help
 ```
 
 **What you downloaded:**
-- ~50KB Python scripts
-- Dependencies: yfinance, requests, beautifulsoup4
+- ~50KB Python scripts (from this repository)
+- **Dependencies from PyPI** (installed by `uv sync`):
+  - `yfinance` - Yahoo Finance API client (widely used, ~50M downloads)
+  - `requests` - HTTP library (Python standard, ~500M downloads)
+  - `beautifulsoup4` - HTML parsing (widely used, ~100M downloads)
+  - `lxml` - XML/HTML parser (beautifulsoup4 dependency)
 - No executables, only Python source code
+
+### ⚠️ Dependency Trust Warning
+
+**Dependencies are installed from PyPI**, not from this repository.
+
+**Risk**: PyPI packages can run arbitrary code during installation (`setup.py`).
+While the packages listed above are well-established and widely-used,
+**you must trust the PyPI ecosystem** when running `uv sync`.
+
+**Mitigation**:
+1. Review `requirements.txt` or dependency manifest before running `uv sync`
+2. Check PyPI reputation: https://pypi.org/project/yfinance/
+3. Use `uv sync --dry-run` to see what would be installed (if supported)
+4. Install in virtual environment to isolate from system Python
+
+**Our claim "No data sent to external servers" applies only to the scripts
+in THIS repository. Dependencies from PyPI must be trusted separately.**
 
 ---
 
@@ -252,11 +276,26 @@ python3 scripts/rumor_detector.py
 
 ### What Stays Local
 - Analysis results
-- Portfolio data
-- Watchlist data
-- All computations
+- Portfolio data (`~/.clawdbot/skills/stock-analysis/portfolios.json`)
+- Watchlist data (`~/.clawdbot/skills/stock-analysis/watchlist.json`)
+- All computations and cached data
 
-**No data transmitted to external servers beyond read-only public API queries.**
+### Trust Boundaries
+
+**Scripts in this repository**:
+- ✅ **Claim**: No data sent beyond read-only API queries
+- ⚠️ **Verification**: Requires code review (see Security section)
+- 📋 **Auditable**: All source code visible in GitHub repository
+
+**Dependencies from PyPI** (yfinance, requests, beautifulsoup4, lxml):
+- ⚠️ **Not controlled by this repository**
+- ⚠️ **Can execute code during installation** (setup.py hooks)
+- ⚠️ **Must be trusted separately** from PyPI ecosystem
+- ℹ️ **Reputation**: All are widely-used, established packages (millions of downloads)
+
+**The claim "No data sent to external servers" applies ONLY to scripts in this
+repository.** Dependencies from PyPI are separate trust decisions. Review their
+source code and reputation before installing.
 
 ---
 
@@ -290,6 +329,8 @@ python3 scripts/rumor_detector.py
 - Ignore warning signs during code review
 
 ### Code Review Checklist
+
+#### 1. Review Repository Code
 ```bash
 # After cloning, review these files:
 cat scripts/stock_analyzer.py        # Main analysis script
@@ -308,6 +349,29 @@ grep -r "subprocess\|system\|eval\|exec" scripts/
 # Verify no credentials in code
 grep -ri "api.key\|secret\|token\|password" scripts/ --exclude="*.example"
 ```
+
+#### 2. Review PyPI Dependencies
+
+**Before running `uv sync`**, review what will be installed:
+
+```bash
+# List dependencies (if using requirements.txt)
+cat requirements.txt
+
+# Check PyPI reputation for each package:
+# - Visit: https://pypi.org/project/yfinance/
+# - Check: Download stats, last update, maintainers
+# - Review: GitHub repository linked from PyPI
+
+# Major dependencies this skill uses:
+# - yfinance: ~50M downloads, actively maintained, GitHub has 13k+ stars
+# - requests: ~500M downloads, Python foundation project
+# - beautifulsoup4: ~100M downloads, widely used HTML parser
+# - lxml: ~60M downloads, established XML/HTML processor
+```
+
+**Decision point**: If you trust these PyPI packages, proceed with `uv sync`.
+If not, do not install.
 
 ### What to Look For (Security Audit)
 - ✅ Only GET requests to known public APIs
