@@ -37,3 +37,18 @@ reports/
 clawhub-release/
 *.backup
 .env.backup.*
+
+# Internal development docs (excluded from ClawHub scan)
+ADVANCED_FEATURES.md
+FEISHU_*.md
+CLAWHUB_*.md
+RELEASE_*.md
+OPTIMIZATION_*.md
+SECURITY_FULL.md
+*_SOLUTION_*.md
+INSTALL.md
+API_*.md
+SMART_SCHEDULING.md
+AI_NEWS_SYSTEM_GUIDE.md
+安全评估报告_*.md
+.archive_docs.txt
