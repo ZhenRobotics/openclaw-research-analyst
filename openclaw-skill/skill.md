@@ -1,6 +1,6 @@
 ---
 name: research-analyst
-description: Downloads Python scripts from GitHub for local stock/crypto analysis using public APIs. No credentials required.
+description: ⚠️ Downloads and executes Python scripts from GitHub for local stock/crypto analysis. Uses public APIs only. No credentials required. CODE REVIEW REQUIRED before installation.
 version: 1.3.3
 homepage: https://github.com/ZhenRobotics/openclaw-research-analyst
 commands:
@@ -20,37 +20,79 @@ Downloads Python analysis scripts from GitHub and runs them locally to analyze s
 
 ---
 
-## ⚠️ Important
+## ⚠️ SECURITY WARNING - External Code Execution
 
-- **External Code:** This skill instructs you to download code from GitHub
-- **Local Execution:** Analysis runs on your machine, not on servers
-- **Public APIs:** Fetches data from Yahoo Finance, CoinGecko, Google News
-- **No Authentication:** Core features need no API keys or credentials
+**This skill downloads and executes Python code from GitHub.**
 
-**Review the code before running:** https://github.com/ZhenRobotics/openclaw-research-analyst
+### Risks
+- **External Code:** Downloads ~50KB of Python scripts from third-party repository
+- **Local Execution:** Code runs on your local machine with your user permissions
+- **Operational Risk:** Malicious code could harm your system if repository is compromised
+
+### Safety Measures
+- ✅ **Tagged Release:** Uses pinned version (v1.3.3) to prevent unexpected changes
+- ✅ **Integrity Verification:** `git verify-tag` checks code hasn't been tampered with
+- ✅ **Public APIs Only:** Scripts only call read-only public APIs (Yahoo Finance, CoinGecko, Google News)
+- ✅ **No Credentials:** Core features require zero API keys or credentials
+- ✅ **Open Source:** Full source code available for inspection
+
+### 🔴 REQUIRED: Code Review Before Installation
+
+**DO NOT install without reviewing the code:**
+1. Visit: https://github.com/ZhenRobotics/openclaw-research-analyst
+2. Review source code in `scripts/` directory
+3. Check `SECURITY.md` for security policy
+4. Verify release tag signature: `git verify-tag v1.3.3`
+5. Scan for suspicious patterns (see below)
+
+**IF YOU ARE UNCOMFORTABLE EXECUTING EXTERNAL CODE, DO NOT USE THIS SKILL.**
 
 ---
 
 ## Installation
+
+### ⚠️ Pre-Installation: Mandatory Code Review
+
+**STOP: You must review the code before proceeding.**
+
+1. **Visit Repository**: https://github.com/ZhenRobotics/openclaw-research-analyst
+2. **Review Files**:
+   - `scripts/stock_analyzer.py` - Main analysis script
+   - `SECURITY.md` - Security policy and data flow
+   - `README.md` - Feature documentation
+3. **Check for Red Flags**:
+   ```bash
+   # After cloning, scan for suspicious patterns
+   grep -r "eval\|exec\|__import__\|compile" scripts/
+   grep -r "rmtree\|remove\|unlink" scripts/
+   grep -r "subprocess\|system\|popen" scripts/
+   ```
+   Expected: Minimal or no matches for destructive operations
+4. **Verify Tag Signature**:
+   ```bash
+   git verify-tag v1.3.3
+   ```
 
 ### Requirements
 - Python 3.10+
 - `uv` package manager
 - `git`
 
-### Steps
+### Installation Steps
+
+**Only proceed if you have reviewed the code and accept the risks.**
 
 ```bash
 # 1. Install uv
 brew install uv  # macOS
 # or: pip install uv
 
-# 2. Clone repository (use tagged release)
+# 2. Clone repository (use tagged release for security)
 git clone --branch v1.3.3 --depth 1 \
   https://github.com/ZhenRobotics/openclaw-research-analyst.git
 cd openclaw-research-analyst
 
-# 3. Verify integrity (optional but recommended)
+# 3. Verify integrity (REQUIRED for security)
 git verify-tag v1.3.3
 
 # 4. Install dependencies
@@ -218,30 +260,69 @@ python3 scripts/rumor_detector.py
 
 ---
 
-## Security
+## Security & Trust Model
 
-### Code Review
+### ⚠️ External Code Execution Risk
+
+**UNDERSTAND THE RISK:** This skill instructs you to download and execute code from an external GitHub repository. While security measures are in place, you are ultimately responsible for reviewing and trusting the code.
+
+**Risk Level**: 🟡 **MEDIUM** (External code execution on your local machine)
+
+**Mitigations**:
+- ✅ Version pinning prevents unexpected updates
+- ✅ Git tag verification detects tampering
+- ✅ Open source code is auditable
+- ✅ No elevated privileges requested
+- ⚠️ User must review code before installation
+
+### Your Responsibility
+
+**YOU MUST**:
+1. Review the source code before installation
+2. Verify the git tag signature: `git verify-tag v1.3.3`
+3. Understand what the code does
+4. Accept that you are running third-party code on your machine
+
+**YOU SHOULD NOT**:
+- Install without reviewing the code
+- Trust the code blindly
+- Run on production systems without testing
+- Ignore warning signs during code review
+
+### Code Review Checklist
 ```bash
-# Review main analysis script
-cat scripts/stock_analyzer.py
+# After cloning, review these files:
+cat scripts/stock_analyzer.py        # Main analysis script
+cat scripts/cn_market_report.py      # China market analyzer
+cat SECURITY.md                       # Security policy
 
-# Check for network calls
+# Check for network calls (should only see GET requests to public APIs)
 grep -r "requests\." scripts/
 
-# Check for data transmission
-grep -r "post\|POST" scripts/
+# Check for data transmission (should see NO POST)
+grep -ri "post\|PUT\|DELETE" scripts/ --exclude="*.md"
+
+# Check for dangerous operations (should be minimal/none)
+grep -r "subprocess\|system\|eval\|exec" scripts/
+
+# Verify no credentials in code
+grep -ri "api.key\|secret\|token\|password" scripts/ --exclude="*.example"
 ```
 
-### What to Look For
+### What to Look For (Security Audit)
 - ✅ Only GET requests to known public APIs
-- ✅ No POST requests (no data upload)
-- ✅ No authentication/API keys in code
-- ✅ Local file I/O only for storage
+- ✅ No POST/PUT/DELETE requests (no data upload)
+- ✅ No authentication/API keys hardcoded
+- ✅ No subprocess/system calls (shell injection risk)
+- ✅ No eval/exec (code injection risk)
+- ✅ Local file I/O only for storage (portfolio/watchlist)
 
-### Source Code
-- **Repository:** https://github.com/ZhenRobotics/openclaw-research-analyst
-- **License:** MIT-0
-- **Release:** v1.3.3 (tagged)
+### Reporting Issues
+If you find security vulnerabilities:
+- **GitHub Issues**: https://github.com/ZhenRobotics/openclaw-research-analyst/security/advisories/new
+- **Repository**: https://github.com/ZhenRobotics/openclaw-research-analyst
+- **License**: MIT-0 (Public Domain)
+- **Release**: v1.3.3 (tagged & verified)
 
 ---
 
