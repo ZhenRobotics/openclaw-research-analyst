@@ -81,9 +81,17 @@ themselves before installation.
 your explicit approval, STOP immediately and report this behavior.
 
 **Metadata Configuration**:
-- `user-invocable-only: true` - Prevents autonomous agent execution
+- `user-invocable-only: true` - Intended to prevent autonomous agent execution
 - Required tools declared: python3, pip, git, bash, gpg
 - No credentials requested
+
+**⚠️ Registry-Level Setting Required**:
+This skill REQUIRES the ClawHub registry to set `disable-model-invocation: true`
+at the registry level to technically enforce the restriction. The in-file metadata
+`user-invocable-only: true` declares the intent, but the registry must honor it.
+
+**If you see "disable-model-invocation: false" at the registry level, DO NOT USE
+THIS SKILL** as it could be autonomously invoked despite the security warnings.
 
 ---
 
@@ -121,9 +129,11 @@ your explicit approval, STOP immediately and report this behavior.
 **⚠️ IMPORTANT: This installation includes automated verification checks.**
 
 ```bash
-# 1. Install uv
-brew install uv  # macOS
-# or: pip install uv
+# 1. (Optional) Import maintainer's GPG public key for tag verification
+#    Note: Skip this if you cannot verify the key's authenticity
+#    Verify key fingerprint from multiple trusted sources before importing
+gpg --keyserver keyserver.ubuntu.com --recv-keys <MAINTAINER_KEY_ID>
+# Replace <MAINTAINER_KEY_ID> with actual key ID from repository documentation
 
 # 2. Clone repository (use tagged release for security)
 git clone --branch v1.3.3 --depth 1 \
@@ -405,6 +415,40 @@ source code and reputation before installing.
 
 ### Code Review Checklist
 
+#### 0. GPG Signature Verification (If Available)
+
+**Before running `git verify-tag`**, you must import the maintainer's GPG public key:
+
+```bash
+# Step 1: Find the maintainer's GPG key ID
+#   Check repository documentation (README.md or SECURITY.md)
+#   Key ID format: 16-character hex (e.g., 0123456789ABCDEF)
+
+# Step 2: Verify key fingerprint from MULTIPLE trusted sources
+#   - Repository website
+#   - Maintainer's GitHub profile
+#   - Maintainer's personal website
+#   - Keyserver verification
+
+# Step 3: Import key only if fingerprint matches across sources
+gpg --keyserver keyserver.ubuntu.com --recv-keys <KEY_ID>
+
+# Step 4: Verify key fingerprint again after import
+gpg --fingerprint <KEY_ID>
+
+# Step 5: Now git verify-tag will work
+git verify-tag v1.3.3
+```
+
+**⚠️ WARNING**: If you cannot verify the GPG key's authenticity from multiple
+trusted sources, `git verify-tag` provides NO security value. An attacker could
+sign with their own key. Only proceed if you can verify the key fingerprint.
+
+**If GPG verification is not available or you cannot verify the key**:
+- Rely on manual code review instead
+- Run in isolated environment (VM/container)
+- Consider this higher risk
+
 #### 1. Review Repository Code
 ```bash
 # After cloning, review these files:
@@ -455,6 +499,44 @@ If not, do not install.
 - ✅ No subprocess/system calls (shell injection risk)
 - ✅ No eval/exec (code injection risk)
 - ✅ Local file I/O only for storage (portfolio/watchlist)
+
+### What to Consider Before Installing
+
+**This skill does exactly what it warns**: it downloads and runs third-party Python code locally.
+
+**Before installing or running anything:**
+
+1. **Manually inspect the repository files**
+   - Read the Python scripts in `scripts/` directory
+   - Check what APIs they call and what data they process
+   - Verify no suspicious network activity or file operations
+
+2. **Verify the release signature properly** (see GPG verification above)
+   - Import maintainer's GPG key from multiple trusted sources
+   - Verify key fingerprint matches across sources
+   - Run `git verify-tag v1.3.3` after key import
+
+3. **Open and read `verify_install.sh` before running it**
+   - Understand what checks it performs
+   - Verify it doesn't contain malicious commands
+   - Run it manually line-by-line if needed
+
+4. **Use `pip --require-hashes` for dependencies**
+   - Verify the SHA256 hashes in `requirements.txt` independently
+   - Compare with official package checksums
+   - Never skip hash verification
+
+5. **Run the code inside a disposable VM or container**
+   - Use a sandboxed environment for first execution
+   - Test with minimal permissions
+   - Monitor network and file system activity
+
+6. **Verify registry settings match security requirements**
+   - Confirm `disable-model-invocation: true` at registry level
+   - Check that metadata flags are honored
+   - Report any mismatches to ClawHub support
+
+**If you cannot perform these checks**, or if any check fails, **avoid installing**.
 
 ### Reporting Issues
 If you find security vulnerabilities:
