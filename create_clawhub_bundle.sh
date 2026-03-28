@@ -127,12 +127,10 @@ else
     exit 1
 fi
 
-# Root files (excluded INSTALL.md and .env.feishu.example to pass ClawHub security scan)
+# Root files (excluded INSTALL.md, .env files, and LICENSE per ClawHub validation)
 ROOT_FILES=(
     "README.md"
     "SECURITY.md"
-    "LICENSE"
-    ".env.example"
     "package.json"
     "pyproject.toml"
     "requirements.txt"
