@@ -10,6 +10,26 @@ commands:
 metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","pip","git","bash","gpg"]},"user-invocable-only":true}}
 ---
 
+# 🛑 CRITICAL: Verify Registry Settings Before Installing
+
+**STOP**: Before proceeding, you MUST verify the ClawHub registry has set:
+```
+disable-model-invocation: true
+```
+
+**How to check**:
+1. Look at the skill's registry-level settings in ClawHub
+2. Confirm `disable-model-invocation` is set to `true` (not `false`)
+
+**If `disable-model-invocation: false`**:
+- ❌ **DO NOT INSTALL THIS SKILL**
+- The skill could be invoked autonomously despite security warnings
+- This creates a material security risk
+
+**Only proceed if the registry setting is correct.**
+
+---
+
 # Research Analyst v1.3.3
 
 ## What This Skill Does
@@ -121,7 +141,7 @@ THIS SKILL** as it could be autonomously invoked despite the security warnings.
 
 ### Requirements
 - Python 3.10+
-- `uv` package manager
+- `pip` (Python package installer)
 - `git`
 
 ### Installation Steps with Technical Verification
@@ -192,7 +212,7 @@ This installation now includes **technical enforcement**, not just warnings:
 
 **What you downloaded:**
 - ~50KB Python scripts (from this repository)
-- **Dependencies from PyPI** (installed by `uv sync`):
+- **Dependencies from PyPI** (installed by `pip install`):
   - `yfinance` - Yahoo Finance API client (widely used, ~50M downloads)
   - `requests` - HTTP library (Python standard, ~500M downloads)
   - `beautifulsoup4` - HTML parsing (widely used, ~100M downloads)
@@ -205,12 +225,12 @@ This installation now includes **technical enforcement**, not just warnings:
 
 **Risk**: PyPI packages can run arbitrary code during installation (`setup.py`).
 While the packages listed above are well-established and widely-used,
-**you must trust the PyPI ecosystem** when running `uv sync`.
+**you must trust the PyPI ecosystem** when running `pip install`.
 
 **Mitigation**:
-1. Review `requirements.txt` or dependency manifest before running `uv sync`
+1. Review `requirements.txt` or dependency manifest before running `pip install`
 2. Check PyPI reputation: https://pypi.org/project/yfinance/
-3. Use `uv sync --dry-run` to see what would be installed (if supported)
+3. Review `requirements.txt` to see exactly what will be installed
 4. Install in virtual environment to isolate from system Python
 
 **Our claim "No data sent to external servers" applies only to the scripts
@@ -471,7 +491,7 @@ grep -ri "api.key\|secret\|token\|password" scripts/ --exclude="*.example"
 
 #### 2. Review PyPI Dependencies
 
-**Before running `uv sync`**, review what will be installed:
+**Before running `pip install`**, review what will be installed:
 
 ```bash
 # List dependencies (if using requirements.txt)
@@ -489,7 +509,7 @@ cat requirements.txt
 # - lxml: ~60M downloads, established XML/HTML processor
 ```
 
-**Decision point**: If you trust these PyPI packages, proceed with `uv sync`.
+**Decision point**: If you trust these PyPI packages, proceed with `pip install`.
 If not, do not install.
 
 ### What to Look For (Security Audit)
