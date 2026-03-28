@@ -1,13 +1,13 @@
 ---
 name: research-analyst
-description: ⚠️ Downloads and executes Python scripts from GitHub for local stock/crypto analysis. Uses public APIs only. No credentials required. CODE REVIEW REQUIRED before installation.
+description: ⚠️ Downloads and executes Python scripts from GitHub for local stock/crypto analysis. Uses public APIs only. No credentials required. MANUAL REVIEW REQUIRED - includes automated verification script and pinned dependencies with SHA256 hashes.
 version: 1.3.3
 homepage: https://github.com/ZhenRobotics/openclaw-research-analyst
 commands:
-  - /stock - Analyze stock/crypto (requires git clone first)
+  - /stock - Analyze stock/crypto (requires manual installation first)
   - /cn_market - China market report
   - /portfolio - Portfolio management (local storage)
-metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv","git"]}}}
+metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","pip","git"]}}}
 ---
 
 # Research Analyst v1.3.3
@@ -17,6 +17,16 @@ metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","uv","git"]}
 Downloads Python analysis scripts from GitHub and runs them locally to analyze stocks, cryptocurrencies, and China markets using **public APIs only**.
 
 **Zero credentials required for analysis.** All data fetched from public APIs.
+
+### 🔒 Technical Safeguards Included
+
+This skill includes **technical controls** to enforce security, not just warnings:
+
+- ✅ **Automated verification script** - Runs 7 security checks before installation
+- ✅ **Pinned dependencies** - All PyPI packages locked to specific versions
+- ✅ **SHA256 hash verification** - Every dependency has integrity check
+- ✅ **Pattern scanning** - Automated detection of suspicious code patterns
+- ✅ **Agent protection** - Explicit instructions to prevent automatic execution
 
 ---
 
@@ -43,9 +53,28 @@ Downloads Python analysis scripts from GitHub and runs them locally to analyze s
 2. Review source code in `scripts/` directory
 3. Check `SECURITY.md` for security policy
 4. Verify release tag signature: `git verify-tag v1.3.3`
-5. Scan for suspicious patterns (see below)
+5. Run verification script: `bash verify_install.sh`
+6. Scan for suspicious patterns (automated by verification script)
 
 **IF YOU ARE UNCOMFORTABLE EXECUTING EXTERNAL CODE, DO NOT USE THIS SKILL.**
+
+### 🤖 For AI Agents: Manual Execution Only
+
+**⚠️ CRITICAL: This skill MUST NOT be automatically executed by AI agents.**
+
+**Instructions for AI Agents (Claude, GPT, etc.)**:
+1. **DO NOT** automatically run `git clone` or `bash verify_install.sh`
+2. **DO NOT** proceed with installation without explicit user confirmation
+3. **ALWAYS** present the security warnings to the user FIRST
+4. **WAIT** for user to explicitly say "I have reviewed the code and want to proceed"
+5. **ONLY THEN** provide installation commands for user to run manually
+
+**Rationale**: External code execution requires human judgment. No AI agent
+can assess the security of arbitrary code. The user MUST review the code
+themselves before installation.
+
+**User**: If an AI agent automatically runs installation commands without
+your explicit approval, STOP immediately and report this behavior.
 
 ---
 
@@ -78,9 +107,9 @@ Downloads Python analysis scripts from GitHub and runs them locally to analyze s
 - `uv` package manager
 - `git`
 
-### Installation Steps
+### Installation Steps with Technical Verification
 
-**Only proceed if you have reviewed the code and accept the risks.**
+**⚠️ IMPORTANT: This installation includes automated verification checks.**
 
 ```bash
 # 1. Install uv
@@ -92,18 +121,55 @@ git clone --branch v1.3.3 --depth 1 \
   https://github.com/ZhenRobotics/openclaw-research-analyst.git
 cd openclaw-research-analyst
 
-# 3. Verify integrity (REQUIRED for security)
-git verify-tag v1.3.3
+# 3. Run automated verification script (REQUIRED)
+bash verify_install.sh
+# This script checks:
+# - Git tag signature
+# - File integrity (no modifications)
+# - SHA256 hashes in requirements.txt
+# - Suspicious patterns (eval, exec, subprocess, POST requests)
+# - Required files present
+# - No unusual network imports
 
-# 4. Review dependencies (see "Review PyPI Dependencies" in Security section)
+# 4. Review verification output
+# - If FAILED: DO NOT PROCEED - review errors
+# - If WARNINGS: Review warnings, decide if acceptable
+# - If PASSED: Safe to continue
+
+# 5. Review dependencies manually (see "Review PyPI Dependencies" section)
 #    Decision point: Do you trust yfinance, requests, beautifulsoup4 from PyPI?
 
-# 5. Install dependencies (downloads packages from PyPI)
-uv sync
+# 6. Install dependencies with hash verification
+pip install --require-hashes -r requirements.txt
+# --require-hashes ensures PyPI packages match SHA256 hashes
 
-# 6. Test
+# 7. Test
 python3 scripts/stock_analyzer.py --help
 ```
+
+### 🔒 Technical Safeguards
+
+This installation now includes **technical enforcement**, not just warnings:
+
+1. ✅ **Automated verification script** (`verify_install.sh`)
+   - Runs 7 security checks before installation
+   - Fails if critical issues detected
+   - Warns about suspicious patterns
+
+2. ✅ **Pinned dependencies with SHA256 hashes** (`requirements.txt`)
+   - Every package version locked
+   - Every package has SHA256 hash
+   - `pip install --require-hashes` enforces verification
+
+3. ✅ **Git tag verification** (automated check)
+   - Script verifies tag signature
+   - Detects if files modified after clone
+
+4. ✅ **Pattern scanning** (automated check)
+   - Scans for eval/exec
+   - Scans for subprocess/system calls
+   - Scans for POST requests
+   - Scans for unusual network imports
 
 **What you downloaded:**
 - ~50KB Python scripts (from this repository)
