@@ -7,7 +7,7 @@ commands:
   - /stock - Analyze stock/crypto (requires manual installation first)
   - /cn_market - China market report
   - /portfolio - Portfolio management (local storage)
-metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","pip","git"]}}}
+metadata: {"clawdbot":{"emoji":"📈","requires":{"bins":["python3","pip","git","bash","gpg"]},"user-invocable-only":true}}
 ---
 
 # Research Analyst v1.3.3
@@ -62,6 +62,10 @@ This skill includes **technical controls** to enforce security, not just warning
 
 **⚠️ CRITICAL: This skill MUST NOT be automatically executed by AI agents.**
 
+**Technical Enforcement**: This skill has `"user-invocable-only": true` in metadata,
+which technically disables autonomous agent invocation. This matches the
+behavioral instructions below.
+
 **Instructions for AI Agents (Claude, GPT, etc.)**:
 1. **DO NOT** automatically run `git clone` or `bash verify_install.sh`
 2. **DO NOT** proceed with installation without explicit user confirmation
@@ -75,6 +79,11 @@ themselves before installation.
 
 **User**: If an AI agent automatically runs installation commands without
 your explicit approval, STOP immediately and report this behavior.
+
+**Metadata Configuration**:
+- `user-invocable-only: true` - Prevents autonomous agent execution
+- Required tools declared: python3, pip, git, bash, gpg
+- No credentials requested
 
 ---
 
