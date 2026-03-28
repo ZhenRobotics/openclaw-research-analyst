@@ -57,9 +57,22 @@ def fetch_url(url, timeout=15):
         return None
 
 def search_twitter_rumors():
-    """Search Twitter for rumors and early signals."""
+    """Search Twitter for rumors and early signals.
+
+    NOTE: This requires bird CLI and AUTH_TOKEN/CT0 credentials.
+    If not available, returns empty list (graceful degradation).
+    """
     results = []
-    
+
+    # Check if bird CLI is available
+    if not shutil.which('bird'):
+        return results  # Silent skip - not an error
+
+    # Check if credentials are available
+    load_env()
+    if not os.environ.get('AUTH_TOKEN') or not os.environ.get('CT0'):
+        return results  # Silent skip - not an error
+
     # Rumor-focused search queries
     queries = [
         '"hearing that" stock OR $',
@@ -71,14 +84,12 @@ def search_twitter_rumors():
         '"breaking" stock market',
         'M&A rumor',
     ]
-    
-    load_env()
-    
+
     for query in queries[:4]:  # Limit to avoid rate limits
         try:
             cmd = [BIRD_CLI, 'search', query, '-n', '10', '--json']
             env = os.environ.copy()
-            
+
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=30, env=env)
             
             if result.returncode == 0 and result.stdout:
@@ -114,9 +125,22 @@ def search_twitter_rumors():
     return unique
 
 def search_twitter_buzz():
-    """Search Twitter for general stock buzz - what are people talking about?"""
+    """Search Twitter for general stock buzz - what are people talking about?
+
+    NOTE: This requires bird CLI and AUTH_TOKEN/CT0 credentials.
+    If not available, returns empty list (graceful degradation).
+    """
     results = []
-    
+
+    # Check if bird CLI is available
+    if not shutil.which('bird'):
+        return results  # Silent skip - not an error
+
+    # Check if credentials are available
+    load_env()
+    if not os.environ.get('AUTH_TOKEN') or not os.environ.get('CT0'):
+        return results  # Silent skip - not an error
+
     queries = [
         '$SPY OR $QQQ',
         'stock to buy',
@@ -124,9 +148,7 @@ def search_twitter_buzz():
         'earnings play',
         'short squeeze',
     ]
-    
-    load_env()
-    
+
     for query in queries[:3]:
         try:
             cmd = [BIRD_CLI, 'search', query, '-n', '15', '--json']
@@ -257,16 +279,28 @@ def main():
     all_rumors = []
     all_buzz = []
     
-    # Twitter Rumors
+    # Twitter Rumors (optional - requires bird CLI + credentials)
     print("  🐦 Twitter rumors...")
     rumors = search_twitter_rumors()
-    print(f"    ✅ {len(rumors)} potential rumors")
+    if len(rumors) == 0:
+        if not shutil.which('bird') or not os.environ.get('AUTH_TOKEN'):
+            print("    ⏭️  Skipped (bird CLI or credentials not configured)")
+        else:
+            print(f"    ✅ {len(rumors)} potential rumors")
+    else:
+        print(f"    ✅ {len(rumors)} potential rumors")
     all_rumors.extend(rumors)
-    
-    # Twitter Buzz
+
+    # Twitter Buzz (optional - requires bird CLI + credentials)
     print("  🐦 Twitter buzz...")
     buzz = search_twitter_buzz()
-    print(f"    ✅ {len(buzz)} buzz items")
+    if len(buzz) == 0:
+        if not shutil.which('bird') or not os.environ.get('AUTH_TOKEN'):
+            print("    ⏭️  Skipped (bird CLI or credentials not configured)")
+        else:
+            print(f"    ✅ {len(buzz)} buzz items")
+    else:
+        print(f"    ✅ {len(buzz)} buzz items")
     all_buzz.extend(buzz)
     
     # News Rumors

@@ -313,15 +313,6 @@ python3 scripts/cn_ths_diagnosis.py 600519
 python3 scripts/cn_market_report.py
 ```
 
-### 4. 定时任务（Cron）
-```cron
-# 每天 07:55 生成盘前简报
-55 7 * * 1-5 cd /path/to/project && python3 scripts/cn_market_report.py
-
-# 每天 15:30 生成盘后简报
-30 15 * * 1-5 cd /path/to/project && python3 scripts/cn_market_report.py
-```
-
 ---
 
 ## 未来计划

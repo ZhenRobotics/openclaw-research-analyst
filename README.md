@@ -1,4 +1,4 @@
-# 📈 OpenClaw Research Analyst v1.3.0
+# 📈 OpenClaw Research Analyst v1.3.3
 
 > AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection.
 
@@ -14,7 +14,7 @@
 | **Portfolio Management** | Track holdings, P&L, concentration warnings |
 | **Watchlist + Alerts** | Price targets, stop losses, signal changes |
 | **Dividend Analysis** | Yield, payout, growth, safety score |
-| **Hot Scanner** | Multi-source viral trend detection (CoinGecko, Google News, Twitter/X) |
+| **Hot Scanner** | Multi-source viral trend detection (CoinGecko, Google News) |
 | **Rumor Detector** | Early signal detection for M&A, insider trades, analyst actions |
 | **Risk Detection** | Geopolitical, earnings timing, overbought, risk-off |
 | **China Markets** | A-share & Hong Kong stock data (东方财富, 新浪, 财联社, 腾讯, 同花顺) |
@@ -106,14 +106,13 @@ Find what's trending RIGHT NOW across stocks & crypto.
 | **CoinGecko Movers** | Biggest gainers/losers (>3%) |
 | **Google News** | Breaking finance & crypto news |
 | **Yahoo Finance** | Top gainers, losers, most active |
-| **Twitter/X** | Social sentiment (requires auth) |
 
 ### Output
 
 ```
 📊 TOP TRENDING (by buzz):
    1. BTC      (6 pts) [CoinGecko, Google News] 📉 bearish (-2.5%)
-   2. ETH      (5 pts) [CoinGecko, Twitter] 📉 bearish (-7.2%)
+   2. ETH      (5 pts) [CoinGecko, Yahoo] 📉 bearish (-7.2%)
    3. NVDA     (3 pts) [Google News, Yahoo] 📰 Earnings beat...
 
 🪙 CRYPTO HIGHLIGHTS:
@@ -128,25 +127,9 @@ Find what's trending RIGHT NOW across stocks & crypto.
    [BTC, ETH] Crypto crash: $2.5B liquidated...
 ```
 
-### Twitter/X Setup (Optional)
+### Advanced Features
 
-1. Install bird CLI: `npm install -g @steipete/bird`
-2. Login to x.com in Safari/Chrome
-3. Create `.env` file:
-```
-AUTH_TOKEN=your_auth_token
-CT0=your_ct0_token
-```
-
-Get tokens from browser DevTools → Application → Cookies → x.com
-
-### Automation
-
-Set up a daily cron job for morning reports:
-```bash
-# Run at 8 AM daily
-0 8 * * * python3 /path/to/hot_scanner.py --no-social >> /var/log/hot_scanner.log
-```
+For optional advanced features, see [ADVANCED_FEATURES.md](ADVANCED_FEATURES.md).
 
 ## Risk Detection
 
@@ -173,7 +156,6 @@ Set up a daily cron job for morning reports:
 - [CNN Fear & Greed](https://money.cnn.com/data/fear-and-greed/) — Sentiment
 - [SEC EDGAR](https://www.sec.gov/edgar) — Insider trading
 - [Google News RSS](https://news.google.com) — Breaking news
-- [Twitter/X](https://x.com) — Social sentiment (via bird CLI)
 
 ### China Markets (A-Share & Hong Kong)
 - [East Money 东方财富](https://www.eastmoney.com) — A-share & HK rankings, volume

@@ -12,6 +12,7 @@ import gzip
 import io
 import subprocess
 import os
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 import re
@@ -357,23 +358,23 @@ class HotScanner:
             print(f"    ❌ Reddit Crypto: {str(e)[:40]}")
     
     def scan_twitter(self):
-        """Use bird CLI to get trending finance/crypto tweets."""
+        """Use bird CLI to get trending finance/crypto tweets.
+
+        NOTE: This requires bird CLI and AUTH_TOKEN/CT0 credentials.
+        If not available, silently skips (graceful degradation).
+        """
         print("  🐦 Twitter/X...")
         try:
-            # Find bird binary
-            bird_paths = [
-                "/home/clawdbot/.nvm/versions/node/v24.12.0/bin/bird",
-                "/usr/local/bin/bird",
-                "bird"
-            ]
-            bird_bin = None
-            for p in bird_paths:
-                if Path(p).exists() or p == "bird":
-                    bird_bin = p
-                    break
-            
+            # Check if bird CLI is available
+            bird_bin = shutil.which('bird')
+
             if not bird_bin:
-                print("    ⚠️ Twitter: bird not found")
+                print("    ⏭️  Skipped (bird CLI not installed)")
+                return
+
+            # Check if credentials are available
+            if not os.environ.get('AUTH_TOKEN') or not os.environ.get('CT0'):
+                print("    ⏭️  Skipped (AUTH_TOKEN/CT0 not configured)")
                 return
             
             # Search for finance tweets

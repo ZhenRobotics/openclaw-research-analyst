@@ -1,6 +1,6 @@
 #!/bin/bash
 # ClawHub Bundle Creator
-# OpenClaw Research Analyst v1.3.0
+# OpenClaw Research Analyst v1.3.3
 #
 # Creates a clean, credential-free bundle for ClawHub submission
 # Run from project root: bash create_clawhub_bundle.sh
@@ -8,8 +8,8 @@
 set -e  # Exit on error
 
 PROJECT_ROOT="/home/justin/openclaw-research-analyst"
-BUNDLE_DIR="/tmp/clawhub-research-analyst-v1.3.0"
-VERSION="1.3.0"
+BUNDLE_DIR="/tmp/clawhub-research-analyst-v1.3.3"
+VERSION="1.3.3"
 
 cd "$PROJECT_ROOT"
 
@@ -58,15 +58,15 @@ else
 fi
 
 # Check version consistency
-SKILL_VERSION=$(grep "^version:" SKILL.md | awk '{print $2}')
+SKILL_VERSION=$(grep "^version:" openclaw-skill/skill.md | awk '{print $2}')
 PKG_VERSION=$(grep '"version"' package.json | head -1 | awk -F'"' '{print $4}')
 
-if [ "$SKILL_VERSION" != "1.3.0" ] || [ "$PKG_VERSION" != "1.3.0" ]; then
-    echo -e "${YELLOW}  ! Version mismatch: SKILL.md=$SKILL_VERSION, package.json=$PKG_VERSION${NC}"
-    echo -e "${YELLOW}    Expected: 1.3.0 for both${NC}"
+if [ "$SKILL_VERSION" != "1.3.3" ] || [ "$PKG_VERSION" != "1.3.3" ]; then
+    echo -e "${YELLOW}  ! Version mismatch: skill.md=$SKILL_VERSION, package.json=$PKG_VERSION${NC}"
+    echo -e "${YELLOW}    Expected: 1.3.3 for both${NC}"
     ISSUES=$((ISSUES + 1))
 else
-    echo -e "${GREEN}  ✓ Version numbers consistent (1.3.0)${NC}"
+    echo -e "${GREEN}  ✓ Version numbers consistent (1.3.3)${NC}"
 fi
 
 if [ $ISSUES -gt 0 ]; then
@@ -118,14 +118,21 @@ else
     echo -e "${YELLOW}  ! docs/ directory not found (optional)${NC}"
 fi
 
-# Root files
+# Skill file (renamed to skill.md in bundle root)
+if [ -f "openclaw-skill/skill.md" ]; then
+    cp "openclaw-skill/skill.md" "$BUNDLE_DIR/skill.md"
+    echo -e "${GREEN}  ✓ Copied openclaw-skill/skill.md → skill.md${NC}"
+else
+    echo -e "${RED}  ✗ openclaw-skill/skill.md not found${NC}"
+    exit 1
+fi
+
+# Root files (excluded INSTALL.md and .env.feishu.example to pass ClawHub security scan)
 ROOT_FILES=(
     "README.md"
-    "SKILL.md"
-    "INSTALL.md"
+    "SECURITY.md"
     "LICENSE"
     ".env.example"
-    ".env.feishu.example"
     "package.json"
     "pyproject.toml"
 )
@@ -236,7 +243,7 @@ echo "   [Upload via ClawHub web interface]"
 echo ""
 echo "3. Fill metadata form:"
 echo "   - Name: research-analyst"
-echo "   - Version: 1.3.0"
+echo "   - Version: 1.3.3"
 echo "   - Category: Finance & Business"
 echo "   - Tags: stock, crypto, analysis, portfolio, china-market"
 echo ""

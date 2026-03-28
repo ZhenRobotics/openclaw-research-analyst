@@ -10,7 +10,6 @@ It aggregates data from:
 - CoinGecko (trending coins, biggest movers)
 - Google News (finance & crypto headlines)
 - Yahoo Finance (gainers, losers, most active)
-- Twitter/X (social sentiment, optional)
 
 ## Quick Start
 
@@ -37,7 +36,7 @@ python3 scripts/hot_scanner.py --json
 
 📊 TOP TRENDING (by buzz):
    1. BTC      (6 pts) [CoinGecko, Google News] 📉 bearish (-2.5%)
-   2. ETH      (5 pts) [CoinGecko, Twitter] 📉 bearish (-7.2%)
+   2. ETH      (5 pts) [CoinGecko, Yahoo] 📉 bearish (-7.2%)
    3. NVDA     (3 pts) [Google News, Yahoo] 📰 Earnings beat...
 
 🪙 CRYPTO HIGHLIGHTS:
@@ -49,10 +48,6 @@ python3 scripts/hot_scanner.py --json
    🟢 NVDA (gainers)
    🔴 TSLA (losers)
    📊 AAPL (most active)
-
-🐦 SOCIAL BUZZ:
-   [twitter] Bitcoin to $100k prediction...
-   [reddit_wsb] GME yolo update...
 
 📰 BREAKING NEWS:
    [BTC, ETH] Crypto crash: $2.5B liquidated...
@@ -109,62 +104,6 @@ python3 scripts/hot_scanner.py --json
 
 **Note:** Requires gzip decompression.
 
-### Twitter/X (Auth Required)
-
-Uses [bird CLI](https://github.com/steipete/bird) for Twitter search.
-
-**Searches:**
-- `stock OR $SPY OR $QQQ OR earnings`
-- `bitcoin OR ethereum OR crypto OR $BTC`
-
-## Twitter/X Setup
-
-### 1. Install bird CLI
-
-```bash
-# macOS
-brew install steipete/tap/bird
-
-# npm
-npm install -g @steipete/bird
-```
-
-### 2. Get Auth Tokens
-
-**Option A: Browser cookies (macOS)**
-1. Login to x.com in Safari/Chrome
-2. Grant Terminal "Full Disk Access" in System Settings
-3. Run `bird whoami` to verify
-
-**Option B: Manual extraction**
-1. Open x.com in Chrome
-2. DevTools (F12) → Application → Cookies → x.com
-3. Copy `auth_token` and `ct0` values
-
-### 3. Configure
-
-Create `.env` file in the skill directory:
-
-```bash
-# /path/to/stock-analysis/.env
-AUTH_TOKEN=your_auth_token_here
-CT0=your_ct0_token_here
-```
-
-Or export as environment variables:
-
-```bash
-export AUTH_TOKEN="..."
-export CT0="..."
-```
-
-### 4. Verify
-
-```bash
-bird whoami
-# Should show: 🙋 @YourUsername
-```
-
 ## Scoring System
 
 Each mention from a source adds points:
@@ -175,9 +114,6 @@ Each mention from a source adds points:
 | CoinGecko Movers | 1 |
 | Google News | 1 |
 | Yahoo Finance | 1 |
-| Twitter/X | 1 |
-| Reddit (high score) | 2 |
-| Reddit (normal) | 1 |
 
 Symbols are ranked by total points across all sources.
 
@@ -222,31 +158,6 @@ r'\b([A-Z]{2,5})(?:\'s|:|\s+stock|\s+shares)'
 }
 ```
 
-## Automation
-
-### Cron Job
-
-```bash
-# Daily at 8 AM
-0 8 * * * cd /path/to/stock-analysis && python3 scripts/hot_scanner.py --json > cache/daily_scan.json
-```
-
-### OpenClaw Integration
-
-```yaml
-# Cron job config
-name: "🔥 Daily Hot Scanner"
-schedule:
-  kind: cron
-  expr: "0 8 * * *"
-  tz: "Europe/Berlin"
-payload:
-  kind: agentTurn
-  message: "Run hot scanner and summarize results"
-  deliver: true
-sessionTarget: isolated
-```
-
 ## Caching
 
 Results are saved to:
@@ -254,30 +165,17 @@ Results are saved to:
 
 ## Limitations
 
-- **Reddit:** Blocked without OAuth (403). Requires API application.
-- **Twitter:** Requires auth tokens, may expire.
 - **Yahoo:** Sometimes rate-limited.
 - **Google News:** RSS URLs may change.
+- **Data Freshness:** Most sources update every 15-60 minutes.
 
 ## Future Enhancements
 
-- [ ] Reddit API integration (PRAW)
-- [ ] StockTwits integration
-- [ ] Google Trends
 - [ ] Historical trend tracking
 - [ ] Alert thresholds (notify when score > X)
+- [ ] Additional data sources
 
 ## Troubleshooting
-
-### Twitter not working
-
-```bash
-# Check auth
-bird whoami
-
-# Should see your username
-# If not, re-export tokens
-```
 
 ### Yahoo 403 or gzip errors
 

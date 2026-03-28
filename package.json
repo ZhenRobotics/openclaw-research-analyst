@@ -1,6 +1,6 @@
 {
   "name": "openclaw-research-analyst",
-  "version": "1.3.0",
+  "version": "1.3.3",
   "description": "AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection",
   "main": "scripts/stock_analyzer.py",
   "scripts": {
@@ -44,12 +44,9 @@
     "scripts/",
     "docs/",
     "README.md",
-    "SKILL.md",
     "SECURITY.md",
-    "INSTALL.md",
     "LICENSE",
     ".env.example",
-    ".env.feishu.example",
     "pyproject.toml"
   ]
 }
