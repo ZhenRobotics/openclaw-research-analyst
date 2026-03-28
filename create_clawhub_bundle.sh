@@ -1,6 +1,6 @@
 #!/bin/bash
 # ClawHub Bundle Creator
-# OpenClaw Research Analyst v1.3.3
+# OpenClaw Research Analyst v1.4.0
 #
 # Creates a clean, credential-free bundle for ClawHub submission
 # Run from project root: bash create_clawhub_bundle.sh
@@ -8,8 +8,8 @@
 set -e  # Exit on error
 
 PROJECT_ROOT="/home/justin/openclaw-research-analyst"
-BUNDLE_DIR="/tmp/clawhub-research-analyst-v1.3.3"
-VERSION="1.3.3"
+BUNDLE_DIR="/tmp/clawhub-research-analyst-v1.4.0"
+VERSION="1.4.0"
 
 cd "$PROJECT_ROOT"
 
@@ -61,12 +61,12 @@ fi
 SKILL_VERSION=$(grep "^version:" openclaw-skill/skill.md | awk '{print $2}')
 PKG_VERSION=$(grep '"version"' package.json | head -1 | awk -F'"' '{print $4}')
 
-if [ "$SKILL_VERSION" != "1.3.3" ] || [ "$PKG_VERSION" != "1.3.3" ]; then
+if [ "$SKILL_VERSION" != "1.4.0" ] || [ "$PKG_VERSION" != "1.4.0" ]; then
     echo -e "${YELLOW}  ! Version mismatch: skill.md=$SKILL_VERSION, package.json=$PKG_VERSION${NC}"
-    echo -e "${YELLOW}    Expected: 1.3.3 for both${NC}"
+    echo -e "${YELLOW}    Expected: 1.4.0 for both${NC}"
     ISSUES=$((ISSUES + 1))
 else
-    echo -e "${GREEN}  ✓ Version numbers consistent (1.3.3)${NC}"
+    echo -e "${GREEN}  ✓ Version numbers consistent (1.4.0)${NC}"
 fi
 
 if [ $ISSUES -gt 0 ]; then
@@ -135,6 +135,8 @@ ROOT_FILES=(
     ".env.example"
     "package.json"
     "pyproject.toml"
+    "requirements.txt"
+    "verify_install.sh"
 )
 
 for file in "${ROOT_FILES[@]}"; do
@@ -243,7 +245,7 @@ echo "   [Upload via ClawHub web interface]"
 echo ""
 echo "3. Fill metadata form:"
 echo "   - Name: research-analyst"
-echo "   - Version: 1.3.3"
+echo "   - Version: 1.4.0"
 echo "   - Category: Finance & Business"
 echo "   - Tags: stock, crypto, analysis, portfolio, china-market"
 echo ""

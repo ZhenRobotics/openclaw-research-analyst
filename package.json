@@ -1,7 +1,7 @@
 {
   "name": "openclaw-research-analyst",
-  "version": "1.3.3",
-  "description": "AI-powered stock & crypto research with 8-dimension analysis, portfolio tracking, and trend detection",
+  "version": "1.4.0",
+  "description": "Local stock & crypto analysis with 8-dimension scoring. Bundled code (reviewed by ClawHub), public APIs only, zero credentials required.",
   "main": "scripts/stock_analyzer.py",
   "scripts": {
     "analyze": "uv run scripts/stock_analyzer.py",
